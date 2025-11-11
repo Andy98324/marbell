@@ -23,7 +23,6 @@
   ?>
 
   <!-- Tailwind CDN (dev) -->
-  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = { darkMode: 'class' }
   </script>

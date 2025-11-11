@@ -184,20 +184,6 @@ function render_stars($score){
   </div>
 </section>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/glide.min.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    new Glide('#reviews', {
-      type: 'carousel',
-      autoplay: 6000,
-      hoverpause: true,
-      gap: 24,
-      perView: 3,
-      breakpoints: { 1024:{ perView:2 }, 640:{ perView:1 } }
-    }).mount();
-  });
-</script>
 
 
 

@@ -27,11 +27,9 @@ function db(): PDO {
 
 // ---- RENDER de vistas con layout ----
 function render(string $view, array $vars = []): void {
-  $viewFile = __DIR__ . "/../views/partials/{$view}.php";
-  if (!is_readable($viewFile)) { http_response_code(404); echo "View not found"; return; }
+  $viewFile = __DIR__ . "/../views/{$view}.php";
   extract($vars, EXTR_SKIP);
-  $lang = current_lang();
-  include __DIR__ . '/../views/layout/header.php';   // <html> + head + topnav abre <main>
-  include $viewFile;                                 // tu contenido (solo secciones)
-  include __DIR__ . '/../views/layout/footer.php';   // cierra </main> + footer + </html>
+  ob_start(); include $viewFile; $__content = ob_get_clean();
+  include __DIR__ . '/../views/layout.php';
 }
+

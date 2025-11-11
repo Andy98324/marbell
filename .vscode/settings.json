@@ -1,0 +1,24 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "ssh": "Enabled",
+            "previewLimit": 50,
+            "server": "127.0.0.1",
+            "port": 3306,
+            "sshOptions": {
+                "port": 22,
+                "host": "157.180.74.170",
+                "username": "root",
+                "password": "53366795xA$"
+            },
+            "driver": "MariaDB",
+            "database": "marbell",
+            "name": "marbell",
+            "username": "root"
+        }
+    ]
+}

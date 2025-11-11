@@ -82,7 +82,8 @@ function render_stars($score){
 </div>
 
 <!-- FORM oculto para enviar datos a quote.php -->
-<form id="quoteForm" action="/quote.php" method="post" class="hidden">
+<form id="quoteForm" action="/quote" method="post">
+
 
   <input type="hidden" name="origin_address" id="f_origin_address">
   <input type="hidden" name="origin_lat" id="f_origin_lat">

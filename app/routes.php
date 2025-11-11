@@ -586,4 +586,18 @@ return [
   ];
   require __DIR__ . '/../views/fleet-adapted-8.php';
 },
+'POST /quote' => function () {
+  $origin_address      = $_POST['origin_address'] ?? '';
+  $destination_address = $_POST['destination_address'] ?? '';
+  $distance_m          = (int)($_POST['distance_m'] ?? 0);
+  $duration_s          = (int)($_POST['duration_s'] ?? 0);
+
+  $km      = max(0, $distance_m / 1000);
+  $minutes = max(0, $duration_s / 60);
+
+  // calcula $quotes igual que en public/quote.php (o saca a helper)
+
+  require __DIR__ . '/../views/quote.php';
+},
+
 ];

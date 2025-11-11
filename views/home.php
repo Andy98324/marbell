@@ -82,9 +82,7 @@ function render_stars($score){
 </div>
 
 <!-- FORM oculto para enviar datos a quote.php -->
-<form id="quoteForm" action="/quote" method="post">
-
-
+<form id="quoteForm" action="/quote.php" method="post" class="hidden">
   <input type="hidden" name="origin_address" id="f_origin_address">
   <input type="hidden" name="origin_lat" id="f_origin_lat">
   <input type="hidden" name="origin_lng" id="f_origin_lng">
@@ -94,6 +92,7 @@ function render_stars($score){
   <input type="hidden" name="distance_m" id="f_distance_m">
   <input type="hidden" name="duration_s" id="f_duration_s">
 </form>
+
     </div>
   </div>
 </div>
@@ -240,36 +239,42 @@ function render_stars($score){
   directionsService.route({
     origin, destination, travelMode: google.maps.TravelMode.DRIVING,
   }).then((response) => {
-    directionsRenderer.setDirections(response);
     const leg = response.routes[0].legs[0];
-
-    // Resumen visible
+    // Mostrar resumen
     document.getElementById("infoOrigin").textContent = leg.start_address;
     document.getElementById("infoDestination").textContent = leg.end_address;
-    document.getElementById("infoDistance").textContent = leg.distance.text; // p.ej. "52.4 km"
-    document.getElementById("infoDuration").textContent = leg.duration.text; // p.ej. "46 mins"
-    document.getElementById("routeInfo").classList.remove("hidden");
-    document.getElementById("goToQuote").classList.remove("hidden");
+    document.getElementById("infoDistance").textContent = leg.distance.text; // "52.4 km"
+    document.getElementById("infoDuration").textContent = leg.duration.text; // "46 min"
 
-    // Rellenar FORM oculto (valores en crudo para cálculo en servidor)
+    // ⬇️ ⬇️ DATOS CRUDOS (OBLIGATORIO) ⬇️ ⬇️
     document.getElementById("f_origin_address").value      = leg.start_address;
     document.getElementById("f_origin_lat").value          = leg.start_location.lat();
     document.getElementById("f_origin_lng").value          = leg.start_location.lng();
     document.getElementById("f_destination_address").value = leg.end_address;
     document.getElementById("f_destination_lat").value     = leg.end_location.lat();
     document.getElementById("f_destination_lng").value     = leg.end_location.lng();
-    document.getElementById("f_distance_m").value          = leg.distance.value; // metros
-    document.getElementById("f_duration_s").value          = leg.duration.value; // segundos
+
+    // IMPORTANTÍSIMO: en crudo, **números**:
+    document.getElementById("f_distance_m").value          = leg.distance.value; // ej: 52432
+    document.getElementById("f_duration_s").value          = leg.duration.value; // ej: 2760
+
+    // habilita botón
+    document.getElementById("routeInfo").classList.remove("hidden");
+    document.getElementById("goToQuote").classList.remove("hidden");
   }).catch((error) => {
     console.error(error);
     alert("No se pudo calcular la ruta: " + error.message);
   });
 }
 
-// Enviar a la página de tarifas
+// No dejes enviar si los campos están vacíos por cualquier motivo
 document.getElementById("goToQuote")?.addEventListener("click", () => {
+  const dm = document.getElementById("f_distance_m").value;
+  const ds = document.getElementById("f_duration_s").value;
+  if (!dm || !ds) { alert("Vuelve a calcular la ruta antes de continuar."); return; }
   document.getElementById("quoteForm").submit();
 });
+
 
 </script>
 

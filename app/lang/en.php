@@ -769,5 +769,11 @@ return [
 // Messages
 'quote.error' => 'Unable to calculate quote. Please try again.',
 'quote.no_results' => 'No vehicles available for this route.',
+'home.from' => 'Origin',
+'home.to' => 'Destination',
+'home.distance' => 'Distance',
+'home.duration' => 'Estimated duration',
+'home.select' => 'Select vehicle',
+'home.quote_disclaimer' => 'The displayed price is approximate and may vary slightly depending on traffic and availability.',
 
 ];

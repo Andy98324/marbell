@@ -769,5 +769,12 @@ return [
 // Mensajes
 'quote.error' => 'No se pudo calcular el presupuesto. Intenta nuevamente.',
 'quote.no_results' => 'No se encontraron vehículos disponibles para esta ruta.',
+// Motor de reservas - Página principal
+'home.from' => 'Origen',
+'home.to' => 'Destino',
+'home.distance' => 'Distancia',
+'home.duration' => 'Duración estimada',
+'home.select' => 'Seleccionar vehículo',
+'home.quote_disclaimer' => 'El precio mostrado es orientativo y puede variar ligeramente según el tráfico y la disponibilidad.',
 
 ];

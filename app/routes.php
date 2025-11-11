@@ -26,6 +26,22 @@ return [
     require __DIR__ . '/../views/about.php';
 
   },
+  'GET /panel' => function () {
+    $title   = t('panel.title_short');
+    $seoData = [
+      'title'       => t('panel.seo.title'),
+      'description' => t('panel.seo.desc'),
+      'keywords'    => t('panel.seo.keywords'),
+      'image'       => '/assets/logo-og.png',
+      'breadcrumbs' => [
+        ['@id'=>'/',          'name'=>t('nav.home')],
+        ['@id'=>'/admin',  'name'=>t('nav.home')],
+        ['@id'=>'/admin/login',  'name'=>t('panel.h1')],
+      ],
+    ];
+    require __DIR__ . '/../panel/login.php';
+
+  },
 
  'GET /servicios/traslados' => function () {
   $title   = t('transfers.title_short');

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 // i18n
 require_once __DIR__ . '/i18n.php';
+require_once __DIR__ . '/helpers/auth.php';
+
 
 // .env utilidades
 function env_load($file){ $e=[]; if(is_readable($file)){

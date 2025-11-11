@@ -730,5 +730,44 @@ return [
 'legal.acceptable.content' => '
 <p>Se prohíbe el uso del sitio con fines ilícitos, fraudulentos o que puedan dañar la reputación de la empresa. El incumplimiento podrá dar lugar a la suspensión de acceso y acciones legales correspondientes.</p>
 ',
+// Quote / Presupuesto
+'quote.title' => 'Presupuesto de traslado',
+'quote.summary' => 'Resumen del trayecto',
+'quote.origin' => 'Origen',
+'quote.destination' => 'Destino',
+'quote.distance' => 'Distancia',
+'quote.duration' => 'Duración estimada',
+'quote.vehicles_title' => 'Selecciona tu vehículo',
+'quote.capacity' => 'Capacidad',
+'quote.price' => 'Precio',
+'quote.select' => 'Seleccionar vehículo',
+'quote.back' => 'Volver',
+'quote.continue' => 'Continuar con la reserva',
+'quote.disclaimer' => 'El precio mostrado es orientativo y puede variar ligeramente según el tráfico y la disponibilidad.',
+'quote.total' => 'Precio total',
+'quote.minutes' => 'minutos',
+'quote.kilometers' => 'kilómetros',
+'quote.airport_fee' => 'Recargo de aeropuerto',
+'quote.final_price' => 'Precio final',
+
+// Botones generales
+'action.back' => 'Volver',
+'action.select' => 'Seleccionar',
+'action.book' => 'Reservar',
+'action.calculate' => 'Calcular ruta',
+
+// Vehículos
+'vehicle.sedan' => 'Sedán estándar',
+'vehicle.premium' => 'Sedán Premium',
+'vehicle.minivan' => 'Minivan',
+'vehicle.minibus' => 'Minibús',
+'vehicle.capacity' => 'Capacidad',
+'vehicle.luggage' => 'Maletas',
+'vehicle.passengers' => 'Pasajeros',
+'vehicle.perfect_for' => 'Ideal para',
+
+// Mensajes
+'quote.error' => 'No se pudo calcular el presupuesto. Intenta nuevamente.',
+'quote.no_results' => 'No se encontraron vehículos disponibles para esta ruta.',
 
 ];

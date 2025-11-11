@@ -730,5 +730,44 @@ return [
 'legal.acceptable.content' => '
 <p>Use of the website for unlawful, fraudulent or harmful purposes is strictly prohibited. Breach of these terms may result in access suspension and legal action.</p>
 ',
+// Quote / Booking
+'quote.title' => 'Transfer quote',
+'quote.summary' => 'Trip summary',
+'quote.origin' => 'Origin',
+'quote.destination' => 'Destination',
+'quote.distance' => 'Distance',
+'quote.duration' => 'Estimated duration',
+'quote.vehicles_title' => 'Choose your vehicle',
+'quote.capacity' => 'Capacity',
+'quote.price' => 'Price',
+'quote.select' => 'Select vehicle',
+'quote.back' => 'Back',
+'quote.continue' => 'Continue to booking',
+'quote.disclaimer' => 'The displayed price is an estimate and may vary slightly depending on traffic and availability.',
+'quote.total' => 'Total price',
+'quote.minutes' => 'minutes',
+'quote.kilometers' => 'kilometers',
+'quote.airport_fee' => 'Airport surcharge',
+'quote.final_price' => 'Final price',
+
+// General buttons
+'action.back' => 'Back',
+'action.select' => 'Select',
+'action.book' => 'Book now',
+'action.calculate' => 'Calculate route',
+
+// Vehicles
+'vehicle.sedan' => 'Standard Sedan',
+'vehicle.premium' => 'Premium Sedan',
+'vehicle.minivan' => 'Minivan',
+'vehicle.minibus' => 'Minibus',
+'vehicle.capacity' => 'Capacity',
+'vehicle.luggage' => 'Luggage',
+'vehicle.passengers' => 'Passengers',
+'vehicle.perfect_for' => 'Perfect for',
+
+// Messages
+'quote.error' => 'Unable to calculate quote. Please try again.',
+'quote.no_results' => 'No vehicles available for this route.',
 
 ];

@@ -37,6 +37,8 @@ $nav = [
       'title'=>t('title.fleet'),
     ],
   ]],
+
+   ['label'=>t('nav.panel'),  'href'=>'/admin/login'],
   
 ];
 

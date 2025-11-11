@@ -34,10 +34,8 @@ function render(string $view, array $vars = []): void {
   ob_start(); include $viewFile; $__content = ob_get_clean();
   include __DIR__ . '/../views/layout.php';
 }
-function require_admin() {
-  session_start();
-  if (empty($_SESSION['admin']) || $_SESSION['admin']['role']!=='admin') {
-    header('Location: /admin/login.php'); exit;
-  }
-}
+
+
+
+
 

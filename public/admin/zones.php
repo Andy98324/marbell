@@ -1,5 +1,6 @@
 <?php
 require __DIR__.'/../../app/bootstrap.php';
+require_admin();
 require_login(); // tu guardia de admin
 
 // Guardar zona

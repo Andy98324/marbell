@@ -1,8 +1,12 @@
 <?php
 // views/quote.php — usa layout del sitio (sin <html>)
+
 // Helper €
 if (!function_exists('eur')) {
-  function eur($v): string { return '€' . number_format((float)$v, 2, ',', '.'); }
+  function eur($v): string {
+    // símbolo a la DERECHA
+    return number_format((float)$v, 2, ',', '.') . ' €';
+  }
 }
 
 $origin_address      = $origin_address ?? '';
@@ -65,7 +69,27 @@ $noZoneMatch = $noZoneMatch ?? false;
         No se encontraron vehículos disponibles.
       </div>
     <?php else: ?>
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+
+      <!-- Barra de ordenación -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        <h2 class="text-lg font-semibold text-zinc-900">
+          <?= function_exists('t') ? t('home.select') : 'Selecciona tu vehículo' ?>
+        </h2>
+        <label class="flex items-center gap-2 text-sm text-zinc-700">
+          Ordenar por:
+          <select id="sortSelect"
+                  class="rounded-lg border border-zinc-300 bg-white px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <option value="price_asc">Precio (menor a mayor)</option>
+            <option value="price_desc">Precio (mayor a menor)</option>
+            <option value="pax_desc">Pasajeros (mayor a menor)</option>
+            <option value="pax_asc">Pasajeros (menor a mayor)</option>
+            <option value="lug_desc">Equipaje (mayor a menor)</option>
+            <option value="lug_asc">Equipaje (menor a mayor)</option>
+          </select>
+        </label>
+      </div>
+
+      <div id="vehiclesGrid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <?php foreach ($quotes as $q): ?>
           <?php
             $name     = (string)($q['name'] ?? '');
@@ -73,8 +97,25 @@ $noZoneMatch = $noZoneMatch ?? false;
             $capacity = trim((string)($q['capacity'] ?? ''));
             $price    = $q['price'] ?? null;          // null = sin tarifa de zona
             $hasPrice = $price !== null && $price !== '';
+
+            // Extraer pax y equipaje como números desde la cadena "4 pax • 3 maletas"
+            $paxNum = 0;
+            $lugNum = 0;
+            if ($capacity) {
+              if (preg_match_all('/(\d+)/', $capacity, $m) && !empty($m[1])) {
+                $paxNum = (int)$m[1][0];
+                if (isset($m[1][1])) $lugNum = (int)$m[1][1];
+              }
+            }
           ?>
-          <article class="group rounded-2xl bg-white shadow-xl ring-1 ring-black/5 p-5 text-center transition hover:-translate-y-0.5 hover:shadow-2xl">
+          <article
+            class="group rounded-2xl bg-white shadow-xl ring-1 ring-black/5 p-5 text-center transition hover:-translate-y-0.5 hover:shadow-2xl"
+            data-vehicle-card
+            data-price="<?= $hasPrice ? htmlspecialchars((string)$price) : '' ?>"
+            data-pax="<?= $paxNum ?>"
+            data-luggage="<?= $lugNum ?>"
+            data-has-price="<?= $hasPrice ? '1' : '0' ?>"
+          >
             <?php if ($img): ?>
               <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($name) ?>" class="mx-auto h-28 object-contain" loading="lazy">
             <?php endif; ?>
@@ -111,3 +152,66 @@ $noZoneMatch = $noZoneMatch ?? false;
     </p>
   </div>
 </section>
+
+<script>
+(function() {
+  const select = document.getElementById('sortSelect');
+  const grid   = document.getElementById('vehiclesGrid');
+  if (!select || !grid) return;
+
+  function sortCards() {
+    const mode  = select.value;
+    const cards = Array.from(grid.querySelectorAll('[data-vehicle-card]'));
+
+    const getPrice = c => {
+      const hp = c.dataset.hasPrice === '1';
+      if (!hp) return null;
+      const v = parseFloat(c.dataset.price || '0');
+      return isNaN(v) ? null : v;
+    };
+    const getPax = c => parseInt(c.dataset.pax || '0', 10) || 0;
+    const getLug = c => parseInt(c.dataset.luggage || '0', 10) || 0;
+
+    cards.sort((a,b) => {
+      let av, bv;
+
+      switch (mode) {
+        case 'price_asc':
+          av = getPrice(a); bv = getPrice(b);
+          if (av === null && bv === null) return 0;
+          if (av === null) return 1;   // sin precio al final
+          if (bv === null) return -1;
+          return av - bv;
+
+        case 'price_desc':
+          av = getPrice(a); bv = getPrice(b);
+          if (av === null && bv === null) return 0;
+          if (av === null) return 1;
+          if (bv === null) return -1;
+          return bv - av;
+
+        case 'pax_desc':
+          return getPax(b) - getPax(a);
+
+        case 'pax_asc':
+          return getPax(a) - getPax(b);
+
+        case 'lug_desc':
+          return getLug(b) - getLug(a);
+
+        case 'lug_asc':
+          return getLug(a) - getLug(b);
+
+        default:
+          return 0;
+      }
+    });
+
+    cards.forEach(c => grid.appendChild(c));
+  }
+
+  select.addEventListener('change', sortCards);
+  // orden inicial: precio menor a mayor
+  sortCards();
+})();
+</script>

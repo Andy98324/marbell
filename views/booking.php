@@ -28,6 +28,12 @@ $return_origin_is_airport =
     stripos($destination_address, 'AGP') !== false
  || stripos($destination_address, 'Aeropuerto de Málaga') !== false
  || stripos($destination_address, 'airport') !== false;
+
+$return_origin_is_train =
+    stripos($destination_address, 'estación') !== false
+ || stripos($destination_address, 'train') !== false
+ || stripos($destination_address, 'María Zambrano') !== false
+ || stripos($destination_address, 'Estación de Málaga') !== false;
 ?>
 
 <section class="relative overflow-hidden bg-[#0b1220] text-white">
@@ -201,6 +207,16 @@ $return_origin_is_airport =
             </div>
           <?php endif; ?>
 
+          <?php if ($return_origin_is_train): ?>
+            <div class="mt-3">
+              <label class="block text-sm font-medium text-zinc-700 mb-1">
+                <?= function_exists('t') ? t('booking.return_train') : 'Número de tren (vuelta)' ?>
+              </label>
+              <input type="text" name="return_train_number"
+                     class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            </div>
+          <?php endif; ?>
+
           <p class="mt-2 text-sm text-zinc-600">
             <?= function_exists('t') ? t('booking.return_price_hint') : 'El precio de la vuelta se calcula según la tarifa de zona del trayecto de regreso.' ?>
           </p>
@@ -219,7 +235,7 @@ $return_origin_is_airport =
 
         <!-- Extras -->
         <div class="pt-4 border-t border-zinc-200 mt-4">
-          <h3 class="text	sm font-semibold text-zinc-900 mb-1">
+          <h3 class="text-sm font-semibold text-zinc-900 mb-1">
             <?= function_exists('t') ? t('booking.extras_title') : 'Extras' ?>
           </h3>
           <p class="text-xs text-zinc-500 mb-3">

@@ -818,5 +818,58 @@ return [
 'booking.notes'            => 'Notes',
 'booking.confirm_cta'      => 'Confirm booking',
 'booking.summary_title'    => 'Your service summary',
+// BOOKING (form)
+'booking.title'             => 'Complete your booking',
+'booking.passenger_details' => 'Passenger details',
+'booking.first_name'        => 'First name',
+'booking.last_name'         => 'Last name',
+'booking.email'             => 'Email',
+'booking.phone'             => 'Phone',
+'booking.date'              => 'Service date',
+'booking.time'              => 'Pickup time',
+'booking.passengers'        => 'Number of passengers',
+'booking.luggage'           => 'Number of suitcases',
+'booking.flight'            => 'Flight number',
+'booking.train'             => 'Train number',
+
+'booking.return_trip'       => 'Do you need a return transfer?',
+'booking.return_no'         => 'No',
+'booking.return_yes'        => 'Yes',
+'booking.return_date'       => 'Return date',
+'booking.return_time'       => 'Return pickup time',
+'booking.return_price_hint' => 'The return price is calculated according to the zone fare for the way back.',
+'booking.return_price_label'=> 'Return trip price:',
+'booking.return_price_na'   => 'No zone fare is defined for the return trip. Please contact us to confirm the price.',
+
+'booking.extras_title'      => 'Extras',
+'booking.extras_hint'       => 'Each extra adds €10 per unit and per journey (outbound and, if applicable, return).',
+'booking.extra.child_seat'  => 'Child seat',
+'booking.extra.booster'     => 'Booster seat',
+'booking.extra.bike'        => 'Bicycle',
+'booking.extra.golf'        => 'Golf clubs',
+
+'booking.notes'             => 'Notes',
+'booking.review_cta'        => 'Review summary',
+'booking.summary_title'     => 'Your service summary',
+
+// REVIEW (summary page)
+'review.title'              => 'Review your booking',
+'review.subtitle'           => 'Please check that all details are correct before confirming.',
+'review.route_title'        => 'Route',
+'review.passenger_title'    => 'Passenger',
+'review.no_extras'          => 'No extras.',
+'review.price_title'        => 'Price breakdown',
+
+'review.outbound_base'      => 'Outbound: base fare',
+'review.outbound_extras'    => 'Outbound: extras',
+'review.outbound_total'     => 'Outbound: total',
+'review.return_base'        => 'Return: base fare',
+'review.return_extras'      => 'Return: extras',
+'review.return_total'       => 'Return: total',
+'review.grand_total'        => 'Total to pay',
+'review.confirm_cta'        => 'Confirm booking',
+
+// (por si no lo tenías aún)
+'quote.not_available'       => 'Not available',
 
 ];

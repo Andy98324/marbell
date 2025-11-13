@@ -820,5 +820,58 @@ return [
 'booking.notes'            => 'Observaciones',
 'booking.confirm_cta'      => 'Confirmar reserva',
 'booking.summary_title'    => 'Resumen de tu servicio',
+// BOOKING (formulario de datos)
+'booking.title'             => 'Completa tu reserva',
+'booking.passenger_details' => 'Datos del pasajero',
+'booking.first_name'        => 'Nombre',
+'booking.last_name'         => 'Apellidos',
+'booking.email'             => 'Correo electrónico',
+'booking.phone'             => 'Teléfono',
+'booking.date'              => 'Fecha del servicio',
+'booking.time'              => 'Hora de recogida',
+'booking.passengers'        => 'Nº de pasajeros',
+'booking.luggage'           => 'Nº de maletas',
+'booking.flight'            => 'Número de vuelo',
+'booking.train'             => 'Número de tren',
+
+'booking.return_trip'       => '¿Quieres traslado de vuelta?',
+'booking.return_no'         => 'No',
+'booking.return_yes'        => 'Sí',
+'booking.return_date'       => 'Fecha de vuelta',
+'booking.return_time'       => 'Hora de recogida (vuelta)',
+'booking.return_price_hint' => 'El precio de la vuelta se calcula según la tarifa de zona del trayecto de regreso.',
+'booking.return_price_label'=> 'Precio trayecto de vuelta:',
+'booking.return_price_na'   => 'No hay tarifa de zona definida para la vuelta. Contacta con nosotros para confirmar el precio.',
+
+'booking.extras_title'      => 'Extras',
+'booking.extras_hint'       => 'Cada extra suma 10 € por unidad y trayecto (ida y, si aplica, vuelta).',
+'booking.extra.child_seat'  => 'Sillita infantil',
+'booking.extra.booster'     => 'Alzador',
+'booking.extra.bike'        => 'Bicicleta',
+'booking.extra.golf'        => 'Palos de golf',
+
+'booking.notes'             => 'Observaciones',
+'booking.review_cta'        => 'Ver resumen',
+'booking.summary_title'     => 'Resumen de tu servicio',
+
+// REVIEW (pantalla de resumen)
+'review.title'              => 'Revisa tu reserva',
+'review.subtitle'           => 'Comprueba que todos los datos son correctos antes de confirmar.',
+'review.route_title'        => 'Trayecto',
+'review.passenger_title'    => 'Pasajero',
+'review.no_extras'          => 'Sin extras.',
+'review.price_title'        => 'Resumen de precios',
+
+'review.outbound_base'      => 'Ida: tarifa base',
+'review.outbound_extras'    => 'Ida: extras',
+'review.outbound_total'     => 'Ida: total',
+'review.return_base'        => 'Vuelta: tarifa base',
+'review.return_extras'      => 'Vuelta: extras',
+'review.return_total'       => 'Vuelta: total',
+'review.grand_total'        => 'Total a pagar',
+'review.confirm_cta'        => 'Confirmar reserva',
+
+// (por si no lo tenías aún)
+'quote.not_available'       => 'No disponible',
 
 ];

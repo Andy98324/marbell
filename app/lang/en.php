@@ -777,4 +777,31 @@ return [
 'home.select' => 'Select vehicle',
 'home.quote_disclaimer' => 'The displayed price is approximate and may vary slightly depending on traffic and availability.',
 
+'fleet.title' => 'Our fleet',
+
+  'quote.out_of_zone_title' => 'Route outside coverage areas',
+  'quote.out_of_zone_text1' => 'We do not have fixed prices for this route because either the origin or the destination is not inside any configured zone.',
+  'quote.out_of_zone_text2' => 'Please contact us and we will provide a price immediately.',
+  'quote.call' => 'Call',
+  'quote.write' => 'Message',
+
+  'quote.sort_by' => 'Sort by',
+  'quote.sort.price_asc' => 'Price (low to high)',
+  'quote.sort.price_desc' => 'Price (high to low)',
+  'quote.sort.pax_desc' => 'Passengers (high to low)',
+  'quote.sort.pax_asc' => 'Passengers (low to high)',
+  'quote.sort.lug_desc' => 'Luggage (high to low)',
+  'quote.sort.lug_asc' => 'Luggage (low to high)',
+
+  'quote.not_available' => 'Not available',
+  'quote.zone_price'    => 'Fixed zone rate',
+
+  // Already existing ones
+  'home.from' => 'Origin',
+  'home.to' => 'Destination',
+  'home.distance' => 'Distance',
+  'home.duration' => 'Estimated duration',
+  'home.select' => 'Select vehicle',
+  'home.quote_disclaimer' => 'Displayed price is an approximation and may vary slightly depending on traffic and availability.',
+
 ];

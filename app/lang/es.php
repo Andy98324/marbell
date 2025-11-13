@@ -778,4 +778,30 @@ return [
 'home.select' => 'Seleccionar vehículo',
 'home.quote_disclaimer' => 'El precio mostrado es orientativo y puede variar ligeramente según el tráfico y la disponibilidad.',
 
+'fleet.title' => 'Nuestra flota',
+
+  'quote.out_of_zone_title' => 'Ruta fuera de zonas',
+  'quote.out_of_zone_text1' => 'No tenemos tarifas definidas para esta combinación porque el origen o el destino no están dentro de ninguna zona configurada.',
+  'quote.out_of_zone_text2' => 'Por favor, contáctanos y te daremos precio al momento.',
+  'quote.call' => 'Llamar',
+  'quote.write' => 'Escribir',
+
+  'quote.sort_by' => 'Ordenar por',
+  'quote.sort.price_asc' => 'Precio (menor a mayor)',
+  'quote.sort.price_desc' => 'Precio (mayor a menor)',
+  'quote.sort.pax_desc' => 'Pasajeros (mayor a menor)',
+  'quote.sort.pax_asc' => 'Pasajeros (menor a mayor)',
+  'quote.sort.lug_desc' => 'Equipaje (mayor a menor)',
+  'quote.sort.lug_asc' => 'Equipaje (menor a mayor)',
+
+  'quote.not_available' => 'No disponible',
+  'quote.zone_price'    => 'Tarifa fija por zona',
+
+  // Ya existentes
+  'home.from' => 'Origen',
+  'home.to' => 'Destino',
+  'home.distance' => 'Distancia',
+  'home.duration' => 'Duración estimada',
+  'home.select' => 'Seleccionar vehículo',
+  'home.quote_disclaimer' => 'El precio mostrado es orientativo y puede variar ligeramente según el tráfico y la disponibilidad.',
 ];

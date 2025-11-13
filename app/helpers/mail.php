@@ -4,68 +4,67 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// OJO: NO hace falta require del autoload si ya lo hace bootstrap.php
-// composer.json debe tener "phpmailer/phpmailer" instalado.
+// Cargar PHPMailer si no está cargado
+require_once __DIR__ . '/../../vendor/autoload.php';
 
-if (!function_exists('send_app_mail')) {
-    /**
-     * Envía un email HTML usando la configuración de .env
-     *
-     * @param string $to
-     * @param string $subject
-     * @param string $html
-     * @param array<int,array{path:string,name?:string}> $attachments
-     */
-    function send_app_mail(string $to, string $subject, string $html, array $attachments = []): bool
-    {
-        $mail = new PHPMailer(true);
+/**
+ * Envía un email usando SMTP One.com
+ *
+ * @param string $toEmail   Email destinatario
+ * @param string $subject   Asunto
+ * @param string $htmlBody  Cuerpo HTML
+ * @param string $toName    Nombre destinatario
+ * @param array  $attachments  Archivos adjuntos [ ['path' => '', 'name' => ''], ... ]
+ *
+ * @return bool
+ */
+function send_app_mail(string $toEmail, string $subject, string $htmlBody, string $toName = '', array $attachments = []): bool
+{
+    $mail = new PHPMailer(true);
 
-        try {
-            $mail->isSMTP();
-            $mail->Host       = env('MAIL_HOST', 'send.one.com');
-            $mail->SMTPAuth   = true;
-            $mail->Username   = env('MAIL_USERNAME');
-            $mail->Password   = env('MAIL_PASSWORD');
-            $mail->Port       = (int)env('MAIL_PORT', 465);
+    try {
+        /* ---------------------------------------------------
+         *  CONFIGURACIÓN SMTP ONE.COM
+         * --------------------------------------------------- */
+        $mail->isSMTP();
+        $mail->Host       = 'send.one.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'reservas@transfermarbell.com';   // TU CORREO
+        $mail->Password   = '5$3%3&6/6(7)9=5?';         // TU CONTRASEÑA SMTP
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;      // SSL
+        $mail->Port       = 465;
 
-            $enc = strtolower((string)env('MAIL_ENCRYPTION', 'ssl'));
-            if ($enc === 'ssl') {
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-            } elseif ($enc === 'tls') {
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        /* ---------------------------------------------------
+         *  DATOS DEL REMITENTE
+         * --------------------------------------------------- */
+        $mail->setFrom('reservas@transfermarbell.com', 'Transfer Marbell');
+        $mail->addReplyTo('reservas@transfermarbell.com', 'Transfer Marbell');
+
+        /* ---------------------------------------------------
+         *  DESTINATARIO
+         * --------------------------------------------------- */
+        $mail->addAddress($toEmail, $toName);
+
+        /* ---------------------------------------------------
+         *  ADJUNTOS
+         * --------------------------------------------------- */
+        foreach ($attachments as $att) {
+            if (!empty($att['path'])) {
+                $mail->addAttachment($att['path'], $att['name'] ?? basename($att['path']));
             }
-
-            // Debug a error_log para ver fallos si algo sale mal
-            $mail->SMTPDebug  = 2;
-            $mail->Debugoutput = static function ($str, $level) {
-                error_log("MAIL[$level]: $str");
-            };
-
-            $fromAddress = env('MAIL_FROM_ADDRESS', env('MAIL_USERNAME'));
-            $fromName    = env('MAIL_FROM_NAME', 'Transfer Marbell');
-
-            $mail->setFrom($fromAddress, $fromName);
-            $mail->addAddress($to);
-
-            foreach ($attachments as $att) {
-                if (!empty($att['path']) && is_file($att['path'])) {
-                    $mail->addAttachment($att['path'], $att['name'] ?? basename($att['path']));
-                }
-            }
-
-            $mail->isHTML(true);
-            $mail->CharSet = 'UTF-8';
-            $mail->Subject = $subject;
-            $mail->Body    = $html;
-
-            $ok = $mail->send();
-            if (!$ok) {
-                error_log('MAIL ERROR: ' . $mail->ErrorInfo);
-            }
-            return $ok;
-        } catch (Exception $e) {
-            error_log('MAIL EXCEPTION: ' . $e->getMessage());
-            return false;
         }
+
+        /* ---------------------------------------------------
+         *  CONTENIDO
+         * --------------------------------------------------- */
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $htmlBody;
+        $mail->AltBody = strip_tags($htmlBody);
+
+        return $mail->send();
+    } catch (Exception $e) {
+        error_log("MAIL ERROR: " . $mail->ErrorInfo);
+        return false;
     }
 }

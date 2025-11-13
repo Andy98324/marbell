@@ -10,20 +10,21 @@ require __DIR__ . '/../app/bootstrap.php';
 require __DIR__ . '/../app/helpers/mail.php';
 require __DIR__ . '/../app/helpers/voucher.php';
 
-
-
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
+// Necesitamos tener todo el flujo previo hecho
 if (empty($_SESSION['quote']) || empty($_SESSION['booking']) || empty($_SESSION['review'])) {
-    header('Location: /'); exit;
+    header('Location: /'); 
+    exit;
 }
 
 $quote   = $_SESSION['quote'];
 $booking = $_SESSION['booking'];
 $review  = $_SESSION['review'];
 
+// Datos del review (cálculos ya hechos)
 $data               = $review['data'];
 $base_out_price     = (float)$review['base_out_price'];
 $base_return_price  = $review['base_return_price'] !== null ? (float)$review['base_return_price'] : null;
@@ -45,6 +46,10 @@ try {
     echo "<pre>DB error: ".htmlspecialchars($e->getMessage())."</pre>";
     exit;
 }
+
+/**
+ * Crea la tabla reservas si no existe
+ */
 function ensure_reservas_table(PDO $db): void {
     $db->exec("
         CREATE TABLE IF NOT EXISTS reservas (
@@ -124,7 +129,8 @@ function ensure_reservas_table(PDO $db): void {
 
 ensure_reservas_table($db);
 
-// Extras como JSON para la BD
+// ----------------- EXTRAS JSON -----------------
+
 $extras_payload = [
     'child_seat' => (int)($data['extra_child_seat'] ?? 0),
     'booster'    => (int)($data['extra_booster'] ?? 0),
@@ -135,10 +141,12 @@ $extras_payload = [
 ];
 $extras_json = json_encode($extras_payload, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
 
-// ref_interna sencilla (puedes cambiarla por tu sistema de referencias)
+// ref_interna base (luego añadimos -OUT / -RET)
 $ref_interna_base = 'WEB-' . date('Ymd-His') . '-' . substr(bin2hex(random_bytes(4)),0,8);
 
-// función auxiliar para insertar una reserva (ida o vuelta)
+/**
+ * Inserta una reserva (ida o vuelta) y devuelve el ID
+ */
 function insert_reserva(PDO $db, array $args): int {
     $sql = "INSERT INTO reservas (
                 canal,
@@ -182,62 +190,113 @@ function insert_reserva(PDO $db, array $args): int {
     return (int)$db->lastInsertId();
 }
 
-// ----------------- INSERTAR IDA -----------------
+// ======================================================
+// INSERTAR IDA
+// ======================================================
+
 $ref_interna_ida = $ref_interna_base . '-OUT';
 
 $args_out = [
-    ':canal'            => 'web',
-    ':fecha'            => $data['service_date'] ?: date('Y-m-d'),
-    ':hora_presentacion'=> $data['service_time'] ?: '00:00:00',
-    ':origen'           => $origin_address,
-    ':destino'          => $destination_address,
-    ':pax'              => (int)($data['passengers'] ?? 1),
-    ':cliente_nombre'   => $data['first_name'] ?? '',
-    ':cliente_apellidos'=> $data['last_name'] ?? '',
-    ':cliente_email'    => $data['email'] ?? '',
-    ':cliente_movil'    => $data['phone'] ?? '',
-    ':vuelo'            => $data['flight_number'] ?? $data['train_number'] ?? '',
-    ':extras_json'      => $extras_json,
-    ':notas'            => $data['notes'] ?? '',
-    ':precio_venta'     => $total_out,
-    ':ref_interna'      => $ref_interna_ida,
+    ':canal'             => 'web',
+    ':fecha'             => $data['service_date'] ?: date('Y-m-d'),
+    ':hora_presentacion' => $data['service_time'] ?: '00:00:00',
+    ':origen'            => $origin_address,
+    ':destino'           => $destination_address,
+    ':pax'               => (int)($data['passengers'] ?? 1),
+    ':cliente_nombre'    => $data['first_name'] ?? '',
+    ':cliente_apellidos' => $data['last_name'] ?? '',
+    ':cliente_email'     => $data['email'] ?? '',
+    ':cliente_movil'     => $data['phone'] ?? '',
+    ':vuelo'             => $data['flight_number'] ?? ($data['train_number'] ?? ''),
+    ':extras_json'       => $extras_json,
+    ':notas'             => $data['notes'] ?? '',
+    ':precio_venta'      => $total_out,
+    ':ref_interna'       => $ref_interna_ida,
 ];
 
 $reserva_id_out = insert_reserva($db, $args_out);
 
-// ----------------- INSERTAR VUELTA (si aplica) -----------------
+// ======================================================
+// INSERTAR VUELTA (si corresponde)
+// ======================================================
+
 $reserva_id_ret = null;
 $ref_interna_ret = null;
 
 if (!empty($data['return_trip']) && $base_return_price !== null) {
     $ref_interna_ret = $ref_interna_base . '-RET';
+
     $args_ret = [
-        ':canal'            => 'web',
-        ':fecha'            => $data['return_date'] ?: $data['service_date'] ?: date('Y-m-d'),
-        ':hora_presentacion'=> $data['return_time'] ?: $data['service_time'] ?: '00:00:00',
-        ':origen'           => $destination_address,   // invertimos
-        ':destino'          => $origin_address,
-        ':pax'              => (int)($data['passengers'] ?? 1),
-        ':cliente_nombre'   => $data['first_name'] ?? '',
-        ':cliente_apellidos'=> $data['last_name'] ?? '',
-        ':cliente_email'    => $data['email'] ?? '',
-        ':cliente_movil'    => $data['phone'] ?? '',
-        ':vuelo'            => $data['flight_number'] ?? $data['train_number'] ?? '',
-        ':extras_json'      => $extras_json,
-        ':notas'            => $data['notes'] ?? '',
-        ':precio_venta'     => $total_return,
-        ':ref_interna'      => $ref_interna_ret,
+        ':canal'             => 'web',
+        ':fecha'             => $data['return_date'] ?: ($data['service_date'] ?: date('Y-m-d')),
+        ':hora_presentacion' => $data['return_time'] ?: ($data['service_time'] ?: '00:00:00'),
+        ':origen'            => $destination_address,   // invertimos
+        ':destino'           => $origin_address,
+        ':pax'               => (int)($data['passengers'] ?? 1),
+        ':cliente_nombre'    => $data['first_name'] ?? '',
+        ':cliente_apellidos' => $data['last_name'] ?? '',
+        ':cliente_email'     => $data['email'] ?? '',
+        ':cliente_movil'     => $data['phone'] ?? '',
+        ':vuelo'             => $data['flight_number'] ?? ($data['train_number'] ?? ''),
+        ':extras_json'       => $extras_json,
+        ':notas'             => $data['notes'] ?? '',
+        ':precio_venta'      => $total_return,
+        ':ref_interna'       => $ref_interna_ret,
     ];
+
     $reserva_id_ret = insert_reserva($db, $args_ret);
 }
 
-// ----------------- EMAILS -----------------
+// ======================================================
+// VOUCHERS: generamos archivos HTML para ida y vuelta
+// ======================================================
+
+$voucher_attachments = [];
+
+// Datos comunes del cliente
+$clienteNombre = trim(($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''));
+
+// Voucher IDA
+$voucherDataOut = [
+    'origen'       => $origin_address,
+    'destino'      => $destination_address,
+    'fecha'        => $data['service_date'] ?? date('Y-m-d'),
+    'hora'         => $data['service_time'] ?? '00:00',
+    'pax'          => (int)($data['passengers'] ?? 1),
+    'precio_venta' => $total_out,
+];
+
+$voucherOutPath = generate_voucher_html($voucherDataOut, $ref_interna_ida);
+$voucher_attachments[] = [
+    'path' => $voucherOutPath,
+    'name' => "Voucher-{$ref_interna_ida}.html",
+];
+
+// Voucher VUELTA (si hay)
+if ($ref_interna_ret) {
+    $voucherDataRet = [
+        'origen'       => $destination_address,
+        'destino'      => $origin_address,
+        'fecha'        => $data['return_date'] ?? ($data['service_date'] ?? date('Y-m-d')),
+        'hora'         => $data['return_time'] ?? ($data['service_time'] ?? '00:00'),
+        'pax'          => (int)($data['passengers'] ?? 1),
+        'precio_venta' => $total_return,
+    ];
+    $voucherRetPath = generate_voucher_html($voucherDataRet, $ref_interna_ret);
+    $voucher_attachments[] = [
+        'path' => $voucherRetPath,
+        'name' => "Voucher-{$ref_interna_ret}.html",
+    ];
+}
+
+// ======================================================
+// EMAILS
+// ======================================================
 
 $subjectBase = 'Transfer Marbell - Reserva ' . $ref_interna_base;
 
-// 1) Email al cliente
+// -------- 1) Email al cliente --------
 if (!empty($data['email'])) {
-    $clienteNombre = trim(($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''));
 
     ob_start();
     ?>
@@ -261,21 +320,28 @@ if (!empty($data['email'])) {
 
     <p><strong>Importe total:</strong> <?= number_format($grand_total, 2, ',', '.') ?> €</p>
 
-    <p>En breve recibirás tu voucher adjunto (si no lo ves, revisa la carpeta de correo no deseado).</p>
+    <p>Adjuntamos tus vouchers de reserva en este correo.  
+       Si no los ves, revisa la carpeta de correo no deseado.</p>
+
     <p>Gracias por confiar en nosotros.</p>
     <?php
     $htmlCliente = ob_get_clean();
 
     send_app_mail(
-        $data['email'],
-        $subjectBase,
-        $htmlCliente,
-        $clienteNombre
-        // aquí en el futuro podrás añadir attachments => vouchers
-    );
+    $data['email'],
+    $subjectBase,
+    $htmlCliente,
+    $clienteNombre ?? '',
+    [
+        ['path' => $voucher_out_path, 'name' => 'voucher-ida.pdf'],
+        ['path' => $voucher_ret_path, 'name' => 'voucher-vuelta.pdf']
+    ]
+);
+
 }
 
-// 2) Email interno a reservas@transfermarbell.com
+// -------- 2) Email interno a reservas --------
+
 ob_start();
 ?>
 <h2>Nueva reserva web</h2>
@@ -286,7 +352,7 @@ ob_start();
   <?php if ($ref_interna_ret): ?>
     <li><strong>Ref vuelta:</strong> <?= htmlspecialchars($ref_interna_ret) ?> (ID <?= (int)$reserva_id_ret ?>)</li>
   <?php endif; ?>
-  <li><strong>Cliente:</strong> <?= htmlspecialchars(($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? '')) ?></li>
+  <li><strong>Cliente:</strong> <?= htmlspecialchars($clienteNombre) ?></li>
   <li><strong>Email:</strong> <?= htmlspecialchars($data['email'] ?? '') ?></li>
   <li><strong>Teléfono:</strong> <?= htmlspecialchars($data['phone'] ?? '') ?></li>
   <li><strong>Origen:</strong> <?= htmlspecialchars($origin_address) ?></li>
@@ -300,21 +366,24 @@ send_app_mail(
     'reservas@transfermarbell.com',
     'Nueva reserva web - ' . $ref_interna_base,
     $htmlAdmin,
-    'Reservas'
+    $voucher_attachments     // mismos adjuntos
 );
 
+// ======================================================
+// LIMPIEZA Y RENDER DE LA PÁGINA DE CONFIRMACIÓN
+// ======================================================
 
-// Limpieza parcial de sesión (mantenemos quote si quieres permitir otra búsqueda)
 $_SESSION['last_booking_refs'] = [
-    'out_id'        => $reserva_id_out,
-    'out_ref'       => $ref_interna_ida,
-    'ret_id'        => $reserva_id_ret,
-    'ret_ref'       => $ref_interna_ret,
-    'email'         => $data['email'] ?? '',
+    'out_id'  => $reserva_id_out,
+    'out_ref' => $ref_interna_ida,
+    'ret_id'  => $reserva_id_ret,
+    'ret_ref' => $ref_interna_ret,
+    'email'   => $data['email'] ?? '',
 ];
+
+// Dejamos quote por si quiere calcular otra, pero limpiamos booking/review
 unset($_SESSION['booking'], $_SESSION['review']);
 
-// Render vista de confirmación
 $__view = __DIR__ . '/../views/confirm-booking.php';
 extract([
     'reserva_id_out' => $reserva_id_out,
@@ -324,5 +393,7 @@ extract([
     'email'          => $data['email'] ?? '',
 ], EXTR_SKIP);
 
-ob_start(); include $__view; $__content = ob_get_clean();
+ob_start();
+include $__view;
+$__content = ob_get_clean();
 require __DIR__ . '/../views/layout.php';

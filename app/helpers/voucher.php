@@ -1,35 +1,40 @@
 <?php
 // app/helpers/voucher.php
 
-/**
- * Genera un voucher HTML simple y lo guarda en /storage/vouchers/{ref}.html
- *
- * @param array $data  Datos de la reserva (origen, destino, fecha, etc.)
- * @param string $ref  Referencia interna única
- * @return string      Ruta absoluta del fichero generado
- */
-function generate_voucher_html(array $data, string $ref): string
-{
-    $baseDir = __DIR__ . '/../storage/vouchers';
-    if (!is_dir($baseDir)) {
-        mkdir($baseDir, 0775, true);
-    }
+// Evita redeclarar la función si el archivo se incluye más de una vez
+if (!function_exists('generate_voucher_html')) {
 
-    $filePath = $baseDir . '/' . preg_replace('/[^A-Za-z0-9_\-]/', '_', $ref) . '.html';
+    /**
+     * Genera un voucher HTML simple y lo guarda en /app/storage/vouchers/{ref}.html
+     *
+     * @param array  $data Datos de la reserva (origen, destino, fecha, etc.)
+     * @param string $ref  Referencia interna única
+     * @return string      Ruta absoluta del fichero generado
+     */
+    function generate_voucher_html(array $data, string $ref): string
+    {
+        // Directorio donde se guardan los vouchers
+        $baseDir = __DIR__ . '/../storage/vouchers';
+        if (!is_dir($baseDir)) {
+            mkdir($baseDir, 0775, true);
+        }
 
-    $origen  = htmlspecialchars($data['origen']  ?? '', ENT_QUOTES, 'UTF-8');
-    $destino = htmlspecialchars($data['destino'] ?? '', ENT_QUOTES, 'UTF-8');
-    $fecha   = htmlspecialchars($data['fecha']   ?? '', ENT_QUOTES, 'UTF-8');
-    $hora    = htmlspecialchars($data['hora']    ?? '', ENT_QUOTES, 'UTF-8');
-    $pax     = (int)($data['pax'] ?? 0);
-    $precio  = number_format((float)($data['precio_venta'] ?? 0), 2, ',', '.');
+        $safeRef  = preg_replace('/[^A-Za-z0-9_\-]/', '_', $ref);
+        $filePath = $baseDir . '/' . $safeRef . '.html';
 
-    $html = <<<HTML
+        $origen  = htmlspecialchars($data['origen']  ?? '', ENT_QUOTES, 'UTF-8');
+        $destino = htmlspecialchars($data['destino'] ?? '', ENT_QUOTES, 'UTF-8');
+        $fecha   = htmlspecialchars($data['fecha']   ?? '', ENT_QUOTES, 'UTF-8');
+        $hora    = htmlspecialchars($data['hora']    ?? '', ENT_QUOTES, 'UTF-8');
+        $pax     = (int)($data['pax'] ?? 0);
+        $precio  = number_format((float)($data['precio_venta'] ?? 0), 2, ',', '.');
+
+        $html = <<<HTML
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Voucher {$ref}</title>
+  <title>Voucher {$safeRef}</title>
   <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f3f4f6;margin:0;padding:20px}
     .card{max-width:600px;margin:0 auto;background:#fff;border-radius:16px;padding:20px;box-shadow:0 10px 30px rgba(15,23,42,.1)}
@@ -42,7 +47,7 @@ function generate_voucher_html(array $data, string $ref): string
 <body>
   <div class="card">
     <h1>Voucher de reserva</h1>
-    <p class="muted">Referencia: {$ref}</p>
+    <p class="muted">Referencia: {$safeRef}</p>
 
     <p class="row"><span class="label">Origen:</span> {$origen}</p>
     <p class="row"><span class="label">Destino:</span> {$destino}</p>
@@ -59,7 +64,8 @@ function generate_voucher_html(array $data, string $ref): string
 </html>
 HTML;
 
-    file_put_contents($filePath, $html);
+        file_put_contents($filePath, $html);
 
-    return $filePath;
+        return $filePath;
+    }
 }

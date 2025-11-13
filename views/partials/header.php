@@ -134,7 +134,10 @@ $lang = current_lang();
             <a href="<?= switch_lang_url('en') ?>" class="rounded bg-white/10 px-2 py-1 text-xs <?= current_lang()=='en'?'bg-sky-600':'' ?>">EN</a>
           </div>
         </div>
-        <a href="/reservar" class="inline-flex items-center rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"><?= t('nav.book') ?></a>
+        <a href="/#goToQuote" class="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700">
+  <?= t('nav.book') ?>
+</a>
+
       </div>
 
       <!-- Burger -->

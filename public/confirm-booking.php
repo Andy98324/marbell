@@ -41,6 +41,84 @@ try {
     echo "<pre>DB error: ".htmlspecialchars($e->getMessage())."</pre>";
     exit;
 }
+function ensure_reservas_table(PDO $db): void {
+    $db->exec("
+        CREATE TABLE IF NOT EXISTS reservas (
+          id                       INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+          ref_interna              VARCHAR(100) NOT NULL,
+
+          canal                    ENUM('web','agencia','manual') NOT NULL DEFAULT 'web',
+          agencia                  VARCHAR(150) NULL,
+          agencia_id               INT NULL,
+          localizador_agencia      VARCHAR(100) NULL,
+
+          fecha                    DATE NOT NULL,
+          hora_presentacion        TIME NOT NULL,
+          origen                   VARCHAR(255) NOT NULL,
+          destino                  VARCHAR(255) NOT NULL,
+          pax                      SMALLINT UNSIGNED NOT NULL DEFAULT 1,
+
+          cliente_nombre           VARCHAR(100) NOT NULL,
+          cliente_telefono         VARCHAR(50) NULL,
+          cliente_apellidos        VARCHAR(150) NULL,
+          cliente_email            VARCHAR(150) NULL,
+          cliente_movil            VARCHAR(50) NULL,
+
+          pendiente_confirmar      TINYINT(1) NOT NULL DEFAULT 1,
+          vuelo                    VARCHAR(50) NULL,
+
+          extras_json              LONGTEXT NULL,
+          notas                    TEXT NULL,
+
+          precio_venta             DECIMAL(10,2) NOT NULL DEFAULT 0,
+          precio_chofer            DECIMAL(10,2) NOT NULL DEFAULT 0,
+
+          fs_invoice_id            VARCHAR(100) NULL,
+          fs_invoice_pdf_url       TEXT NULL,
+
+          proveedor_id             INT NULL,
+          conductor_id             INT NULL,
+          vehiculo_id              INT NULL,
+          vehiculo_tipo_id         INT NULL,
+          servicio_tipo_id         INT NULL,
+
+          telefono_conductor_cache VARCHAR(50) NULL,
+
+          estado                   ENUM('pendiente','confirmado','en_curso','completado','cancelado')
+                                   NOT NULL DEFAULT 'pendiente',
+          cancel_tipo              ENUM('cliente','proveedor','no_show','otro') NULL,
+
+          created_at               TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at               TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+          motivo_cancelacion       VARCHAR(255) NULL,
+          cancelada_at             DATETIME NULL,
+
+          rvtc_cgprovcontrato      CHAR(10) NULL,
+          rvtc_cgmunicontrato      CHAR(10) NULL,
+          rvtc_cgprovinicio        CHAR(10) NULL,
+          rvtc_cgmuniinicio        CHAR(10) NULL,
+          rvtc_direccioninicio     VARCHAR(255) NULL,
+          rvtc_cgprovfin           CHAR(10) NULL,
+          rvtc_cgmunifin           CHAR(10) NULL,
+          rvtc_direccionfin        VARCHAR(255) NULL,
+          rvtc_cgprovlejano        CHAR(10) NULL,
+          rvtc_cgmunilejano        CHAR(10) NULL,
+          rvtc_direccionlejano     VARCHAR(255) NULL,
+          rvtc_fcontrato           DATETIME NULL,
+          rvtc_fprevistainicio     DATETIME NULL,
+          rvtc_ffin                DATETIME NULL,
+
+          KEY idx_fecha  (fecha),
+          KEY idx_canal  (canal),
+          KEY idx_estado (estado)
+        ) ENGINE=InnoDB
+          DEFAULT CHARSET=utf8mb4
+          COLLATE=utf8mb4_unicode_ci;
+    ");
+}
+
+ensure_reservas_table($db);
 
 // Extras como JSON para la BD
 $extras_payload = [

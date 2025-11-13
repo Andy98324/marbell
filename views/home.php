@@ -237,34 +237,38 @@ function render_stars($score){
   if (!origin || !destination) { alert("Por favor introduce origen y destino."); return; }
 
   directionsService.route({
-    origin, destination, travelMode: google.maps.TravelMode.DRIVING,
-  }).then((response) => {
-    const leg = response.routes[0].legs[0];
-    // Mostrar resumen
-    document.getElementById("infoOrigin").textContent = leg.start_address;
-    document.getElementById("infoDestination").textContent = leg.end_address;
-    document.getElementById("infoDistance").textContent = leg.distance.text; // "52.4 km"
-    document.getElementById("infoDuration").textContent = leg.duration.text; // "46 min"
+  origin,
+  destination,
+  travelMode: google.maps.TravelMode.DRIVING,
+}).then((response) => {
 
-    // ⬇️ ⬇️ DATOS CRUDOS (OBLIGATORIO) ⬇️ ⬇️
-    document.getElementById("f_origin_address").value      = leg.start_address;
-    document.getElementById("f_origin_lat").value          = leg.start_location.lat();
-    document.getElementById("f_origin_lng").value          = leg.start_location.lng();
-    document.getElementById("f_destination_address").value = leg.end_address;
-    document.getElementById("f_destination_lat").value     = leg.end_location.lat();
-    document.getElementById("f_destination_lng").value     = leg.end_location.lng();
+  // 👉 FALTA ESTO PARA QUE SE PINTE LA RUTA
+  directionsRenderer.setDirections(response);
 
-    // IMPORTANTÍSIMO: en crudo, **números**:
-    document.getElementById("f_distance_m").value          = leg.distance.value; // ej: 52432
-    document.getElementById("f_duration_s").value          = leg.duration.value; // ej: 2760
+  const leg = response.routes[0].legs[0];
+  // Mostrar resumen
+  document.getElementById("infoOrigin").textContent = leg.start_address;
+  document.getElementById("infoDestination").textContent = leg.end_address;
+  document.getElementById("infoDistance").textContent = leg.distance.text; // "52.4 km"
+  document.getElementById("infoDuration").textContent = leg.duration.text; // "46 min"
 
-    // habilita botón
-    document.getElementById("routeInfo").classList.remove("hidden");
-    document.getElementById("goToQuote").classList.remove("hidden");
-  }).catch((error) => {
-    console.error(error);
-    alert("No se pudo calcular la ruta: " + error.message);
-  });
+  // ⬇️ ⬇️ DATOS CRUDOS (OBLIGATORIO) ⬇️ ⬇️
+  document.getElementById("f_origin_address").value      = leg.start_address;
+  document.getElementById("f_origin_lat").value          = leg.start_location.lat();
+  document.getElementById("f_origin_lng").value          = leg.start_location.lng();
+  document.getElementById("f_destination_address").value = leg.end_address;
+  document.getElementById("f_destination_lat").value     = leg.end_location.lat();
+  document.getElementById("f_destination_lng").value     = leg.end_location.lng();
+
+  document.getElementById("f_distance_m").value          = leg.distance.value;
+  document.getElementById("f_duration_s").value          = leg.duration.value;
+
+  document.getElementById("routeInfo").classList.remove("hidden");
+  document.getElementById("goToQuote").classList.remove("hidden");
+}).catch((error) => {
+  console.error(error);
+  alert("No se pudo calcular la ruta: " + error.message);
+});
 }
 
 // No dejes enviar si los campos están vacíos por cualquier motivo

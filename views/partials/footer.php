@@ -37,7 +37,7 @@
       <h3 class="text-base font-semibold mb-3"><?= t('footer.about') ?></h3>
       <ul class="space-y-2 text-sm text-white/80">
         <li><a href="/nosotros" class="hover:text-white"><?= t('footer.about.us') ?></a></li>
-        <li><a href="/What-our-customers-say.html" class="hover:text-white"><?= t('footer.about.testimonials') ?></a></li>
+        <li><a href="/nosotros" class="hover:text-white"><?= t('footer.about.partner') ?></a></li>
         <li><a href="https://hub.transfermarbell.com" class="hover:text-white" target="_blank" rel="noopener">
             <?= t('footer.services.transferhub') ?></a></li>
       </ul>

@@ -97,9 +97,11 @@
     <!-- Notas + CTA -->
     <div class="mt-12 text-center">
       <p class="text-sm text-zinc-600 mb-6"><?= t('fleet.notes') ?></p>
-      <a href="reservas.php" class="relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-sky-600 px-8 py-3 text-lg font-semibold text-white shadow-lg transition hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500">
-        <span class="relative z-10"><?= t('fleet.cta') ?></span>
-      </a>
+      <a href="/#goToQuote"
+   class="relative inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500">
+  <?= t('fleet.common.cta') ?>
+</a>
+
     </div>
 
   </div>

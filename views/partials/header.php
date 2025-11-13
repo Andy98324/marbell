@@ -11,7 +11,8 @@ $nav = [
     ],
   ]],
 
-  ['label'=>t('nav.services'), 'href'=>'/servicios/traslados', 'items'=>[
+  ['label'=>t('nav.services'), 'href'=>'#', 'items'=>[
+
     [
       'label'=>t('nav.services.transfers'),
       'href'=>'/servicios/traslados',
@@ -171,7 +172,10 @@ $lang = current_lang();
           <span class="text-white/70 text-sm"><?= t('nav.language') ?>:</span>
           <a href="<?= htmlspecialchars(switch_lang_url('es')) ?>" class="rounded bg-white/10 px-2 py-1 text-xs <?= $lang==='es' ? 'ring-1 ring-white/60' : '' ?>">ES</a>
           <a href="<?= htmlspecialchars(switch_lang_url('en')) ?>" class="rounded bg-white/10 px-2 py-1 text-xs <?= $lang==='en' ? 'ring-1 ring-white/60' : '' ?>">EN</a>
-          <a href="/reservar" class="ml-auto rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold"><?= t('nav.book') ?></a>
+          <a href="/#goToQuote"
+            class="ml-auto rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700">
+            <?= t('nav.book') ?>
+          </a>
         </li>
       </ul>
     </div>

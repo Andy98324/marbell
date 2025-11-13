@@ -64,20 +64,20 @@ return [
   require __DIR__ . '/../views/servicios/transfers.php';
 },
 'GET /flota' => function () {
-  $title   = t('transfers.title_short');
+  $title   = t('flota.title_short');
   $seoData = [
     'title'       => t('flota.seo.title'),
     'description' => t('flota.seo.desc'),
     'keywords'    => t('flota.seo.keywords'),
     'image'       => '/assets/logo-og.png',
     'breadcrumbs' => [
-      ['@id'=>'/',                    'name'=>t('nav.home')],
-      ['@id'=>'/servicios',           'name'=>t('nav.services')],
-      ['@id'=>'/traslados', 'name'=>t('flota.h1')],
+      ['@id'=>'/',         'name'=>t('nav.home')],
+      ['@id'=>'/flota',    'name'=>t('flota.h1')],
     ],
   ];
   require __DIR__ . '/../views/flota.php';
 },
+
 'GET /servicios/excursiones' => function () {
   $title   = t('excursions.title_short');
   $seoData = [

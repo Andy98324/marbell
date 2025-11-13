@@ -904,4 +904,12 @@ return [
 
     // Fleet pages
     'fleet.common.cta' => 'Book now',
+
+      // FLEET PAGE (SEO)
+  'flota.title_short'   => 'Fleet',
+  'flota.seo.title'     => 'Our fleet · Transfer Marbell',
+  'flota.seo.desc'      => 'Choose the perfect vehicle for your transfer: sedans, minivans, minibuses and coaches.',
+  'flota.seo.keywords'  => 'fleet, vehicles, sedans, minivans, minibuses, coaches',
+  'flota.h1'            => 'Our Fleet',
+
 ];

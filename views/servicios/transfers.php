@@ -49,7 +49,7 @@ $cards = [
       t('transfers.bullets.wait15'),
       t('transfers.bullets.fixed'),
     ],
-    'cta_href' => '/reservar?tipo=puerto',
+    'cta_href' => '/#goToQuote',
     'cta_label' => t('cta.book_now'),
   ],
   [

@@ -907,5 +907,11 @@ return [
 
     // Fleet pages
     'fleet.common.cta' => 'Reservar',
-    
+      // PÁGINA FLOTA (SEO)
+  'flota.title_short'   => 'Flota',
+  'flota.seo.title'     => 'Nuestra flota · Transfer Marbell',
+  'flota.seo.desc'      => 'Elige el vehículo perfecto para tu traslado: berlinas, monovolúmenes, minibuses y autocares.',
+  'flota.seo.keywords'  => 'flota, vehículos, berlinas, monovolúmenes, minibuses, autocares',
+  'flota.h1'            => 'Nuestra flota',
+
 ];

@@ -7,7 +7,9 @@ ini_set('display_startup_errors','1');
 error_reporting(E_ALL);
 
 require __DIR__ . '/../app/bootstrap.php';
-require __DIR__ . '/../app/mail.php';
+require __DIR__ . '/../app/helpers/mail.php';
+require __DIR__ . '/../app/helpers/voucher.php';
+
 
 
 if (session_status() !== PHP_SESSION_ACTIVE) {

@@ -11,7 +11,7 @@ $cards = [
       t('transfers.bullets.wait60'),
       t('transfers.bullets.fixed'),
     ],
-    'cta_href' => '/reservar?tipo=aeropuerto',
+    'cta_href' => '/#goToQuote',
     'cta_label' => t('cta.book_now'),
   ],
   [
@@ -24,7 +24,7 @@ $cards = [
       t('transfers.bullets.wait15'),
       t('transfers.bullets.fixed'),
     ],
-    'cta_href' => '/reservar?tipo=tren',
+    'cta_href' => '/#goToQuote',
     'cta_label' => t('cta.book_now'),
   ],
   [
@@ -36,7 +36,7 @@ $cards = [
       t('transfers.bullets.wait15'),
       t('transfers.bullets.fixed'),
     ],
-    'cta_href' => '/reservar?tipo=p2p',
+    'cta_href' => '/#goToQuote',
     'cta_label' => t('cta.book_now'),
   ],
   [
@@ -70,7 +70,7 @@ $cards = [
       t('transfers.bullets.map'),
       t('transfers.bullets.pois'),
     ],
-    'cta_href' => '/servicios/excursiones',
+    'cta_href' => '/#goToQuote',
     'cta_label' => t('cta.see_more'),
   ],
 ];

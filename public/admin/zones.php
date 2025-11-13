@@ -69,7 +69,8 @@ function load_zones_for_map(): array {
   $pdo = dbx();
   try {
     // Intento con ST_AsGeoJSON
-    $rows = $pdo->query("SELECT id, name, ST_AsGeoJSON(geom) AS gj, active FROM zones ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
+    $rows = $pdo->query("SELECT id, name, ST_AsGeoJSON(geom) AS gj, active FROM zones ORDER BY name")
+                ->fetchAll(PDO::FETCH_ASSOC);
     foreach ($rows as &$r) {
       if (!empty($r['gj'])) {
         $r['geometry'] = json_decode($r['gj'], true);
@@ -80,7 +81,8 @@ function load_zones_for_map(): array {
     return $rows;
   } catch (Throwable $e) {
     // Fallback con ST_AsText → convertir WKT a GeoJSON básico
-    $rows = $pdo->query("SELECT id, name, ST_AsText(geom) AS wkt, active FROM zones ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
+    $rows = $pdo->query("SELECT id, name, ST_AsText(geom) AS wkt, active FROM zones ORDER BY name")
+                ->fetchAll(PDO::FETCH_ASSOC);
     foreach ($rows as &$r) {
       $r['geometry'] = wkt_to_geojson_polygon($r['wkt'] ?? '');
     }
@@ -116,9 +118,27 @@ try {
   exit;
 }
 
-/* ---------- Guardar zona ---------- */
-// ... arriba ya tienes require y require_admin();
+/* ---------- Eliminar zona ---------- */
+if (isset($_GET['delete'])) {
+  $id = (int)$_GET['delete'];
+  if ($id > 0) {
+    try {
+      $st = dbx()->prepare("DELETE FROM zones WHERE id = :id");
+      $st->execute([':id' => $id]);
+      // si tienes FKs ON DELETE CASCADE en zone_prices, se borran también sus tarifas
+      header('Location: /admin/zones.php?deleted=1');
+      exit;
+    } catch (Throwable $e) {
+      header('Location: /admin/zones.php?delerror=1');
+      exit;
+    }
+  } else {
+    header('Location: /admin/zones.php?delerror=1');
+    exit;
+  }
+}
 
+/* ---------- Guardar zona ---------- */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['geojson'])) {
     $name = trim($_POST['name'] ?? '');
     $geo  = json_decode($_POST['geojson'], true);
@@ -135,7 +155,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['geojson'])) {
 
     header('Location: /admin/zones.php?ok=1'); exit;
 }
-
 
 /* ---------- Listado ---------- */
 try {
@@ -155,45 +174,43 @@ try {
   <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
   <style>
     body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:0;background:#f7f7fb}
-    
     .wrap{max-width:1100px;margin:18px auto;padding:0 16px}
     #map{height:70vh;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.08)}
     form.zf{background:#fff;border-radius:12px;padding:12px;margin:12px 0;box-shadow:0 6px 20px rgba(0,0,0,.05);display:flex;gap:8px;align-items:center}
     form.zf input[type=text]{flex:1;padding:10px 12px;border:1px solid #e5e7eb;border-radius:10px}
     form.zf button{background:#0b1220;color:#fff;border:0;border-radius:10px;padding:10px 16px;font-weight:600}
     .msg{color:#065f46;background:#d1fae5;border:1px solid #10b981;padding:8px 10px;border-radius:8px;margin:8px 0;display:inline-block}
-    ul{padding-left:16px}
-   
+    .err{color:#991b1b;background:#fee2e2;border:1px solid #fecaca;padding:8px 10px;border-radius:8px;margin:8px 0;display:inline-block}
+    ul{padding-left:0;list-style:none}
     header{background:#0b1220;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
     a,h1,h2,h3{color:inherit;text-decoration:none}
-    
-    .bar{display:flex;gap:10px;align-items:center;margin:12px 0}
-    .card{background:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.08);padding:14px;margin:12px 0}
-    .grid{display:grid;gap:10px}
-    .grid-3{grid-template-columns:1fr 1fr 1fr}
-    .grid-4{grid-template-columns:1fr 1fr 1fr 1fr}
-    label{font-size:12px;color:#6b7280}
-    select,input[type=text],input[type=number]{width:100%;padding:10px 12px;border:1px solid #e5e7eb;border-radius:10px;font-size:14px}
-   
-    
-    .tag{display:inline-block;background:#eef2ff;border:1px solid #c7d2fe;color:#3730a3;border-radius:999px;padding:2px 8px;font-size:12px}
-    .ok{color:#065f46;background:#d1fae5;border:1px solid #10b981;padding:8px 10px;border-radius:8px;margin:8px 0;display:inline-block}
-    .err{color:#991b1b;background:#fee2e2;border:1px solid #fecaca;padding:8px 10px;border-radius:8px;margin:8px 0;display:inline-block}
-    .actions{display:flex;gap:8px}
+    .zone-row{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:10px;padding:8px 10px;margin-bottom:6px;box-shadow:0 4px 12px rgba(0,0,0,.04)}
+    .zone-name{font-size:14px;color:#111827}
+    .zone-meta{font-size:12px;color:#6b7280}
+    .btn-del{background:#fee2e2;color:#b91c1c;border:1px solid #fecaca;border-radius:999px;padding:4px 10px;font-size:12px;cursor:pointer}
+    .btn-del:hover{background:#fecaca}
   </style>
 </head>
 <body>
 <header>
   <strong>Panel · Zonas</strong>
   <nav class="muted">
-    <a href="/admin/zones.php" style="color:#fff;opacity:.9">Zonas</a> ·
-    <a href="/admin/zone-prices.php" style="color:#fff;opacity:1;font-weight:700">Precios</a> ·
+    <a href="/admin/zones.php" style="color:#fff;opacity:1;font-weight:700">Zonas</a> ·
+    <a href="/admin/zone-prices.php" style="color:#fff;opacity:.9">Precios</a> ·
     <a href="/admin/logout.php" style="color:#fff;opacity:.9">Salir</a>
   </nav>
 </header>
 <div class="wrap">
   <?php if (!empty($_GET['ok'])): ?>
     <div class="msg">Zona guardada correctamente.</div>
+  <?php endif; ?>
+
+  <?php if (!empty($_GET['deleted'])): ?>
+    <div class="msg">Zona eliminada correctamente.</div>
+  <?php endif; ?>
+
+  <?php if (!empty($_GET['delerror'])): ?>
+    <div class="err">No se pudo eliminar la zona. Revisa dependencias o vuelve a intentarlo.</div>
   <?php endif; ?>
 
   <form class="zf" method="post" id="zoneForm" onsubmit="return submitZone()">
@@ -205,11 +222,29 @@ try {
   <div id="map"></div>
 
   <h3>Zonas existentes</h3>
-  <ul>
+  <?php if (empty($zones)): ?>
+    <p class="zone-meta">Todavía no hay zonas definidas.</p>
+  <?php else: ?>
     <?php foreach ($zones as $z): ?>
-      <li>#<?= (int)$z['id'] ?> — <?= htmlspecialchars($z['name']) ?> <?= ((int)$z['active']===1?'':'(inactiva)') ?></li>
+      <div class="zone-row">
+        <div>
+          <div class="zone-name">
+            #<?= (int)$z['id'] ?> — <?= htmlspecialchars($z['name']) ?>
+            <?php if ((int)$z['active'] !== 1): ?>
+              <span class="zone-meta">(inactiva)</span>
+            <?php endif; ?>
+          </div>
+        </div>
+        <div>
+          <a href="/admin/zones.php?delete=<?= (int)$z['id'] ?>"
+             class="btn-del"
+             onclick="return confirm('¿Eliminar esta zona? Esta acción no se puede deshacer.');">
+            Eliminar
+          </a>
+        </div>
+      </div>
     <?php endforeach; ?>
-  </ul>
+  <?php endif; ?>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

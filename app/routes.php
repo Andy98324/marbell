@@ -353,20 +353,7 @@ return [
 
 // Sedans
 'GET /fleet-sedans' => function () {
-  $title = t('fleet.sedans.h1');
-  $seoData = [
-    'title'       => t('fleet.sedans.seo.title'),
-    'description' => t('fleet.sedans.seo.desc'),
-    'keywords'    => t('fleet.sedans.seo.keywords'),
-    'image'       => '/assets/images/fleet/sedans/og-sedans.jpg',
-    'breadcrumbs' => [
-      ['@id'=>'/',        'name'=>t('nav.home')],
-      ['@id'=>'/flota',   'name'=>t('nav.fleet')],
-      ['@id'=>'/fleet-sedans','name'=>t('fleet.sedans.h1')],
-    ],
-  ];
-  require __DIR__ . '/../views/fleet-sedans.php';
-  exit;
+    require __DIR__ . '/../views/fleet-sedans.php';
 },
 'GET /sedanes' => function () {  // alias ES
   $title = t('fleet.sedans.h1');

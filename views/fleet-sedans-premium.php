@@ -1,4 +1,6 @@
-<?php require __DIR__ . '/partials/header.php'; ?>
+<?php
+// Nada aquí arriba
+?>
 
 <section class="relative overflow-hidden bg-[#0b1220] text-white">
   <div class="absolute inset-0 opacity-20 pointer-events-none">
@@ -53,14 +55,13 @@
       <?php endforeach; ?>
     </div>
 
+         <!-- CTA -->
     <div class="mt-5 text-center">
-      <a href="/#goToQuote" class="btn btn-primary btn-lg px-4">
-  <?= t('fleet.common.cta') ?>
-</a>
-
+      <a href="/#goToQuote"
+         class="inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 shadow-sm">
+        <?= t('fleet.common.cta') ?>
+      </a>
     </div>
+
   </div>
 </section>
-
-<?php require __DIR__ . '/partials/footer.php'; ?>
-<?php require __DIR__ . '/layout.php';?>

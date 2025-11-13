@@ -1,5 +1,6 @@
-
-
+<?php
+// Nada aquí arriba
+?>
 <!-- HERO -->
 <section class="relative overflow-hidden bg-[#0b1220] text-white">
   <div class="absolute inset-0 opacity-20 pointer-events-none">

@@ -14,19 +14,18 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-// pequeña ayuda
 function clean_post(string $k): string {
     return isset($_POST[$k]) ? trim((string)$_POST[$k]) : '';
 }
 
-// Necesitamos una cotización previa en sesión
+// Necesitamos una cotización previa
 if (empty($_SESSION['quote'])) {
     header('Location: /'); exit;
 }
 
 $quote = $_SESSION['quote'];
 
-// MODO POST: usuario acaba de elegir vehículo
+// ---------- POST: viene desde quote.php al seleccionar vehículo ----------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $vehicle_code = clean_post('vehicle_code');
@@ -43,31 +42,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Recuperar vehículo de la tabla vehicles
+    // Recuperar vehículo
     $st = $db->prepare("SELECT * FROM vehicles WHERE code = :c AND active = 1");
     $st->execute([':c' => $vehicle_code]);
     $vehicle = $st->fetch(PDO::FETCH_ASSOC);
 
     if (!$vehicle) {
-        // Código inválido o vehículo inactivo → volver a resultados
         header('Location: /quote.php'); exit;
     }
 
-    // Zonas origen/destino ya calculadas en la cotización
     $oZoneId = $quote['origin']['zone_id']      ?? null;
     $dZoneId = $quote['destination']['zone_id'] ?? null;
 
-    $price = null;
+    $price        = null; // ida
+    $return_price = null; // vuelta (zona inversa)
+
     if ($oZoneId && $dZoneId) {
         try {
             $price = zone_price($db, (int)$oZoneId, (int)$dZoneId, $vehicle_code);
         } catch (Throwable $e) {
             $price = null;
         }
+
+        try {
+            $return_price = zone_price($db, (int)$dZoneId, (int)$oZoneId, $vehicle_code);
+        } catch (Throwable $e) {
+            $return_price = null;
+        }
     }
 
-    // Si no hubiera precio de zona (no debería ocurrir si solo mostramos con precio),
-    // podemos buscarlo en la lista de quotes como fallback:
+    // Fallback: coger precio de la lista de quotes de la cotización si hiciera falta
     if ($price === null && !empty($quote['quotes']) && is_array($quote['quotes'])) {
         foreach ($quote['quotes'] as $q) {
             if (($q['code'] ?? '') === $vehicle_code && $q['price'] !== null) {
@@ -77,21 +81,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Guardamos la selección en sesión para poder recargar/cambiar idioma luego
     $_SESSION['booking'] = [
         'vehicle_code' => $vehicle_code,
         'vehicle'      => $vehicle,
         'price'        => $price,
+        'return_price' => $return_price,
     ];
 
 } else {
-    // MODO GET: recarga / cambio de idioma
+    // ---------- GET: recarga / cambio de idioma ----------
     if (empty($_SESSION['booking'])) {
         header('Location: /'); exit;
     }
 }
 
-// Datos comunes (desde sesión siempre)
+// ---------- Datos comunes para la vista ----------
 $origin_address      = $quote['origin']['address']      ?? '';
 $destination_address = $quote['destination']['address'] ?? '';
 $distance_m          = $quote['distance_m'] ?? 0;
@@ -100,13 +104,33 @@ $km                  = $quote['km'] ?? 0;
 $minutes             = $quote['minutes'] ?? 0;
 $currency            = $quote['currency'] ?? 'EUR';
 
-$booking = $_SESSION['booking'] ?? null;
-$vehicle = $booking['vehicle'] ?? null;
-$price   = $booking['price'] ?? null;
+$booking      = $_SESSION['booking'] ?? null;
+$vehicle      = $booking['vehicle'] ?? null;
+$price        = $booking['price'] ?? null;
+$return_price = $booking['return_price'] ?? null;
 $vehicle_code = $booking['vehicle_code'] ?? '';
 
 if (!$vehicle) {
     header('Location: /quote.php'); exit;
+}
+
+// Detectar si origen es AGP o estación de tren
+$origLower = function_exists('mb_strtolower')
+    ? mb_strtolower($origin_address, 'UTF-8')
+    : strtolower($origin_address);
+
+$ask_flight = false;
+$ask_train  = false;
+
+if (strpos($origLower, 'aeropuerto') !== false ||
+    strpos($origLower, 'airport')    !== false ||
+    strpos($origLower, 'agp')        !== false) {
+    $ask_flight = true;
+} elseif (strpos($origLower, 'estación') !== false ||
+          strpos($origLower, 'estacion') !== false ||
+          strpos($origLower, 'station')  !== false ||
+          strpos($origLower, 'zambrano') !== false) {
+    $ask_train = true;
 }
 
 // Preparar datos para la vista
@@ -118,8 +142,11 @@ extract([
     'minutes'             => $minutes,
     'vehicle'             => $vehicle,
     'price'               => $price,
+    'return_price'        => $return_price,
     'currency'            => $currency,
     'vehicle_code'        => $vehicle_code,
+    'ask_flight'          => $ask_flight,
+    'ask_train'           => $ask_train,
 ], EXTR_SKIP);
 
 ob_start(); include $__view; $__content = ob_get_clean();

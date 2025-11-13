@@ -14,6 +14,8 @@ $data    = $data ?? [];
 
 $night_surcharge_out = $night_surcharge_out ?? 0.0;
 $night_surcharge_ret = $night_surcharge_ret ?? 0.0;
+$airport_fee         = $airport_fee ?? 0.0;
+$from_airport        = !empty($from_airport);
 ?>
 
 <section class="relative overflow-hidden bg-[#0b1220] text-white">
@@ -147,6 +149,9 @@ $night_surcharge_ret = $night_surcharge_ret ?? 0.0;
         <p class="text-sm text-zinc-600">
           <?= htmlspecialchars(trim($vehPax . ($vehLugg !== '' ? " • {$vehLugg} maletas" : ''))) ?>
         </p>
+        <p class="mt-1 text-xs text-zinc-500">
+          <?= function_exists('t') ? t('review.vehicle_images_note') : 'Las imágenes de los vehículos son orientativas.' ?>
+        </p>
       </div>
 
       <div class="space-y-3 text-sm text-zinc-800">
@@ -209,11 +214,23 @@ $night_surcharge_ret = $night_surcharge_ret ?? 0.0;
         </div>
       </div>
 
+      <?php if ($from_airport && $airport_fee > 0): ?>
+        <p class="mt-3 text-xs text-sky-700 text-center">
+          <?= function_exists('t') ? t('review.airport_wait_info') : 'Este precio incluye ya un suplemento de 5,00 € por la espera de 1 hora en el aeropuerto.' ?>
+        </p>
+      <?php endif; ?>
+
       <p class="mt-3 text-xs text-zinc-500 text-center">
         <?= function_exists('t') ? t('home.quote_disclaimer') : 'El precio mostrado es orientativo y puede variar ligeramente según el tráfico y la disponibilidad.' ?>
       </p>
 
-      <!-- Aquí irá el botón de confirmar más adelante -->
+      <!-- Botón confirmar reserva -->
+      <form method="post" action="/confirm-booking.php" class="mt-5 text-center">
+        <button type="submit"
+                class="rounded-xl bg-amber-400 text-zinc-900 font-semibold px-8 py-3 shadow hover:-translate-y-0.5 transition">
+          <?= function_exists('t') ? t('review.confirm_cta') : 'Confirmar reserva' ?>
+        </button>
+      </form>
     </aside>
   </div>
 </section>

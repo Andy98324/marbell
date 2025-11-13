@@ -25,6 +25,16 @@ function is_night_time(string $time): bool {
     return ($h >= 23 || $h < 8);
 }
 
+/** Detecta si el TRAYECTO ES DESDE AEROPUERTO (origen = aeropuerto) */
+function is_airport_origin(string $origin): bool {
+    $s = function_exists('mb_strtolower') ? mb_strtolower($origin, 'UTF-8') : strtolower($origin);
+    return (
+        strpos($s, 'aeropuerto') !== false ||
+        strpos($s, 'airport')    !== false ||
+        strpos($s, 'agp')        !== false
+    );
+}
+
 if (empty($_SESSION['quote']) || empty($_SESSION['booking'])) {
     header('Location: /'); exit;
 }
@@ -104,6 +114,17 @@ if ($data['return_trip'] && $base_return_price !== null) {
 
 $grand_total = $total_out + $total_return;
 
+// Info ruta
+$origin_address      = $quote['origin']['address']      ?? '';
+$destination_address = $quote['destination']['address'] ?? '';
+$km                  = $quote['km'] ?? 0;
+$minutes             = $quote['minutes'] ?? 0;
+$currency            = $quote['currency'] ?? 'EUR';
+
+// Info suplemento aeropuerto: solo si origen es aeropuerto
+$airport_fee = (float)($quote['airport_fee'] ?? 0);
+$from_airport = is_airport_origin($origin_address);
+
 // Guardar en sesión por si luego quieres confirmar definitivamente
 $_SESSION['review'] = [
     'data'               => $data,
@@ -118,13 +139,7 @@ $_SESSION['review'] = [
     'grand_total'        => $grand_total,
 ];
 
-// Datos para vista
-$origin_address      = $quote['origin']['address']      ?? '';
-$destination_address = $quote['destination']['address'] ?? '';
-$km                  = $quote['km'] ?? 0;
-$minutes             = $quote['minutes'] ?? 0;
-$currency            = $quote['currency'] ?? 'EUR';
-
+// Render
 $__view = __DIR__ . '/../views/review-booking.php';
 extract([
     'origin_address'      => $origin_address,
@@ -142,6 +157,8 @@ extract([
     'total_out'           => $total_out,
     'total_return'        => $total_return,
     'grand_total'         => $grand_total,
+    'airport_fee'         => $airport_fee,
+    'from_airport'        => $from_airport,
 ], EXTR_SKIP);
 
 ob_start(); include $__view; $__content = ob_get_clean();

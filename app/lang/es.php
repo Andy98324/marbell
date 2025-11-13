@@ -875,5 +875,17 @@ return [
 'quote.not_available'       => 'No disponible',
 'review.outbound_night'     => 'Ida: recargo nocturno (10 %)',
 'review.return_night'       => 'Vuelta: recargo nocturno (10 %)',
+// REVIEW extra
+'review.vehicle_images_note' => 'Las imágenes de los vehículos son orientativas.',
+'review.airport_wait_info'   => 'Este precio incluye ya un suplemento de 5,00 € por la espera de 1 hora en el aeropuerto.',
+
+// CONFIRM (reserva confirmada)
+'confirm.title'      => 'Reserva confirmada',
+'confirm.subtitle'   => 'Hemos recibido tu solicitud de traslado.',
+'confirm.email_info' => 'Te hemos enviado un correo con todos los detalles de tu reserva y tu voucher adjunto.',
+'confirm.ref_out'    => 'Referencia de ida',
+'confirm.ref_ret'    => 'Referencia de vuelta',
+'confirm.help_text'  => 'Si detectas algún dato incorrecto, por favor contacta con nosotros lo antes posible indicando tu referencia.',
+'confirm.back_home'  => 'Volver al inicio',
 
 ];

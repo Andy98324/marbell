@@ -873,5 +873,17 @@ return [
 'quote.not_available'       => 'Not available',
 'review.outbound_night'     => 'Outbound: night surcharge (10%)',
 'review.return_night'       => 'Return: night surcharge (10%)',
+// REVIEW extra
+'review.vehicle_images_note' => 'Vehicle images are for illustration purposes only.',
+'review.airport_wait_info'   => 'This price already includes a €5.00 surcharge for 1 hour of waiting time at the airport.',
+
+// CONFIRM (booking confirmed)
+'confirm.title'      => 'Booking confirmed',
+'confirm.subtitle'   => 'We have received your transfer request.',
+'confirm.email_info' => 'We have sent you an email with all the booking details and your voucher attached.',
+'confirm.ref_out'    => 'Outbound reference',
+'confirm.ref_ret'    => 'Return reference',
+'confirm.help_text'  => 'If you notice any incorrect information, please contact us as soon as possible quoting your reference.',
+'confirm.back_home'  => 'Back to home',
 
 ];

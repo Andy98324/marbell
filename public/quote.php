@@ -21,6 +21,7 @@ $quotes  = $quotes ?? [];
 ?>
 
 <!-- HERO / encabezado de resultados -->
+<!-- HERO / encabezado de resultados -->
 <section class="relative overflow-hidden bg-[#0b1220] text-white">
   <div class="absolute inset-0 opacity-20 pointer-events-none">
     <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2 bg-gradient-to-br from-sky-500/30 via-transparent to-transparent rounded-full blur-3xl"></div>

@@ -25,6 +25,7 @@ return [
   'nav.fleet.van'     => 'Van',
   'nav.fleet.lux'     => 'Lujo',
   'nav.language'      => 'Idioma',
+  'nav.panel'    => 'Panel',
 
   'title.about'      => 'Conoce al equipo, nuestra historia y el estándar de servicio que nos define.',
   'title.services'      => 'Traslados puerta a puerta desde/hacia aeropuerto, estación u hotel con precio cerrado.',

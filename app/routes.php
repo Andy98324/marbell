@@ -39,7 +39,7 @@ return [
         ['@id'=>'/admin/login',  'name'=>t('panel.h1')],
       ],
     ];
-    require __DIR__ . '/../panel/login.php';
+    require __DIR__ . '/admin/login.php';
 
   },
 

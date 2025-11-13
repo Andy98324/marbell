@@ -25,6 +25,7 @@ return [
   'nav.fleet.van'     => 'Van',
   'nav.fleet.lux'     => 'Luxury',
   'nav.language'      => 'Language',
+  'nav.panel'    => 'Dashboard',
 
   'title.about'      => 'Meet the team, our story, and the service standard that defines us.',
   'title.services'      => 'Door-to-door transfers to/from the airport, station, or hotel at a fixed price.',

@@ -117,22 +117,25 @@ try {
 }
 
 /* ---------- Guardar zona ---------- */
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['geojson'])) {
-  try {
-    $name = trim($_POST['name'] ?? '');
-    if ($name === '') throw new InvalidArgumentException('Nombre vacío');
+// ... arriba ya tienes require y require_admin();
 
-    $geo = json_decode($_POST['geojson'], true, 512, JSON_THROW_ON_ERROR);
-    $wkt = geojson_polygon_to_wkt($geo); // puede lanzar excepción
-    upsert_zone_from_wkt($name, $wkt);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['geojson'])) {
+    $name = trim($_POST['name'] ?? '');
+    $geo  = json_decode($_POST['geojson'], true);
+
+    // convierte GeoJSON -> WKT con cierre de anillo y orden correcto
+    $wkt = geojson_polygon_to_wkt($geo);
+
+    $st = db()->prepare("
+        INSERT INTO zones(name, geom, active)
+        VALUES(:n, ST_GeomFromText(:wkt), 1)
+        ON DUPLICATE KEY UPDATE geom=VALUES(geom), active=1
+    ");
+    $st->execute([':n'=>$name, ':wkt'=>$wkt]);
 
     header('Location: /admin/zones.php?ok=1'); exit;
-  } catch (Throwable $e) {
-    http_response_code(500);
-    echo "<pre>ERROR guardando zona:\n".$e->getMessage()."</pre>";
-    exit;
-  }
 }
+
 
 /* ---------- Listado ---------- */
 try {

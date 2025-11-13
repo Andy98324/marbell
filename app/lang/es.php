@@ -795,6 +795,7 @@ return [
   'quote.sort.lug_asc' => 'Equipaje (menor a mayor)',
 
   'quote.not_available' => 'No disponible',
+  'quote.no_zone_price' => 'Sin tarifa definida para esta zona',
   'quote.zone_price'    => 'Tarifa fija por zona',
 
   // Ya existentes

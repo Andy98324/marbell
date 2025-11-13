@@ -11,7 +11,9 @@ require_once __DIR__ . '/../app/helpers/zones.php';
 require_once __DIR__ . '/../app/helpers/pricing.php';
 require_once __DIR__ . '/../app/helpers/distance.php';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') { header('Location: /'); exit; }
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 /* ---------------- utilidades ---------------- */
 function clean(string $k): string { return isset($_POST[$k]) ? trim((string)$_POST[$k]) : ''; }
@@ -63,104 +65,130 @@ function zone_name(PDO $db, ?int $id): ?string {
   return $r ? (string)$r['name'] : null;
 }
 
-/* ---------------- datos POST ---------------- */
-$oAddr = clean('origin_address');
-$dAddr = clean('destination_address');
-$oLat  = (float)clean('origin_lat');
-$oLng  = (float)clean('origin_lng');
-$dLat  = (float)clean('destination_lat');
-$dLng  = (float)clean('destination_lng');
+/* ============================================================
+   MODO 1: POST → calcular nueva cotización y guardarla en sesión
+   ============================================================ */
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-$dm = (int)clean('distance_m');
-$ds = (int)clean('duration_s');
-if ($oAddr==='' || $dAddr==='') { header('Location: /'); exit; }
+    $oAddr = clean('origin_address');
+    $dAddr = clean('destination_address');
+    $oLat  = (float)clean('origin_lat');
+    $oLng  = (float)clean('origin_lng');
+    $dLat  = (float)clean('destination_lat');
+    $dLng  = (float)clean('destination_lng');
 
-/* ----- recálculo (solo para mostrar distancia/tiempo) ----- */
-$distance_m = $dm;
-$duration_s = $ds;
-try {
-  $re = recalc_distance_duration($oLat,$oLng,$dLat,$dLng);
-  if (!empty($re['distance_m'])) $distance_m = (int)$re['distance_m'];
-  if (!empty($re['duration_s'])) $duration_s = (int)$re['duration_s'];
-} catch (Throwable $e) { /* fallback a lo recibido */ }
+    $dm = (int)clean('distance_m');
+    $ds = (int)clean('duration_s');
+    if ($oAddr==='' || $dAddr==='') { header('Location: /'); exit; }
 
-$km      = max(0, $distance_m/1000);
-$minutes = max(0, $duration_s/60);
+    // recálculo opcional distancia/duración
+    $distance_m = $dm;
+    $duration_s = $ds;
+    try {
+      $re = recalc_distance_duration($oLat,$oLng,$dLat,$dLng);
+      if (!empty($re['distance_m'])) $distance_m = (int)$re['distance_m'];
+      if (!empty($re['duration_s'])) $duration_s = (int)$re['duration_s'];
+    } catch (Throwable $e) {}
 
-/* ---------------- BD y zonas ---------------- */
-try { $db = db(); } catch (Throwable $e) { http_response_code(500); echo "<pre>DB error: ".htmlspecialchars($e->getMessage())."</pre>"; exit; }
-ensure_min_tables($db);
+    $km      = max(0, $distance_m/1000);
+    $minutes = max(0, $duration_s/60);
 
-$oZone = null; $dZone = null;
-try { $oZone = find_zone_id_by_point($db, $oLat, $oLng); } catch (Throwable $e) {}
-try { $dZone = find_zone_id_by_point($db, $dLat, $dLng); } catch (Throwable $e) {}
+    // BD y zonas
+    try { $db = db(); } catch (Throwable $e) { http_response_code(500); echo "<pre>DB error: ".htmlspecialchars($e->getMessage())."</pre>"; exit; }
+    ensure_min_tables($db);
 
-$oZoneName = zone_name($db, $oZone);
-$dZoneName = zone_name($db, $dZone);
+    $oZone = null; $dZone = null;
+    try { $oZone = find_zone_id_by_point($db, $oLat, $oLng); } catch (Throwable $e) {}
+    try { $dZone = find_zone_id_by_point($db, $dLat, $dLng); } catch (Throwable $e) {}
 
-/* ---------------- vehículos ---------------- */
-$vehRows = [];
-try { $vehRows = $db->query("SELECT * FROM vehicles WHERE active=1")->fetchAll(PDO::FETCH_ASSOC); }
-catch (Throwable $e) { $vehRows = []; }
+    $oZoneName = zone_name($db, $oZone);
+    $dZoneName = zone_name($db, $dZone);
 
-/* ---------------- precios (SOLO zona→zona) ---------------- */
-$currency = 'EUR';
-$quotes   = [];
-$noZoneMatch = false;
+    // vehículos
+    $vehRows = [];
+    try { $vehRows = $db->query("SELECT * FROM vehicles WHERE active=1")->fetchAll(PDO::FETCH_ASSOC); }
+    catch (Throwable $e) { $vehRows = []; }
 
-if (!$oZone || !$dZone) {
-  // Si no hay zona para origen o destino mostramos aviso de contacto
-  $noZoneMatch = true;
-} else {
-  foreach ($vehRows as $veh) {
-    $veh += ['code'=>'','name'=>'','img'=>'','pax'=>'','luggage'=>''];
-    $zonePrice = null;
-    try { $zonePrice = zone_price($db, (int)$oZone, (int)$dZone, (string)$veh['code']); }
-    catch (Throwable $e) { $zonePrice = null; }
+    $currency = 'EUR';
+    $quotes   = [];
+    $noZoneMatch = false;
 
-    $quotes[] = [
-      'code'       => (string)$veh['code'],
-      'name'       => (string)$veh['name'],
-      'img'        => (string)$veh['img'],
-      'capacity'   => trim(($veh['pax'] ?? '') . ((isset($veh['luggage']) && $veh['luggage']!=='') ? " • {$veh['luggage']} maletas" : '')),
-      'price'      => ($zonePrice !== null) ? (float)$zonePrice : null,
-      'currency'   => $currency,
-      'zone_price' => $zonePrice,
+    if (!$oZone || !$dZone) {
+      $noZoneMatch = true;
+    } else {
+      foreach ($vehRows as $veh) {
+        $veh += ['code'=>'','name'=>'','img'=>'','pax'=>'','luggage'=>''];
+        $zonePrice = null;
+        try { $zonePrice = zone_price($db, (int)$oZone, (int)$dZone, (string)$veh['code']); }
+        catch (Throwable $e) { $zonePrice = null; }
+
+        $quotes[] = [
+          'code'       => (string)$veh['code'],
+          'name'       => (string)$veh['name'],
+          'img'        => (string)$veh['img'],
+          'capacity'   => trim(($veh['pax'] ?? '') . ((isset($veh['luggage']) && $veh['luggage']!=='') ? " • {$veh['luggage']} maletas" : '')),
+          'price'      => ($zonePrice !== null) ? (float)$zonePrice : null,
+          'currency'   => $currency,
+          'zone_price' => $zonePrice,
+        ];
+      }
+    }
+
+    // guardar en sesión para poder recargar / cambiar idioma
+    $quote_id = bin2hex(random_bytes(8));
+    $_SESSION['quote'] = [
+      'id'          => $quote_id,
+      'origin'      => ['address'=>$oAddr,'lat'=>$oLat,'lng'=>$oLng,'zone_id'=>$oZone,'zone_name'=>$oZoneName],
+      'destination' => ['address'=>$dAddr,'lat'=>$dLat,'lng'=>$dLng,'zone_id'=>$dZone,'zone_name'=>$dZoneName],
+      'distance_m'  => $distance_m,
+      'duration_s'  => $duration_s,
+      'km'          => $km,
+      'minutes'     => $minutes,
+      'currency'    => $currency,
+      'quotes'      => $quotes,
+      'no_zone_match' => $noZoneMatch,
     ];
-  }
+
+} else {
+    /* ============================================================
+       MODO 2: GET → reutilizar la cotización guardada en sesión
+       (para recargar o cambiar de idioma sin volver al home)
+       ============================================================ */
+    if (empty($_SESSION['quote'])) {
+        header('Location: /'); exit;
+    }
+
+    $saved = $_SESSION['quote'];
+
+    $oAddr       = $saved['origin']['address']      ?? '';
+    $dAddr       = $saved['destination']['address'] ?? '';
+    $distance_m  = $saved['distance_m'] ?? 0;
+    $duration_s  = $saved['duration_s'] ?? 0;
+    $km          = $saved['km'] ?? 0;
+    $minutes     = $saved['minutes'] ?? 0;
+    $currency    = $saved['currency'] ?? 'EUR';
+    $quotes      = $saved['quotes'] ?? [];
+    $noZoneMatch = $saved['no_zone_match'] ?? false;
+    $quote_id    = $saved['id'] ?? '';
 }
 
-/* ---------------- sesión ---------------- */
-if (session_status() !== PHP_SESSION_ACTIVE) { session_start(); }
-$quote_id = bin2hex(random_bytes(8));
-$_SESSION['quote'] = [
-  'id'          => $quote_id,
-  'origin'      => ['address'=>$oAddr,'lat'=>$oLat,'lng'=>$oLng,'zone_id'=>$oZone,'zone_name'=>$oZoneName],
-  'destination' => ['address'=>$dAddr,'lat'=>$dLat,'lng'=>$dLng,'zone_id'=>$dZone,'zone_name'=>$dZoneName],
-  'distance_m'  => $distance_m,
-  'duration_s'  => $duration_s,
-  'km'          => $km,
-  'minutes'     => $minutes,
-  'currency'    => $currency,
-  'quotes'      => $quotes,
-  'no_zone_match' => $noZoneMatch,
-];
+/* ---------------- render común (POST y GET) ---------------- */
 
-/* ---------------- render ---------------- */
+$origin_address      = $oAddr;
+$destination_address = $dAddr;
+
 $__view = __DIR__ . '/../views/quote.php';
 extract([
-  'origin_address'      => $oAddr,
-  'destination_address' => $dAddr,
-  'oZoneName' => $oZoneName,
-  'dZoneName' => $dZoneName,
-  'distance_m' => $distance_m,
-  'duration_s' => $duration_s,
-  'km'         => $km,
-  'minutes'    => $minutes,
-  'currency'   => $currency,
-  'quotes'     => $quotes,
-  'quote_id'   => $quote_id,
-  'noZoneMatch'=> $noZoneMatch,
+  'origin_address'      => $origin_address,
+  'destination_address' => $destination_address,
+  'distance_m'          => $distance_m ?? 0,
+  'duration_s'          => $duration_s ?? 0,
+  'km'                  => $km ?? 0,
+  'minutes'             => $minutes ?? 0,
+  'currency'            => $currency ?? 'EUR',
+  'quotes'              => $quotes ?? [],
+  'quote_id'            => $quote_id ?? '',
+  'noZoneMatch'         => $noZoneMatch ?? false,
 ], EXTR_SKIP);
 
 ob_start(); include $__view; $__content = ob_get_clean();

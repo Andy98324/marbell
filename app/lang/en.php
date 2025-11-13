@@ -794,6 +794,7 @@ return [
   'quote.sort.lug_asc' => 'Luggage (low to high)',
 
   'quote.not_available' => 'Not available',
+  'quote.no_zone_price' => 'No fixed rate defined for this zone',
   'quote.zone_price'    => 'Fixed zone rate',
 
   // Already existing ones

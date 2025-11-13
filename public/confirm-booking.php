@@ -16,7 +16,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
 // Necesitamos tener todo el flujo previo hecho
 if (empty($_SESSION['quote']) || empty($_SESSION['booking']) || empty($_SESSION['review'])) {
-    header('Location: /'); 
+    header('Location: /');
     exit;
 }
 
@@ -320,24 +320,21 @@ if (!empty($data['email'])) {
 
     <p><strong>Importe total:</strong> <?= number_format($grand_total, 2, ',', '.') ?> €</p>
 
-    <p>Adjuntamos tus vouchers de reserva en este correo.  
+    <p>Adjuntamos tus vouchers de reserva en este correo.<br>
        Si no los ves, revisa la carpeta de correo no deseado.</p>
 
     <p>Gracias por confiar en nosotros.</p>
     <?php
     $htmlCliente = ob_get_clean();
 
+    // Firma: send_app_mail(string $toEmail, string $subject, string $htmlBody, string $toName = '', array $attachments = [])
     send_app_mail(
-    $data['email'],
-    $subjectBase,
-    $htmlCliente,
-    $clienteNombre ?? '',
-    [
-        ['path' => $voucher_out_path, 'name' => 'voucher-ida.pdf'],
-        ['path' => $voucher_ret_path, 'name' => 'voucher-vuelta.pdf']
-    ]
-);
-
+        $data['email'],
+        $subjectBase,
+        $htmlCliente,
+        $clienteNombre ?: '',
+        $voucher_attachments
+    );
 }
 
 // -------- 2) Email interno a reservas --------
@@ -366,7 +363,8 @@ send_app_mail(
     'reservas@transfermarbell.com',
     'Nueva reserva web - ' . $ref_interna_base,
     $htmlAdmin,
-    $voucher_attachments     // mismos adjuntos
+    'Reservas',
+    $voucher_attachments
 );
 
 // ======================================================

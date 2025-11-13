@@ -805,4 +805,20 @@ return [
   'home.duration' => 'Duración estimada',
   'home.select' => 'Seleccionar vehículo',
   'home.quote_disclaimer' => 'El precio mostrado es orientativo y puede variar ligeramente según el tráfico y la disponibilidad.',
+
+  'booking.title'            => 'Completa tu reserva',
+'booking.passenger_details'=> 'Datos del pasajero',
+'booking.first_name'       => 'Nombre',
+'booking.last_name'        => 'Apellidos',
+'booking.email'            => 'Correo electrónico',
+'booking.phone'            => 'Teléfono',
+'booking.date'             => 'Fecha del servicio',
+'booking.time'             => 'Hora de recogida',
+'booking.passengers'       => 'Nº de pasajeros',
+'booking.luggage'          => 'Nº de maletas',
+'booking.flight'           => 'Número de vuelo (opcional)',
+'booking.notes'            => 'Observaciones',
+'booking.confirm_cta'      => 'Confirmar reserva',
+'booking.summary_title'    => 'Resumen de tu servicio',
+
 ];

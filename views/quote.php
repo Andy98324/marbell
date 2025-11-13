@@ -166,12 +166,16 @@ $noZoneMatch = $noZoneMatch ?? false;
                     : (function_exists('t') ? t('quote.no_zone_price') ?? 'Sin tarifa definida' : 'Sin tarifa definida') ?>
             </div>
 
-            <button
-              class="mt-4 rounded-xl px-6 py-3 font-semibold shadow <?= $hasPrice ? 'bg-amber-400 text-zinc-900 hover:-translate-y-0.5 transition' : 'bg-zinc-200 text-zinc-500 cursor-not-allowed' ?>"
-              <?= $hasPrice ? '' : 'disabled' ?>
-              type="button">
-              <?= function_exists('t') ? t('home.select') : 'Seleccionar vehículo' ?>
-            </button>
+            <form method="post" action="/booking.php" class="mt-4">
+  <input type="hidden" name="vehicle_code" value="<?= htmlspecialchars($q['code']) ?>">
+  <button
+    class="w-full rounded-xl px-6 py-3 font-semibold shadow <?= $hasPrice ? 'bg-amber-400 text-zinc-900 hover:-translate-y-0.5 transition' : 'bg-zinc-200 text-zinc-500 cursor-not-allowed' ?>"
+    <?= $hasPrice ? '' : 'disabled' ?>
+    type="submit">
+    <?= function_exists('t') ? t('home.select') : 'Seleccionar vehículo' ?>
+  </button>
+</form>
+
           </article>
         <?php endforeach; ?>
       </div>

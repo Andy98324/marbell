@@ -38,7 +38,7 @@ $nav = [
     ],
   ]],
 
-   ['label'=>t('nav.panel'),  'href'=>'/admin/login'],
+   ['label'=>t('nav.panel'),  'href'=>'/admin/login.php'],
   
 ];
 

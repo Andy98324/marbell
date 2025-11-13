@@ -873,5 +873,7 @@ return [
 
 // (por si no lo tenías aún)
 'quote.not_available'       => 'No disponible',
+'review.outbound_night'     => 'Ida: recargo nocturno (10 %)',
+'review.return_night'       => 'Vuelta: recargo nocturno (10 %)',
 
 ];

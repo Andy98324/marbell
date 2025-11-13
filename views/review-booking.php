@@ -11,6 +11,9 @@ $vehImg  = $vehicle['img'] ?? '';
 $vehPax  = $vehicle['pax'] ?? '';
 $vehLugg = $vehicle['luggage'] ?? '';
 $data    = $data ?? [];
+
+$night_surcharge_out = $night_surcharge_out ?? 0.0;
+$night_surcharge_ret = $night_surcharge_ret ?? 0.0;
 ?>
 
 <section class="relative overflow-hidden bg-[#0b1220] text-white">
@@ -147,6 +150,7 @@ $data    = $data ?? [];
       </div>
 
       <div class="space-y-3 text-sm text-zinc-800">
+        <!-- Ida -->
         <div class="flex justify-between">
           <span><?= function_exists('t') ? t('review.outbound_base') : 'Ida: tarifa base' ?></span>
           <span><?= eur($base_out_price) ?></span>
@@ -157,12 +161,19 @@ $data    = $data ?? [];
             <span><?= eur($extras_out) ?></span>
           </div>
         <?php endif; ?>
+        <?php if ($night_surcharge_out > 0): ?>
+          <div class="flex justify-between">
+            <span><?= function_exists('t') ? t('review.outbound_night') : 'Ida: recargo nocturno (10 %)' ?></span>
+            <span><?= eur($night_surcharge_out) ?></span>
+          </div>
+        <?php endif; ?>
         <div class="flex justify-between font-semibold">
           <span><?= function_exists('t') ? t('review.outbound_total') : 'Ida: total' ?></span>
           <span><?= eur($total_out) ?></span>
         </div>
 
-        <?php if ($data['return_trip'] && $base_return_price !== null): ?>
+        <!-- Vuelta -->
+        <?php if (!empty($data['return_trip']) && $base_return_price !== null): ?>
           <hr class="my-2">
           <div class="flex justify-between">
             <span><?= function_exists('t') ? t('review.return_base') : 'Vuelta: tarifa base' ?></span>
@@ -174,11 +185,17 @@ $data    = $data ?? [];
               <span><?= eur($extras_return) ?></span>
             </div>
           <?php endif; ?>
+          <?php if ($night_surcharge_ret > 0): ?>
+            <div class="flex justify-between">
+              <span><?= function_exists('t') ? t('review.return_night') : 'Vuelta: recargo nocturno (10 %)' ?></span>
+              <span><?= eur($night_surcharge_ret) ?></span>
+            </div>
+          <?php endif; ?>
           <div class="flex justify-between font-semibold">
             <span><?= function_exists('t') ? t('review.return_total') : 'Vuelta: total' ?></span>
             <span><?= eur($total_return) ?></span>
           </div>
-        <?php elseif ($data['return_trip'] && $base_return_price === null): ?>
+        <?php elseif (!empty($data['return_trip']) && $base_return_price === null): ?>
           <hr class="my-2">
           <p class="text-xs text-amber-700">
             <?= function_exists('t') ? t('booking.return_price_na') : 'No hay tarifa de zona definida para la vuelta. Contacta con nosotros para confirmar el precio.' ?>
@@ -196,15 +213,7 @@ $data    = $data ?? [];
         <?= function_exists('t') ? t('home.quote_disclaimer') : 'El precio mostrado es orientativo y puede variar ligeramente según el tráfico y la disponibilidad.' ?>
       </p>
 
-      <!-- Aquí luego podrás poner el botón final de confirmar / pagar -->
-      <!--
-      <form method="post" action="/confirm-booking.php" class="mt-4 text-center">
-        <button type="submit"
-                class="rounded-xl bg-amber-400 text-zinc-900 font-semibold px-8 py-3 shadow hover:-translate-y-0.5 transition">
-          <?= function_exists('t') ? t('review.confirm_cta') : 'Confirmar reserva' ?>
-        </button>
-      </form>
-      -->
+      <!-- Aquí irá el botón de confirmar más adelante -->
     </aside>
   </div>
 </section>

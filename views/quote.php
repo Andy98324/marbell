@@ -1,58 +1,113 @@
-<?php // views/quote.php ?>
+<?php
+// views/quote.php — usa layout del sitio (sin <html>)
+// Helper €
+if (!function_exists('eur')) {
+  function eur($v): string { return '€' . number_format((float)$v, 2, ',', '.'); }
+}
+
+$origin_address      = $origin_address ?? '';
+$destination_address = $destination_address ?? '';
+$km      = isset($km) ? (float)$km : 0;
+$minutes = isset($minutes) ? (float)$minutes : 0;
+$quotes  = $quotes ?? [];
+$noZoneMatch = $noZoneMatch ?? false;
+?>
+
+<!-- HERO -->
 <section class="relative overflow-hidden bg-[#0b1220] text-white">
   <div class="absolute inset-0 opacity-20 pointer-events-none">
     <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2 bg-gradient-to-br from-sky-500/30 via-transparent to-transparent rounded-full blur-3xl"></div>
   </div>
 
-  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-20 text-center">
-    <a href="/" class="inline-flex items-center gap-2 text-white/80 hover:text-white transition text-sm mb-4">
-      <i class="uil uil-arrow-left"></i> <?= t('action.back') ?>
-    </a>
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <div class="text-center max-w-3xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+        <?= function_exists('t') ? t('home.fleet_title') : 'Nuestra flota' ?>
+      </h1>
 
-    <img src="/assets/logo.png" alt="<?= t('brand') ?>" class="mx-auto h-24 md:h-28 w-auto mb-5" loading="eager">
-    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-3"><?= t('home.fleet_title') ?></h1>
-
-    <p class="text-white/80 text-lg leading-relaxed mb-6">
-      <strong><?= t('home.from') ?>:</strong> <?= htmlspecialchars($origin_address) ?> ·
-      <strong><?= t('home.to') ?>:</strong> <?= htmlspecialchars($destination_address) ?> ·
-      <strong><?= t('home.distance') ?>:</strong> <?= number_format($km, 1) ?> km ·
-      <strong><?= t('home.duration') ?>:</strong> <?= round($minutes) ?> min
-    </p>
+      <div class="mt-4 grid gap-2 text-white/90 text-sm">
+        <p><strong><?= function_exists('t') ? t('home.from') : 'Origen' ?>:</strong>
+          <span class="text-white/80"><?= htmlspecialchars($origin_address) ?></span></p>
+        <p><strong><?= function_exists('t') ? t('home.to') : 'Destino' ?>:</strong>
+          <span class="text-white/80"><?= htmlspecialchars($destination_address) ?></span></p>
+        <p class="text-white/70">
+          • <strong><?= function_exists('t') ? t('home.distance') : 'Distancia' ?>:</strong>
+          <?= number_format($km, 1, ',', '.') ?> km
+          · <strong><?= function_exists('t') ? t('home.duration') : 'Duración estimada' ?>:</strong>
+          <?= round($minutes) ?> min
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="py-16 bg-zinc-50 text-zinc-900">
+<section class="py-12 bg-zinc-50">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <h2 class="text-3xl font-bold text-center mb-10"><?= t('home.fleet_title') ?></h2>
 
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <?php foreach ($quotes as $q): ?>
-        <article class="group rounded-2xl bg-white shadow-xl ring-1 ring-black/5 p-5 text-center transition hover:-translate-y-0.5 hover:shadow-2xl">
-          <img src="<?= htmlspecialchars($q['img']) ?>" alt="<?= strip_tags($q['name']) ?>" class="mx-auto h-28 object-contain">
-          <h3 class="mt-3 font-semibold text-zinc-900"><?= htmlspecialchars($q['name']) ?></h3>
-          <p class="text-sm text-zinc-600"><?= htmlspecialchars($q['capacity']) ?></p>
-          <div class="mt-4 text-3xl font-extrabold tracking-tight">€<?= number_format($q['price'],0) ?></div>
-          <span class="mx-auto mt-3 block h-px w-0 bg-sky-500 group-hover:w-12 transition-all"></span>
+    <?php if ($noZoneMatch): ?>
+      <!-- AVISO cuando origen o destino no pertenecen a ninguna zona -->
+      <div class="max-w-3xl mx-auto rounded-2xl bg-white ring-1 ring-amber-300 shadow p-6 text-center mb-8">
+        <h3 class="text-xl font-semibold text-zinc-900 mb-2">Ruta fuera de zonas</h3>
+        <p class="text-zinc-700">
+          No tenemos tarifas definidas para esta combinación porque
+          <strong>el origen o el destino no están dentro de ninguna zona configurada</strong>.
+        </p>
+        <p class="text-zinc-700 mt-1">Por favor, contáctanos y te daremos precio al momento.</p>
+        <div class="mt-4 flex items-center justify-center gap-3">
+          <a href="tel:+34XXXXXXXXX" class="rounded-xl bg-amber-400 text-zinc-900 font-semibold px-5 py-2 shadow">Llamar</a>
+          <a href="mailto:info@tudominio.com" class="rounded-xl bg-white/10 border border-zinc-200 text-zinc-800 font-semibold px-5 py-2">Escribir</a>
+        </div>
+      </div>
+    <?php endif; ?>
 
-          <form action="/booking.php" method="post" class="mt-5 text-left">
-            <input type="hidden" name="vehicle_code" value="<?= htmlspecialchars($q['code']) ?>">
-            <input type="hidden" name="price" value="<?= htmlspecialchars($q['price']) ?>">
-            <input type="hidden" name="origin_address" value="<?= htmlspecialchars($origin_address) ?>">
-            <input type="hidden" name="destination_address" value="<?= htmlspecialchars($destination_address) ?>">
-            <input type="hidden" name="distance_m" value="<?= htmlspecialchars($distance_m) ?>">
-            <input type="hidden" name="duration_s" value="<?= htmlspecialchars($duration_s) ?>">
+    <?php if (!$noZoneMatch && empty($quotes)): ?>
+      <div class="text-center text-zinc-600">
+        No se encontraron vehículos disponibles.
+      </div>
+    <?php else: ?>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <?php foreach ($quotes as $q): ?>
+          <?php
+            $name     = (string)($q['name'] ?? '');
+            $img      = (string)($q['img'] ?? '');
+            $capacity = trim((string)($q['capacity'] ?? ''));
+            $price    = $q['price'] ?? null;          // null = sin tarifa de zona
+            $hasPrice = $price !== null && $price !== '';
+          ?>
+          <article class="group rounded-2xl bg-white shadow-xl ring-1 ring-black/5 p-5 text-center transition hover:-translate-y-0.5 hover:shadow-2xl">
+            <?php if ($img): ?>
+              <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($name) ?>" class="mx-auto h-28 object-contain" loading="lazy">
+            <?php endif; ?>
 
-            <button type="submit"
-              class="w-full rounded-xl bg-amber-400 text-zinc-900 font-semibold px-6 py-3 shadow hover:-translate-y-0.5 transition">
-              <?= t('home.select') ?>
+            <h3 class="mt-3 font-semibold text-zinc-900"><?= htmlspecialchars($name) ?></h3>
+            <?php if ($capacity): ?>
+              <p class="text-sm text-zinc-600"><?= htmlspecialchars($capacity) ?></p>
+            <?php endif; ?>
+
+            <div class="mt-4 text-3xl font-extrabold">
+              <?php if ($hasPrice): ?>
+                <span class="text-zinc-900"><?= eur($price) ?></span>
+              <?php else: ?>
+                <span class="text-zinc-400">No disponible</span>
+              <?php endif; ?>
+            </div>
+            <div class="mt-1 text-sm <?= $hasPrice ? 'text-green-600' : 'text-amber-600' ?>">
+              <?= $hasPrice ? 'Tarifa fija por zona' : 'Sin tarifa definida' ?>
+            </div>
+
+            <button
+              class="mt-4 rounded-xl px-6 py-3 font-semibold shadow <?= $hasPrice ? 'bg-amber-400 text-zinc-900 hover:-translate-y-0.5 transition' : 'bg-zinc-200 text-zinc-500 cursor-not-allowed' ?>"
+              <?= $hasPrice ? '' : 'disabled' ?>
+              type="button">
+              <?= function_exists('t') ? t('home.select') : 'Seleccionar vehículo' ?>
             </button>
-          </form>
-        </article>
-      <?php endforeach; ?>
-    </div>
+          </article>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
 
-    <p class="text-xs text-zinc-500 mt-6 text-center">
-      * <?= t('home.quote_disclaimer') ?>
+    <p class="text-center text-zinc-500 mt-8 text-sm">
+      <?= function_exists('t') ? t('home.quote_disclaimer') : 'El precio mostrado es orientativo y puede variar según disponibilidad.' ?>
     </p>
   </div>
 </section>

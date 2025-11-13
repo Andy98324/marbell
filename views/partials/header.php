@@ -11,7 +11,7 @@ $nav = [
     ],
   ]],
 
-  ['label'=>t('nav.services'), 'href'=>'/servicios', 'items'=>[
+  ['label'=>t('nav.services'), 'href'=>'/servicios/traslados', 'items'=>[
     [
       'label'=>t('nav.services.transfers'),
       'href'=>'/servicios/traslados',

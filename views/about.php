@@ -91,7 +91,10 @@ $team = [
         <h4 class="font-semibold"><?= t('nav.services') ?></h4>
       </div>
       <p class="text-sm text-zinc-600">Airport · By the hour · Events · Point-to-point</p>
-      <a href="/servicios" class="mt-3 inline-block text-sm text-sky-700 hover:underline"><?= t('nav.services') ?></a>
+      <a href="/servicios/traslados" class="mt-3 inline-block text-sm text-sky-700 hover:underline">
+  <?= t('nav.services') ?>
+</a>
+
     </article>
   </div>
 </section>

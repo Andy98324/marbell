@@ -1,5 +1,6 @@
 <?php
 return [
+  
   'GET /' => function () {
     $title   = t('home.title_short');
     $seoData = [
@@ -42,6 +43,10 @@ return [
     require __DIR__ . '/admin/login.php';
 
   },
+'GET /servicios' => function () {
+  header('Location: /servicios/traslados', true, 301);
+  exit;
+},
 
  'GET /servicios/traslados' => function () {
   $title   = t('transfers.title_short');

@@ -36,7 +36,7 @@
     <div>
       <h3 class="text-base font-semibold mb-3"><?= t('footer.about') ?></h3>
       <ul class="space-y-2 text-sm text-white/80">
-        <li><a href="/views/about.php" class="hover:text-white"><?= t('footer.about.us') ?></a></li>
+        <li><a href="/nosotros" class="hover:text-white"><?= t('footer.about.us') ?></a></li>
         <li><a href="/What-our-customers-say.html" class="hover:text-white"><?= t('footer.about.testimonials') ?></a></li>
         <li><a href="/partner.php" class="hover:text-white"><?= t('footer.about.partner') ?></a></li>
       </ul>
@@ -46,13 +46,13 @@
     <div>
       <h3 class="text-base font-semibold mb-3"><?= t('footer.services') ?></h3>
       <ul class="space-y-2 text-sm text-white/80">
-        <li><a href="/Transfers.html" class="hover:text-white"><?= t('footer.services.air') ?></a></li>
-        <li><a href="/Excursions.html" class="hover:text-white"><?= t('footer.services.excursions') ?></a></li>
-        <li><a href="/Guided-tours.html" class="hover:text-white"><?= t('footer.services.guided') ?></a></li>
-        <li><a href="/Our-fleet.html" class="hover:text-white"><?= t('footer.services.fleet') ?></a></li>
-        <li><a href="/Book-now.html" class="hover:text-white"><?= t('footer.services.book') ?></a></li>
-        <!-- TransferHub (subdominio) -->
-        <li>
+          <li><a href="/#goToQuote" class="hover:text-white"><?= t('footer.cta.book_now') ?></a></li>
+          <li><a href="/servicios/traslados" class="hover:text-white"><?= t('footer.links.transfers') ?></a></li>
+          <li><a href="/servicios/excursiones" class="hover:text-white"><?= t('footer.links.excursions') ?></a></li>
+          <li><a href="/servicios/visitas-guiadas" class="hover:text-white"><?= t('footer.links.guided_tours') ?></a></li>
+          <li><a href="/flota" class="hover:text-white"><?= t('footer.links.our_fleet') ?></a></li>
+          <li><a href="/#reviews" class="hover:text-white"><?= t('footer.links.reviews') ?></a></li>
+          <li><a href="/nosotros" class="hover:text-white"><?= t('footer.links.partner') ?></a></li>
           <a href="https://hub.transfermarbell.com" class="hover:text-white" target="_blank" rel="noopener">
             <?= t('footer.services.transferhub') ?>
           </a>

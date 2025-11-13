@@ -5,6 +5,7 @@ declare(strict_types=1);
 // i18n
 require_once __DIR__ . '/i18n.php';
 require_once __DIR__ . '/helpers/auth.php';
+require __DIR__ . '/../vendor/autoload.php'; // si no estaba ya
 
 
 // .env utilidades

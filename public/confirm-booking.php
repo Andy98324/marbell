@@ -7,6 +7,8 @@ ini_set('display_startup_errors','1');
 error_reporting(E_ALL);
 
 require __DIR__ . '/../app/bootstrap.php';
+require __DIR__ . '/../app/mail.php';
+
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
@@ -227,24 +229,78 @@ if (!empty($data['return_trip']) && $base_return_price !== null) {
     $reserva_id_ret = insert_reserva($db, $args_ret);
 }
 
-// ----------------- EMAILS + VOUCHER (TODO) -----------------
-/*
-Aquí puedes integrar tu sistema de email (PHPMailer, Symfony Mailer, etc.)
+// ----------------- EMAILS -----------------
 
-1) Generar PDF del voucher (ida y, si existe, vuelta)
-   - function generate_voucher_pdf(array $reserva, string $filePath): void { ... }
+$subjectBase = 'Transfer Marbell - Reserva ' . $ref_interna_base;
 
-2) Email al cliente:
-   - Para: $data['email']
-   - Asunto: "Tu reserva de traslado - " . $ref_interna_base
-   - Cuerpo HTML con todos los datos (ida/vuelta, precios, extras)
-   - Adjuntar PDF voucher
+// 1) Email al cliente
+if (!empty($data['email'])) {
+    $clienteNombre = trim(($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''));
 
-3) Email interno a la empresa:
-   - Para: tu correo de operaciones
-   - Asunto: "Nueva reserva web - " . $ref_interna_base
-   - Cuerpo con todos los datos, más IDs de la tabla reservas.
-*/
+    ob_start();
+    ?>
+    <h2>Gracias por reservar con Transfer Marbell</h2>
+    <p>Hola <?= htmlspecialchars($clienteNombre) ?>,</p>
+    <p>Hemos recibido tu solicitud de traslado. Estos son los datos principales:</p>
+
+    <ul>
+      <li><strong>Referencia ida:</strong> <?= htmlspecialchars($ref_interna_ida) ?></li>
+      <?php if ($ref_interna_ret): ?>
+        <li><strong>Referencia vuelta:</strong> <?= htmlspecialchars($ref_interna_ret) ?></li>
+      <?php endif; ?>
+      <li><strong>Origen:</strong> <?= htmlspecialchars($origin_address) ?></li>
+      <li><strong>Destino:</strong> <?= htmlspecialchars($destination_address) ?></li>
+      <li><strong>Fecha / hora ida:</strong> <?= htmlspecialchars(($data['service_date'] ?? '') . ' ' . ($data['service_time'] ?? '')) ?></li>
+      <?php if (!empty($data['return_trip'])): ?>
+        <li><strong>Fecha / hora vuelta:</strong> <?= htmlspecialchars(($data['return_date'] ?? '') . ' ' . ($data['return_time'] ?? '')) ?></li>
+      <?php endif; ?>
+      <li><strong>Pasajeros:</strong> <?= (int)($data['passengers'] ?? 1) ?></li>
+    </ul>
+
+    <p><strong>Importe total:</strong> <?= number_format($grand_total, 2, ',', '.') ?> €</p>
+
+    <p>En breve recibirás tu voucher adjunto (si no lo ves, revisa la carpeta de correo no deseado).</p>
+    <p>Gracias por confiar en nosotros.</p>
+    <?php
+    $htmlCliente = ob_get_clean();
+
+    send_app_mail(
+        $data['email'],
+        $subjectBase,
+        $htmlCliente,
+        $clienteNombre
+        // aquí en el futuro podrás añadir attachments => vouchers
+    );
+}
+
+// 2) Email interno a reservas@transfermarbell.com
+ob_start();
+?>
+<h2>Nueva reserva web</h2>
+<p>Se ha creado una nueva reserva desde la web.</p>
+
+<ul>
+  <li><strong>Ref ida:</strong> <?= htmlspecialchars($ref_interna_ida) ?> (ID <?= (int)$reserva_id_out ?>)</li>
+  <?php if ($ref_interna_ret): ?>
+    <li><strong>Ref vuelta:</strong> <?= htmlspecialchars($ref_interna_ret) ?> (ID <?= (int)$reserva_id_ret ?>)</li>
+  <?php endif; ?>
+  <li><strong>Cliente:</strong> <?= htmlspecialchars(($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? '')) ?></li>
+  <li><strong>Email:</strong> <?= htmlspecialchars($data['email'] ?? '') ?></li>
+  <li><strong>Teléfono:</strong> <?= htmlspecialchars($data['phone'] ?? '') ?></li>
+  <li><strong>Origen:</strong> <?= htmlspecialchars($origin_address) ?></li>
+  <li><strong>Destino:</strong> <?= htmlspecialchars($destination_address) ?></li>
+  <li><strong>Total:</strong> <?= number_format($grand_total, 2, ',', '.') ?> €</li>
+</ul>
+<?php
+$htmlAdmin = ob_get_clean();
+
+send_app_mail(
+    'reservas@transfermarbell.com',
+    'Nueva reserva web - ' . $ref_interna_base,
+    $htmlAdmin,
+    'Reservas'
+);
+
 
 // Limpieza parcial de sesión (mantenemos quote si quieres permitir otra búsqueda)
 $_SESSION['last_booking_refs'] = [

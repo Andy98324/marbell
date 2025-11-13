@@ -885,5 +885,23 @@ return [
 'confirm.ref_ret'    => 'Return reference',
 'confirm.help_text'  => 'If you notice any incorrect information, please contact us as soon as possible quoting your reference.',
 'confirm.back_home'  => 'Back to home',
+'booking.return_flight' => 'Return flight number',
+'booking.return_train'  => 'Return train number',
+'nav.book' => 'Book now',
+    'nav.services' => 'Services',
 
+    // About
+    'footer.about.us' => 'About us',
+
+    // Footer – links section
+    'footer.cta.book_now' => 'Book now',
+    'footer.links.transfers' => 'Transfers',
+    'footer.links.excursions' => 'Excursions',
+    'footer.links.guided_tours' => 'Guided tours',
+    'footer.links.our_fleet' => 'Our fleet',
+    'footer.links.reviews' => 'What our customers say',
+    'footer.links.partner' => 'Partner with us',
+
+    // Fleet pages
+    'fleet.common.cta' => 'Book now',
 ];

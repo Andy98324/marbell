@@ -54,7 +54,10 @@
     </div>
 
     <div class="mt-5 text-center">
-      <a href="/Book-now.html" class="btn btn-primary btn-lg px-4"><?= t('fleet.common.cta') ?></a>
+      <a href="/#goToQuote" class="btn btn-primary btn-lg px-4">
+  <?= t('fleet.common.cta') ?>
+</a>
+
     </div>
   </div>
 </section>

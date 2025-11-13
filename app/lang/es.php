@@ -887,5 +887,25 @@ return [
 'confirm.ref_ret'    => 'Referencia de vuelta',
 'confirm.help_text'  => 'Si detectas algún dato incorrecto, por favor contacta con nosotros lo antes posible indicando tu referencia.',
 'confirm.back_home'  => 'Volver al inicio',
+'booking.return_flight' => 'Número de vuelo (vuelta)',
+'booking.return_train'  => 'Número de tren (vuelta)',
 
+'nav.book' => 'Reservar',
+    'nav.services' => 'Servicios',
+
+    // About
+    'footer.about.us' => 'Sobre nosotros',
+
+    // Footer – sección de enlaces
+    'footer.cta.book_now' => 'Reservar ahora',
+    'footer.links.transfers' => 'Traslados',
+    'footer.links.excursions' => 'Excursiones',
+    'footer.links.guided_tours' => 'Visitas guiadas',
+    'footer.links.our_fleet' => 'Nuestra flota',
+    'footer.links.reviews' => 'Opiniones de nuestros clientes',
+    'footer.links.partner' => 'Colaborar con nosotros',
+
+    // Fleet pages
+    'fleet.common.cta' => 'Reservar',
+    
 ];

@@ -22,6 +22,12 @@ $vehLugg  = $vehicle['luggage'] ?? '';
 
 $ask_flight = !empty($ask_flight);
 $ask_train  = !empty($ask_train);
+
+// 👉 Para la vuelta, el ORIGEN de la vuelta es el destino de la ida
+$return_origin_is_airport =
+    stripos($destination_address, 'AGP') !== false
+ || stripos($destination_address, 'Aeropuerto de Málaga') !== false
+ || stripos($destination_address, 'airport') !== false;
 ?>
 
 <section class="relative overflow-hidden bg-[#0b1220] text-white">
@@ -114,7 +120,7 @@ $ask_train  = !empty($ask_train);
           </div>
         </div>
 
-        <!-- Vuelo / Tren según ORIGEN -->
+        <!-- Vuelo / Tren según ORIGEN (ida) -->
         <?php if ($ask_flight): ?>
           <div>
             <label class="block text-sm font-medium text-zinc-700 mb-1">
@@ -185,6 +191,16 @@ $ask_train  = !empty($ask_train);
             </div>
           </div>
 
+          <?php if ($return_origin_is_airport): ?>
+            <div class="mt-3">
+              <label class="block text-sm font-medium text-zinc-700 mb-1">
+                <?= function_exists('t') ? t('booking.return_flight') : 'Número de vuelo (vuelta)' ?>
+              </label>
+              <input type="text" name="return_flight_number"
+                     class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            </div>
+          <?php endif; ?>
+
           <p class="mt-2 text-sm text-zinc-600">
             <?= function_exists('t') ? t('booking.return_price_hint') : 'El precio de la vuelta se calcula según la tarifa de zona del trayecto de regreso.' ?>
           </p>
@@ -203,7 +219,7 @@ $ask_train  = !empty($ask_train);
 
         <!-- Extras -->
         <div class="pt-4 border-t border-zinc-200 mt-4">
-          <h3 class="text-sm font-semibold text-zinc-900 mb-1">
+          <h3 class="text	sm font-semibold text-zinc-900 mb-1">
             <?= function_exists('t') ? t('booking.extras_title') : 'Extras' ?>
           </h3>
           <p class="text-xs text-zinc-500 mb-3">

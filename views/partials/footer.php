@@ -38,7 +38,8 @@
       <ul class="space-y-2 text-sm text-white/80">
         <li><a href="/nosotros" class="hover:text-white"><?= t('footer.about.us') ?></a></li>
         <li><a href="/What-our-customers-say.html" class="hover:text-white"><?= t('footer.about.testimonials') ?></a></li>
-        <li><a href="/partner.php" class="hover:text-white"><?= t('footer.about.partner') ?></a></li>
+        <li><a href="https://hub.transfermarbell.com" class="hover:text-white" target="_blank" rel="noopener">
+            <?= t('footer.services.transferhub') ?></a></li>
       </ul>
     </div>
 
@@ -53,10 +54,6 @@
           <li><a href="/flota" class="hover:text-white"><?= t('footer.links.our_fleet') ?></a></li>
           <li><a href="/#reviews" class="hover:text-white"><?= t('footer.links.reviews') ?></a></li>
           <li><a href="/nosotros" class="hover:text-white"><?= t('footer.links.partner') ?></a></li>
-          <a href="https://hub.transfermarbell.com" class="hover:text-white" target="_blank" rel="noopener">
-            <?= t('footer.services.transferhub') ?>
-          </a>
-        </li>
       </ul>
     </div>
 

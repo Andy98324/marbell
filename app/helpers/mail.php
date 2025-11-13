@@ -1,103 +1,83 @@
 <?php
 // app/helpers/mail.php
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require_once __DIR__ . '/../../vendor/autoload.php';
+declare(strict_types=1);
 
 /**
- * Envía un email usando SMTP One.com
- *
- * IMPORTANTE: ahora mismo está en "modo seguro":
- * - intenta enviar
- * - si algo va mal, NO revienta la página y devuelve false
- * - puedes cambiar $USE_REAL_SMTP a false para desactivar el envío real
- *
- * @param string $toEmail      Email destinatario
- * @param string $subject      Asunto
- * @param string $htmlBody     Cuerpo HTML
- * @param string $toName       Nombre destinatario
- * @param array  $attachments  [ ['path' => '', 'name' => ''], ... ]
- *
- * @return bool
+ * Pequeño wrapper para variables de entorno.
+ * Si en el futuro usas env(), esto no rompe nada.
  */
-function send_app_mail(
-    string $toEmail,
-    string $subject,
-    string $htmlBody,
-    string $toName = '',
-    array $attachments = []
-): bool {
-
-    // ─────────────────────────────────────────
-    // 1) Cambia esto a TRUE cuando quieras usar SMTP real
-    // ─────────────────────────────────────────
-    $USE_REAL_SMTP = true;
-
-    // Si no queremos enviar de verdad, solo registramos en log y salimos
-    if (!$USE_REAL_SMTP) {
-        error_log('[MAIL MOCK] To: ' . $toEmail . ' | Subj: ' . $subject);
-        return true;
+if (!function_exists('app_env')) {
+    function app_env(string $key, ?string $default = null): ?string {
+        if (function_exists('env')) {
+            return env($key, $default);
+        }
+        $v = getenv($key);
+        return $v === false ? $default : $v;
     }
+}
 
-    $mail = new PHPMailer(true);
+/**
+ * Envía un email HTML con o sin adjuntos usando mail()
+ *
+ * @param string $to         Email destino
+ * @param string $subject    Asunto
+ * @param string $htmlBody   Cuerpo HTML
+ * @param string $toName     Nombre del destinatario (opcional)
+ * @param array  $attachments Cada adjunto: ['path'=>..., 'name'=>..., 'type'=>...]
+ */
+if (!function_exists('send_app_mail')) {
+    function send_app_mail(
+        string $to,
+        string $subject,
+        string $htmlBody,
+        string $toName = '',
+        array $attachments = []
+    ): bool {
+        $from     = app_env('APP_MAIL_FROM', 'reservas@transfermarbell.com');
+        $fromName = app_env('APP_MAIL_FROM_NAME', 'Transfer Marbell');
 
-    try {
-        // ─────────────────────────────────────────
-        // CONFIG SMTP
-        // ─────────────────────────────────────────
-        $mail->isSMTP();
-        $mail->Host       = 'send.one.com';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'reservas@transfermarbell.com';
-        $mail->Password   = '5$3%3&6/6(7)9=5?'; // cámbiala si la modificas
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;    // SSL
-        $mail->Port       = 465;
+        $toHeader   = $toName ? sprintf('"%s" <%s>', addslashes($toName), $to) : $to;
+        $fromHeader = sprintf('"%s" <%s>', addslashes($fromName), $from);
 
-        // Timeouts muy cortos para que JAMÁS cuelgue la web
-        $mail->Timeout     = 5;   // segundos por operación SMTP
-        $mail->SMTPDebug   = 0;   // nada en pantalla
-        $mail->Debugoutput = 'error_log';
+        $headers  = "From: $fromHeader\r\n";
+        $headers .= "Reply-To: $fromHeader\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
 
-        // ─────────────────────────────────────────
-        // REMITENTE / DESTINATARIO
-        // ─────────────────────────────────────────
-        $mail->setFrom('reservas@transfermarbell.com', 'Transfer Marbell');
-        $mail->addReplyTo('reservas@transfermarbell.com', 'Transfer Marbell');
+        // Sin adjuntos → email HTML simple
+        if (empty($attachments)) {
+            $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+            $body = $htmlBody;
+        } else {
+            // Con adjuntos → multipart/mixed
+            $boundary = 'b' . md5(uniqid((string)mt_rand(), true));
+            $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"";
 
-        $mail->addAddress($toEmail, $toName ?: $toEmail);
+            $body  = "--$boundary\r\n";
+            $body .= "Content-Type: text/html; charset=UTF-8\r\n";
+            $body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
+            $body .= $htmlBody . "\r\n";
 
-        // ─────────────────────────────────────────
-        // ADJUNTOS (vouchers, etc.)
-        // ─────────────────────────────────────────
-        foreach ($attachments as $att) {
-            if (!empty($att['path']) && is_file($att['path'])) {
-                $mail->addAttachment(
-                    $att['path'],
-                    $att['name'] ?? basename($att['path'])
-                );
+            foreach ($attachments as $att) {
+                if (empty($att['path']) || !is_file($att['path'])) {
+                    continue;
+                }
+                $name = $att['name'] ?? basename($att['path']);
+                $type = $att['type'] ?? 'application/octet-stream';
+                $data = chunk_split(base64_encode((string)file_get_contents($att['path'])));
+
+                $body .= "--$boundary\r\n";
+                $body .= "Content-Type: $type; name=\"$name\"\r\n";
+                $body .= "Content-Transfer-Encoding: base64\r\n";
+                $body .= "Content-Disposition: attachment; filename=\"$name\"\r\n\r\n";
+                $body .= $data . "\r\n";
             }
+
+            $body .= "--$boundary--";
         }
 
-        // ─────────────────────────────────────────
-        // CONTENIDO
-        // ─────────────────────────────────────────
-        $mail->isHTML(true);
-        $mail->Subject = $subject;
-        $mail->Body    = $htmlBody;
-        $mail->AltBody = strip_tags($htmlBody);
+        // Forzamos asunto en UTF-8
+        $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
 
-        if (!$mail->send()) {
-            error_log('MAIL ERROR (send returned false): ' . $mail->ErrorInfo);
-            return false;
-        }
-
-        return true;
-
-    } catch (Exception $e) {
-        // NUNCA rompemos la web por culpa del correo
-        error_log('MAIL EXCEPTION: ' . $e->getMessage());
-        return false;
+        return mail($toHeader, $encodedSubject, $body, $headers);
     }
 }

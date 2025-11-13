@@ -1,71 +1,126 @@
 <?php
 // app/helpers/voucher.php
+declare(strict_types=1);
 
-// Evita redeclarar la función si el archivo se incluye más de una vez
-if (!function_exists('generate_voucher_html')) {
+/**
+ * Devuelve el directorio donde se guardan los vouchers.
+ */
+if (!function_exists('vouchers_storage_dir')) {
+    function vouchers_storage_dir(): string {
+        // /app/helpers/.. → /app
+        $base = realpath(__DIR__ . '/..');
+        $dir  = $base . '/storage/vouchers';
 
-    /**
-     * Genera un voucher HTML simple y lo guarda en /app/storage/vouchers/{ref}.html
-     *
-     * @param array  $data Datos de la reserva (origen, destino, fecha, etc.)
-     * @param string $ref  Referencia interna única
-     * @return string      Ruta absoluta del fichero generado
-     */
-    function generate_voucher_html(array $data, string $ref): string
-    {
-        // Directorio donde se guardan los vouchers
-        $baseDir = __DIR__ . '/../storage/vouchers';
-        if (!is_dir($baseDir)) {
-            mkdir($baseDir, 0775, true);
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
         }
+        return $dir;
+    }
+}
 
-        $safeRef  = preg_replace('/[^A-Za-z0-9_\-]/', '_', $ref);
-        $filePath = $baseDir . '/' . $safeRef . '.html';
+/**
+ * Genera HTML sencillo para un voucher.
+ *
+ * $reserva debe contener al menos:
+ *  - ref
+ *  - fecha
+ *  - hora
+ *  - origen
+ *  - destino
+ *  - pax
+ *  - nombre
+ *  - precio
+ */
+if (!function_exists('generate_voucher_html')) {
+    function generate_voucher_html(array $reserva): string {
+        $ref     = htmlspecialchars($reserva['ref']     ?? '');
+        $fecha   = htmlspecialchars($reserva['fecha']   ?? '');
+        $hora    = htmlspecialchars($reserva['hora']    ?? '');
+        $origen  = htmlspecialchars($reserva['origen']  ?? '');
+        $destino = htmlspecialchars($reserva['destino'] ?? '');
+        $pax     = (int)($reserva['pax'] ?? 1);
+        $nombre  = htmlspecialchars($reserva['nombre']  ?? '');
+        $precio  = number_format((float)($reserva['precio'] ?? 0), 2, ',', '.') . ' €';
 
-        $origen  = htmlspecialchars($data['origen']  ?? '', ENT_QUOTES, 'UTF-8');
-        $destino = htmlspecialchars($data['destino'] ?? '', ENT_QUOTES, 'UTF-8');
-        $fecha   = htmlspecialchars($data['fecha']   ?? '', ENT_QUOTES, 'UTF-8');
-        $hora    = htmlspecialchars($data['hora']    ?? '', ENT_QUOTES, 'UTF-8');
-        $pax     = (int)($data['pax'] ?? 0);
-        $precio  = number_format((float)($data['precio_venta'] ?? 0), 2, ',', '.');
+        $now = date('Y-m-d H:i');
 
-        $html = <<<HTML
+        return <<<HTML
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Voucher {$safeRef}</title>
+  <title>Voucher $ref</title>
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f3f4f6;margin:0;padding:20px}
-    .card{max-width:600px;margin:0 auto;background:#fff;border-radius:16px;padding:20px;box-shadow:0 10px 30px rgba(15,23,42,.1)}
-    h1{font-size:20px;margin-top:0;margin-bottom:10px}
-    .muted{color:#6b7280;font-size:13px}
-    .row{margin-bottom:6px}
-    .label{font-weight:600}
+    body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#f3f4f6;margin:0;padding:24px}
+    .card{max-width:700px;margin:0 auto;background:#fff;border-radius:18px;padding:24px 28px;box-shadow:0 20px 40px rgba(15,23,42,.15);}
+    h1{font-size:22px;margin:0 0 8px;color:#0f172a}
+    h2{font-size:16px;margin:18px 0 8px;color:#0f172a}
+    p,li{font-size:14px;color:#374151;margin:4px 0}
+    .muted{color:#6b7280;font-size:12px}
+    .row{display:flex;flex-wrap:wrap;gap:16px}
+    .col{flex:1 1 220px}
+    .tag{display:inline-block;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px;padding:2px 10px}
+    .box{border-radius:14px;border:1px solid #e5e7eb;padding:10px 14px;margin-top:6px}
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>Voucher de reserva</h1>
-    <p class="muted">Referencia: {$safeRef}</p>
+    <h1>Voucher de servicio · $ref</h1>
+    <p class="muted">Emitido: $now</p>
+    <p><span class="tag">Transfer Marbell</span></p>
 
-    <p class="row"><span class="label">Origen:</span> {$origen}</p>
-    <p class="row"><span class="label">Destino:</span> {$destino}</p>
-    <p class="row"><span class="label">Fecha:</span> {$fecha}</p>
-    <p class="row"><span class="label">Hora de presentación:</span> {$hora}</p>
-    <p class="row"><span class="label">Pasajeros:</span> {$pax}</p>
-    <p class="row"><span class="label">Precio:</span> € {$precio}</p>
+    <h2>Datos del servicio</h2>
+    <div class="row">
+      <div class="col">
+        <div class="box">
+          <p><strong>Fecha:</strong> $fecha</p>
+          <p><strong>Hora de recogida:</strong> $hora</p>
+          <p><strong>Pasajeros:</strong> $pax</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="box">
+          <p><strong>Origen:</strong><br>$origen</p>
+          <p><strong>Destino:</strong><br>$destino</p>
+        </div>
+      </div>
+    </div>
 
-    <p class="muted" style="margin-top:20px">
-      La imagen del vehículo es orientativa. El bono debe presentarse al conductor en el inicio del servicio.
+    <h2>Pasajero principal</h2>
+    <div class="box">
+      <p><strong>Nombre:</strong> $nombre</p>
+    </div>
+
+    <h2>Importe</h2>
+    <div class="box">
+      <p><strong>Total servicio:</strong> $precio</p>
+      <p class="muted">Importe a pagar según condiciones acordadas con Transfer Marbell.</p>
+    </div>
+
+    <p class="muted" style="margin-top:18px;">
+      Por favor, muestra este voucher al conductor a la recogida. Si tienes cualquier duda,
+      contacta con reservas@transfermarbell.com.
     </p>
   </div>
 </body>
 </html>
 HTML;
+    }
+}
 
-        file_put_contents($filePath, $html);
+/**
+ * Guarda el voucher como HTML en /app/storage/vouchers/voucher-REF.html
+ * y devuelve la ruta completa al fichero.
+ */
+if (!function_exists('save_voucher_html')) {
+    function save_voucher_html(array $reserva): string {
+        $ref = preg_replace('/[^A-Za-z0-9_\-]/','_', (string)($reserva['ref'] ?? 'SINREF'));
+        $dir  = vouchers_storage_dir();
+        $file = $dir . '/voucher-' . $ref . '.html';
 
-        return $filePath;
+        $html = generate_voucher_html($reserva);
+        file_put_contents($file, $html);
+
+        return $file;
     }
 }

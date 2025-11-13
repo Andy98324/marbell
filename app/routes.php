@@ -373,18 +373,6 @@ return [
 
 // Premium Sedans
 'GET /fleet-sedans-premium' => function () {
-  $title = t('fleet.sedans_p.h1');
-  $seoData = [
-    'title'       => t('fleet.sedans_p.seo.title'),
-    'description' => t('fleet.sedans_p.seo.desc'),
-    'keywords'    => t('fleet.sedans_p.seo.keywords'),
-    'image'       => '/assets/images/fleet/sedans-premium/og-sedans-premium.jpg',
-    'breadcrumbs' => [
-      ['@id'=>'/', 'name'=>t('nav.home')],
-      ['@id'=>'/flota','name'=>t('nav.fleet')],
-      ['@id'=>'/fleet-sedans-premium','name'=>t('fleet.sedans_p.h1')],
-    ],
-  ];
   require __DIR__ . '/../views/fleet-sedans-premium.php';
 },
 'GET /sedanes-premium' => function () { // alias ES
@@ -405,18 +393,6 @@ return [
 
 // Minivans
 'GET /fleet-minivans' => function () {
-  $title = t('fleet.minivans.h1');
-  $seoData = [
-    'title'       => t('fleet.minivans.seo.title'),
-    'description' => t('fleet.minivans.seo.desc'),
-    'keywords'    => t('fleet.minivans.seo.keywords'),
-    'image'       => '/assets/images/fleet/minivans/og-minivans.jpg',
-    'breadcrumbs' => [
-      ['@id'=>'/', 'name'=>t('nav.home')],
-      ['@id'=>'/flota','name'=>t('nav.fleet')],
-      ['@id'=>'/fleet-minivans','name'=>t('fleet.minivans.h1')],
-    ],
-  ];
   require __DIR__ . '/../views/fleet-minivans.php';
 },
 'GET /minivans' => function () { // alias ES
@@ -437,18 +413,6 @@ return [
 
 // Premium Minivans
 'GET /fleet-minivans-premium' => function () {
-  $title = t('fleet.minivans_p.h1');
-  $seoData = [
-    'title'       => t('fleet.minivans_p.seo.title'),
-    'description' => t('fleet.minivans_p.seo.desc'),
-    'keywords'    => t('fleet.minivans_p.seo.keywords'),
-    'image'       => '/assets/images/fleet/minivans-premium/og-minivans-premium.jpg',
-    'breadcrumbs' => [
-      ['@id'=>'/', 'name'=>t('nav.home')],
-      ['@id'=>'/flota','name'=>t('nav.fleet')],
-      ['@id'=>'/fleet-minivans-premium','name'=>t('fleet.minivans_p.h1')],
-    ],
-  ];
   require __DIR__ . '/../views/fleet-minivans-premium.php';
 },
 'GET /minivans-premium' => function () { // alias ES
@@ -469,18 +433,6 @@ return [
 
 // Minibuses
 'GET /fleet-minibuses' => function () {
-  $title = t('fleet.minibuses.h1');
-  $seoData = [
-    'title'       => t('fleet.minibuses.seo.title'),
-    'description' => t('fleet.minibuses.seo.desc'),
-    'keywords'    => t('fleet.minibuses.seo.keywords'),
-    'image'       => '/assets/images/fleet/minibuses/og-minibuses.jpg',
-    'breadcrumbs' => [
-      ['@id'=>'/', 'name'=>t('nav.home')],
-      ['@id'=>'/flota','name'=>t('nav.fleet')],
-      ['@id'=>'/fleet-minibuses','name'=>t('fleet.minibuses.h1')],
-    ],
-  ];
   require __DIR__ . '/../views/fleet-minibuses.php';
 },
 'GET /microbuses' => function () { // alias ES
@@ -501,18 +453,6 @@ return [
 
 // Coaches
 'GET /fleet-coaches' => function () {
-  $title = t('fleet.coaches.h1');
-  $seoData = [
-    'title'       => t('fleet.coaches.seo.title'),
-    'description' => t('fleet.coaches.seo.desc'),
-    'keywords'    => t('fleet.coaches.seo.keywords'),
-    'image'       => '/assets/images/fleet/coaches/og-coaches.jpg',
-    'breadcrumbs' => [
-      ['@id'=>'/', 'name'=>t('nav.home')],
-      ['@id'=>'/flota','name'=>t('nav.fleet')],
-      ['@id'=>'/fleet-coaches','name'=>t('fleet.coaches.h1')],
-    ],
-  ];
   require __DIR__ . '/../views/fleet-coaches.php';
 },
 'GET /autocares' => function () { // alias ES
@@ -533,18 +473,6 @@ return [
 
 // Adapted (1–4)
 'GET /fleet-adapted-4' => function () {
-  $title = t('fleet.adapted4.h1');
-  $seoData = [
-    'title'       => t('fleet.adapted4.seo.title'),
-    'description' => t('fleet.adapted4.seo.desc'),
-    'keywords'    => t('fleet.adapted4.seo.keywords'),
-    'image'       => '/assets/images/fleet/adapted-4/og-adapted-4.jpg',
-    'breadcrumbs' => [
-      ['@id'=>'/', 'name'=>t('nav.home')],
-      ['@id'=>'/flota','name'=>t('nav.fleet')],
-      ['@id'=>'/fleet-adapted-4','name'=>t('fleet.adapted4.h1')],
-    ],
-  ];
   require __DIR__ . '/../views/fleet-adapted-4.php';
 },
 'GET /adaptados-4' => function () { // alias ES
@@ -565,18 +493,6 @@ return [
 
 // Adapted (up to 8)
 'GET /fleet-adapted-8' => function () {
-  $title = t('fleet.adapted8.h1');
-  $seoData = [
-    'title'       => t('fleet.adapted8.seo.title'),
-    'description' => t('fleet.adapted8.seo.desc'),
-    'keywords'    => t('fleet.adapted8.seo.keywords'),
-    'image'       => '/assets/images/fleet/adapted-8/og-adapted-8.jpg',
-    'breadcrumbs' => [
-      ['@id'=>'/', 'name'=>t('nav.home')],
-      ['@id'=>'/flota','name'=>t('nav.fleet')],
-      ['@id'=>'/fleet-adapted-8','name'=>t('fleet.adapted8.h1')],
-    ],
-  ];
   require __DIR__ . '/../views/fleet-adapted-8.php';
 },
 'GET /adaptados-8' => function () { // alias ES

@@ -1,16 +1,15 @@
 <?php
-// views/quote.php — usa layout del sitio (sin <html>)
+// views/quote.php — contenido central, lo envuelve views/layout.php
 
-// Helper €
+// Helper precio con símbolo a la DERECHA
 if (!function_exists('eur')) {
   function eur($v): string {
-    // símbolo a la DERECHA
     return number_format((float)$v, 2, ',', '.') . ' €';
   }
 }
 
-$origin_address      = $origin_address ?? '';
-$destination_address = $destination_address ?? '';
+$origin_address      = $origin_address ?? ($oAddr ?? '');
+$destination_address = $destination_address ?? ($dAddr ?? '');
 $km      = isset($km) ? (float)$km : 0;
 $minutes = isset($minutes) ? (float)$minutes : 0;
 $quotes  = $quotes ?? [];
@@ -26,7 +25,7 @@ $noZoneMatch = $noZoneMatch ?? false;
   <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-16">
     <div class="text-center max-w-3xl mx-auto">
       <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
-        <?= function_exists('t') ? t('home.fleet_title') : 'Nuestra flota' ?>
+        <?= function_exists('t') ? t('fleet.title') : 'Nuestra flota' ?>
       </h1>
 
       <div class="mt-4 grid gap-2 text-white/90 text-sm">
@@ -51,22 +50,37 @@ $noZoneMatch = $noZoneMatch ?? false;
     <?php if ($noZoneMatch): ?>
       <!-- AVISO cuando origen o destino no pertenecen a ninguna zona -->
       <div class="max-w-3xl mx-auto rounded-2xl bg-white ring-1 ring-amber-300 shadow p-6 text-center mb-8">
-        <h3 class="text-xl font-semibold text-zinc-900 mb-2">Ruta fuera de zonas</h3>
+        <h3 class="text-xl font-semibold text-zinc-900 mb-2">
+          <?= function_exists('t') ? t('quote.out_of_zone_title') : 'Ruta fuera de zonas' ?>
+        </h3>
         <p class="text-zinc-700">
-          No tenemos tarifas definidas para esta combinación porque
-          <strong>el origen o el destino no están dentro de ninguna zona configurada</strong>.
+          <?= function_exists('t')
+                ? t('quote.out_of_zone_text1')
+                : 'No tenemos tarifas definidas para esta combinación porque el origen o el destino no están dentro de ninguna zona configurada.' ?>
         </p>
-        <p class="text-zinc-700 mt-1">Por favor, contáctanos y te daremos precio al momento.</p>
+        <p class="text-zinc-700 mt-1">
+          <?= function_exists('t')
+                ? t('quote.out_of_zone_text2')
+                : 'Por favor, contáctanos y te daremos precio al momento.' ?>
+        </p>
         <div class="mt-4 flex items-center justify-center gap-3">
-          <a href="tel:+34XXXXXXXXX" class="rounded-xl bg-amber-400 text-zinc-900 font-semibold px-5 py-2 shadow">Llamar</a>
-          <a href="mailto:info@tudominio.com" class="rounded-xl bg-white/10 border border-zinc-200 text-zinc-800 font-semibold px-5 py-2">Escribir</a>
+          <a href="tel:+34XXXXXXXXX"
+             class="rounded-xl bg-amber-400 text-zinc-900 font-semibold px-5 py-2 shadow">
+            <?= function_exists('t') ? t('quote.call') : 'Llamar' ?>
+          </a>
+          <a href="mailto:info@tudominio.com"
+             class="rounded-xl bg-white/10 border border-zinc-200 text-zinc-800 font-semibold px-5 py-2">
+            <?= function_exists('t') ? t('quote.write') : 'Escribir' ?>
+          </a>
         </div>
       </div>
     <?php endif; ?>
 
     <?php if (!$noZoneMatch && empty($quotes)): ?>
       <div class="text-center text-zinc-600">
-        No se encontraron vehículos disponibles.
+        <?= function_exists('t')
+              ? t('quote.no_vehicles') ?? 'No se encontraron vehículos disponibles.'
+              : 'No se encontraron vehículos disponibles.' ?>
       </div>
     <?php else: ?>
 
@@ -76,15 +90,27 @@ $noZoneMatch = $noZoneMatch ?? false;
           <?= function_exists('t') ? t('home.select') : 'Selecciona tu vehículo' ?>
         </h2>
         <label class="flex items-center gap-2 text-sm text-zinc-700">
-          Ordenar por:
+          <?= function_exists('t') ? t('quote.sort_by') : 'Ordenar por' ?>:
           <select id="sortSelect"
                   class="rounded-lg border border-zinc-300 bg-white px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
-            <option value="price_asc">Precio (menor a mayor)</option>
-            <option value="price_desc">Precio (mayor a menor)</option>
-            <option value="pax_desc">Pasajeros (mayor a menor)</option>
-            <option value="pax_asc">Pasajeros (menor a mayor)</option>
-            <option value="lug_desc">Equipaje (mayor a menor)</option>
-            <option value="lug_asc">Equipaje (menor a mayor)</option>
+            <option value="price_asc">
+              <?= function_exists('t') ? t('quote.sort.price_asc') : 'Precio (menor a mayor)' ?>
+            </option>
+            <option value="price_desc">
+              <?= function_exists('t') ? t('quote.sort.price_desc') : 'Precio (mayor a menor)' ?>
+            </option>
+            <option value="pax_desc">
+              <?= function_exists('t') ? t('quote.sort.pax_desc') : 'Pasajeros (mayor a menor)' ?>
+            </option>
+            <option value="pax_asc">
+              <?= function_exists('t') ? t('quote.sort.pax_asc') : 'Pasajeros (menor a mayor)' ?>
+            </option>
+            <option value="lug_desc">
+              <?= function_exists('t') ? t('quote.sort.lug_desc') : 'Equipaje (mayor a menor)' ?>
+            </option>
+            <option value="lug_asc">
+              <?= function_exists('t') ? t('quote.sort.lug_asc') : 'Equipaje (menor a mayor)' ?>
+            </option>
           </select>
         </label>
       </div>
@@ -98,7 +124,7 @@ $noZoneMatch = $noZoneMatch ?? false;
             $price    = $q['price'] ?? null;          // null = sin tarifa de zona
             $hasPrice = $price !== null && $price !== '';
 
-            // Extraer pax y equipaje como números desde la cadena "4 pax • 3 maletas"
+            // Extraer pax y maletas desde string "4 pax • 3 maletas"
             $paxNum = 0;
             $lugNum = 0;
             if ($capacity) {
@@ -129,11 +155,15 @@ $noZoneMatch = $noZoneMatch ?? false;
               <?php if ($hasPrice): ?>
                 <span class="text-zinc-900"><?= eur($price) ?></span>
               <?php else: ?>
-                <span class="text-zinc-400">No disponible</span>
+                <span class="text-zinc-400">
+                  <?= function_exists('t') ? t('quote.not_available') : 'No disponible' ?>
+                </span>
               <?php endif; ?>
             </div>
             <div class="mt-1 text-sm <?= $hasPrice ? 'text-green-600' : 'text-amber-600' ?>">
-              <?= $hasPrice ? 'Tarifa fija por zona' : 'Sin tarifa definida' ?>
+              <?= $hasPrice
+                    ? (function_exists('t') ? t('quote.zone_price') : 'Tarifa fija por zona')
+                    : (function_exists('t') ? t('quote.no_zone_price') ?? 'Sin tarifa definida' : 'Sin tarifa definida') ?>
             </div>
 
             <button
@@ -148,7 +178,9 @@ $noZoneMatch = $noZoneMatch ?? false;
     <?php endif; ?>
 
     <p class="text-center text-zinc-500 mt-8 text-sm">
-      <?= function_exists('t') ? t('home.quote_disclaimer') : 'El precio mostrado es orientativo y puede variar según disponibilidad.' ?>
+      <?= function_exists('t')
+            ? t('home.quote_disclaimer')
+            : 'El precio mostrado es orientativo y puede variar ligeramente según el tráfico y la disponibilidad.' ?>
     </p>
   </div>
 </section>
@@ -179,7 +211,7 @@ $noZoneMatch = $noZoneMatch ?? false;
         case 'price_asc':
           av = getPrice(a); bv = getPrice(b);
           if (av === null && bv === null) return 0;
-          if (av === null) return 1;   // sin precio al final
+          if (av === null) return 1;
           if (bv === null) return -1;
           return av - bv;
 
@@ -211,7 +243,6 @@ $noZoneMatch = $noZoneMatch ?? false;
   }
 
   select.addEventListener('change', sortCards);
-  // orden inicial: precio menor a mayor
-  sortCards();
+  sortCards(); // orden inicial: precio menor a mayor
 })();
 </script>

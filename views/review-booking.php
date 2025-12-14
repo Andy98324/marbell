@@ -136,7 +136,7 @@ $grand_total = $grand_total ?? ($total_out + ($return_yes ? $total_return : 0.0)
         <p class="mt-2 text-sm text-zinc-700">
           <strong><?= function_exists('t') ? t('booking.passengers') : 'Pasajeros' ?>:</strong>
           <?= (int)($data['passengers'] ?? 0) ?>
-          · <strong><?= function_exists('t') ? t('booking.luggage') : 'Maletas' ?>:</strong>
+          · <strong><?= function_exists('t') ? t('booking.luggage') : 'Maletas medianas' ?>:</strong>
           <?= (int)($data['luggage'] ?? 0) ?>
         </p>
 

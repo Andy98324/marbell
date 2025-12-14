@@ -34,13 +34,14 @@ function render_stars($score){
 ?>
 
 <!-- HERO -->
-<section class="relative overflow-hidden bg-[#0b1220] text-white">
-  <!-- glow sutil como en header/footer -->
-  <div class="absolute inset-0 opacity-20 pointer-events-none">
-      <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2 bg-gradient-to-br from-sky-500/30 via-transparent to-transparent rounded-full blur-3xl">
-      </div>
+<section class="relative overflow-hidden bg-[#0b1220] text-white rounded-2xl">
+  <div class="absolute inset-0 opacity-20 pointer-events-none rounded-2xl
+              bg-white/10 border border-white/20 backdrop-blur-md">
+    <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2
+                bg-gradient-to-br from-sky-500/30 via-transparent to-transparent
+                rounded-full blur-3xl">
+    </div>
   </div>
-
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-20">
     <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-10 shadow-lg border border-white/20">
       <div class="relative mx-auto">

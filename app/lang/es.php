@@ -794,8 +794,7 @@ return [
   'quote.sort.lug_desc' => 'Equipaje (mayor a menor)',
   'quote.sort.lug_asc' => 'Equipaje (menor a mayor)',
 
-  'quote.not_available' => '<a href="https://wa.me/34951748494?text=Hola%2C%20preguntanos%20por%20el%20mejor%20precio" target="_blank" rel="noopener noreferrer" class="underline font-semibold">Pregúntanos por el mejor precio</a>',
-
+  'quote.not_available' => 'Precio no disponible',
   'quote.no_zone_price' => 'Sin tarifa definida para esta zona',
   'quote.zone_price'    => 'Tarifa fija por zona',
 

@@ -174,10 +174,17 @@ $noZoneMatch = $noZoneMatch ?? false;
               <?php if ($hasPrice): ?>
                 <span class="text-zinc-900"><?= eur($price) ?></span>
               <?php else: ?>
-                <span class="text-zinc-400">
-                  <?= function_exists('t') ? t('quote.not_available') : 'No disponible' ?>
-                </span>
+                <div class="text-zinc-400 text-base">
+                  <?= function_exists('t') ? t('quote.not_available') : 'Precio no disponible' ?>
+                </div>
+
+                <a href="https://wa.me/34951748494?text=Hola%2C%20preguntanos%20por%20el%20mejor%20precio"
+                  target="_blank" rel="noopener noreferrer"
+                  class="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-green-700">
+                  Pregúntanos por el mejor precio
+                </a>
               <?php endif; ?>
+
             </div>
             <div class="mt-1 text-sm <?= $hasPrice ? 'text-green-600' : 'text-amber-600' ?>">
               <?= $hasPrice
@@ -185,15 +192,15 @@ $noZoneMatch = $noZoneMatch ?? false;
                     : (function_exists('t') ? t('quote.no_zone_price') ?? 'Sin tarifa definida' : 'Sin tarifa definida') ?>
             </div>
 
-            <form method="post" action="/booking.php" class="mt-4">
-  <input type="hidden" name="vehicle_code" value="<?= htmlspecialchars($q['code']) ?>">
-  <button
-    class="w-full rounded-xl px-6 py-3 font-semibold shadow <?= $hasPrice ? 'bg-amber-400 text-zinc-900 hover:-translate-y-0.5 transition' : 'bg-zinc-200 text-zinc-500 cursor-not-allowed' ?>"
-    <?= $hasPrice ? '' : 'disabled' ?>
-    type="submit">
-    <?= function_exists('t') ? t('home.select') : 'Seleccionar vehículo' ?>
-  </button>
-</form>
+            <?php if ($hasPrice): ?>
+              <form method="post" action="/booking.php" class="mt-4">
+                <input type="hidden" name="vehicle_code" value="<?= htmlspecialchars($q['code']) ?>">
+                <button class="w-full rounded-xl px-6 py-3 font-semibold shadow bg-amber-400 text-zinc-900 hover:-translate-y-0.5 transition" type="submit">
+                  <?= function_exists('t') ? t('home.select') : 'Seleccionar vehículo' ?>
+                </button>
+              </form>
+            <?php endif; ?>
+
 
           </article>
         <?php endforeach; ?>

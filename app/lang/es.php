@@ -915,6 +915,18 @@ return [
   'flota.seo.desc'      => 'Elige el vehículo perfecto para tu traslado: berlinas, monovolúmenes, minibuses y autocares.',
   'flota.seo.keywords'  => 'flota, vehículos, berlinas, monovolúmenes, minibuses, autocares',
   'flota.h1'            => 'Nuestra flota',
-  'booking.outbound_flight' => 'Ida',
+  'booking.outbound'        => 'Ida',
+  'booking.return'          => 'Vuelta',
+  'booking.extras'          => 'Extras',
+  'booking.total'           => 'Total',
+  'booking.night_surcharge' => 'Nocturnidad (+10%)',
+  'booking.roundtrip_na'    => 'No disponible para ida + vuelta (consulta por WhatsApp).',
+
+  'common.yes'              => 'Sí',
+  'common.no'               => 'No',
+
+  'quote.not_available'     => 'Precio no disponible',
+  'booking.medium_suitcases'=> 'Maletas medianas',
+
 
 ];

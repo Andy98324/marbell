@@ -914,5 +914,18 @@ return [
   'flota.seo.desc'      => 'Choose the perfect vehicle for your transfer: sedans, minivans, minibuses and coaches.',
   'flota.seo.keywords'  => 'fleet, vehicles, sedans, minivans, minibuses, coaches',
   'flota.h1'            => 'Our Fleet',
+  'booking.outbound'        => 'Outbound',
+'booking.return'          => 'Return',
+'booking.extras'          => 'Extras',
+'booking.total'           => 'Total',
+'booking.night_surcharge' => 'Night surcharge (+10%)',
+'booking.roundtrip_na'    => 'Not available for outbound + return (ask us on WhatsApp).',
+
+'common.yes'              => 'Yes',
+'common.no'               => 'No',
+
+'quote.not_available'     => 'Price not available',
+'booking.medium_suitcases'=> 'Medium suitcases',
+
 
 ];

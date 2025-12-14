@@ -1,5 +1,5 @@
 <?php
-// views/booking.php — resumen + formulario (resumen dinámico mientras rellenas)
+// views/booking.php — formulario + resumen dinámico (con traducciones via t())
 
 if (!function_exists('eur')) {
   function eur($v): string {
@@ -11,9 +11,10 @@ $origin_address      = $origin_address ?? '';
 $destination_address = $destination_address ?? '';
 $km      = isset($km) ? (float)$km : 0;
 $minutes = isset($minutes) ? (float)$minutes : 0;
+
 $vehicle = $vehicle ?? [];
-$price   = $price ?? null;
-$return_price = $return_price ?? null;
+$price   = $price ?? null;            // ida
+$return_price = $return_price ?? null; // vuelta
 
 $vehName  = $vehicle['name'] ?? '';
 $vehImg   = $vehicle['img'] ?? '';
@@ -34,6 +35,15 @@ $return_origin_is_train =
  || stripos($destination_address, 'train') !== false
  || stripos($destination_address, 'María Zambrano') !== false
  || stripos($destination_address, 'Estación de Málaga') !== false;
+
+// Textos para JS (traducibles)
+$i18n = [
+  'yes'           => function_exists('t') ? t('common.yes') : 'Sí',
+  'no'            => function_exists('t') ? t('common.no') : 'No',
+  'na'            => function_exists('t') ? t('common.na') : '—',
+  'not_available' => function_exists('t') ? t('quote.not_available') : 'No disponible',
+  'rt_na'         => function_exists('t') ? t('booking.roundtrip_na') : 'No disponible para ida + vuelta (consulta por WhatsApp).',
+];
 ?>
 
 <section class="relative overflow-hidden bg-[#0b1220] text-white rounded-3xl">
@@ -78,7 +88,6 @@ $return_origin_is_train =
     </div>
   </div>
 </section>
-
 
 <section class="py-10 bg-zinc-50">
   <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 grid gap-8 lg:grid-cols-[1.2fr,1fr]">
@@ -310,7 +319,7 @@ $return_origin_is_train =
       </form>
     </div>
 
-    <!-- Columna derecha: resumen -->
+    <!-- Resumen -->
     <aside class="bg-white rounded-2xl shadow-xl ring-1 ring-black/5 p-6 md:p-8">
       <h2 class="text-xl font-semibold text-zinc-900 mb-4">
         <?= function_exists('t') ? t('booking.summary_title') : 'Resumen de tu servicio' ?>
@@ -318,8 +327,7 @@ $return_origin_is_train =
 
       <div class="flex flex-col items-center text-center">
         <?php if ($vehImg): ?>
-          <img src="<?= htmlspecialchars($vehImg) ?>" alt="<?= htmlspecialchars($vehName) ?>"
-               class="h-24 object-contain mb-3">
+          <img src="<?= htmlspecialchars($vehImg) ?>" alt="<?= htmlspecialchars($vehName) ?>" class="h-24 object-contain mb-3">
         <?php endif; ?>
 
         <p class="font-semibold text-zinc-900"><?= htmlspecialchars($vehName) ?></p>
@@ -327,63 +335,84 @@ $return_origin_is_train =
           <?= htmlspecialchars(trim($vehPax . ($vehLugg !== '' ? " • {$vehLugg} Maletas medianas" : ''))) ?>
         </p>
 
+        <!-- Precio principal (JS lo cambia a total cuando hay vuelta/extras) -->
         <div class="mt-4 text-3xl font-extrabold text-zinc-900">
-          <?php if ($price !== null): ?>
-            <?= eur($price) ?>
-          <?php else: ?>
-            <span class="text-zinc-400">
-              <?= function_exists('t') ? t('quote.not_available') : 'No disponible' ?>
-            </span>
-          <?php endif; ?>
+          <span id="priceMain">
+            <?php if ($price !== null): ?>
+              <?= eur($price) ?>
+            <?php else: ?>
+              <span class="text-zinc-400"><?= htmlspecialchars($i18n['not_available']) ?></span>
+            <?php endif; ?>
+          </span>
         </div>
 
         <p class="mt-1 text-xs text-zinc-500 text-center">
           <?= function_exists('t') ? t('home.quote_disclaimer') : 'El precio mostrado es orientativo y puede variar ligeramente según el tráfico y la disponibilidad.' ?>
         </p>
 
-        <!-- ✅ Resumen dinámico -->
+        <!-- Desglose (traducible) -->
+        <div class="mt-4 w-full text-left">
+          <div class="rounded-xl border border-zinc-200 p-4 text-sm text-zinc-700 space-y-2">
+            <div class="flex justify-between gap-3">
+              <span class="text-zinc-500"><?= function_exists('t') ? t('booking.outbound') : 'Ida' ?></span>
+              <span id="bdOut"><?= $price !== null ? eur($price) : htmlspecialchars($i18n['na']) ?></span>
+            </div>
+
+            <div class="flex justify-between gap-3" id="bdReturnRow" style="display:none;">
+              <span class="text-zinc-500"><?= function_exists('t') ? t('booking.return') : 'Vuelta' ?></span>
+              <span id="bdReturn"><?= $return_price !== null ? eur($return_price) : htmlspecialchars($i18n['na']) ?></span>
+            </div>
+
+            <div class="flex justify-between gap-3">
+              <span class="text-zinc-500"><?= function_exists('t') ? t('booking.extras') : 'Extras' ?></span>
+              <span id="bdExtras">0 €</span>
+            </div>
+
+            <div class="pt-2 border-t border-zinc-200"></div>
+
+            <div class="flex justify-between gap-3 font-semibold">
+              <span><?= function_exists('t') ? t('booking.total') : 'Total' ?></span>
+              <span id="bdTotal"><?= $price !== null ? eur($price) : htmlspecialchars($i18n['na']) ?></span>
+            </div>
+
+            <div id="bdTotalNote" class="text-xs text-amber-700" style="display:none;"></div>
+          </div>
+        </div>
+
+        <!-- Resumen dinámico (traducible) -->
         <div class="mt-5 w-full text-left">
           <div class="rounded-xl border border-zinc-200 p-4 text-sm text-zinc-700 space-y-2">
-            <div class="flex justify-between gap-3"><span class="text-zinc-500">Nombre</span><span data-sum="full_name">—</span></div>
-            <div class="flex justify-between gap-3"><span class="text-zinc-500">Email</span><span data-sum="email">—</span></div>
-            <div class="flex justify-between gap-3"><span class="text-zinc-500">Teléfono</span><span data-sum="phone">—</span></div>
+            <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= function_exists('t') ? t('booking.first_name') : 'Nombre' ?></span><span data-sum="full_name"><?= htmlspecialchars($i18n['na']) ?></span></div>
+            <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= function_exists('t') ? t('booking.email') : 'Email' ?></span><span data-sum="email"><?= htmlspecialchars($i18n['na']) ?></span></div>
+            <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= function_exists('t') ? t('booking.phone') : 'Teléfono' ?></span><span data-sum="phone"><?= htmlspecialchars($i18n['na']) ?></span></div>
 
             <div class="pt-2 border-t border-zinc-200"></div>
 
-            <div class="flex justify-between gap-3"><span class="text-zinc-500">Fecha</span><span data-sum="service_date">—</span></div>
-            <div class="flex justify-between gap-3"><span class="text-zinc-500">Hora</span><span data-sum="service_time">—</span></div>
+            <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= function_exists('t') ? t('booking.date') : 'Fecha' ?></span><span data-sum="service_date"><?= htmlspecialchars($i18n['na']) ?></span></div>
+            <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= function_exists('t') ? t('booking.time') : 'Hora' ?></span><span data-sum="service_time"><?= htmlspecialchars($i18n['na']) ?></span></div>
 
             <div class="flex justify-between gap-3" data-sum-row="flight" style="display:none;">
-              <span class="text-zinc-500">Vuelo</span><span data-sum="flight_number">—</span>
+              <span class="text-zinc-500"><?= function_exists('t') ? t('booking.flight') : 'Vuelo' ?></span><span data-sum="flight_number"><?= htmlspecialchars($i18n['na']) ?></span>
             </div>
             <div class="flex justify-between gap-3" data-sum-row="train" style="display:none;">
-              <span class="text-zinc-500">Tren</span><span data-sum="train_number">—</span>
+              <span class="text-zinc-500"><?= function_exists('t') ? t('booking.train') : 'Tren' ?></span><span data-sum="train_number"><?= htmlspecialchars($i18n['na']) ?></span>
             </div>
 
             <div class="pt-2 border-t border-zinc-200"></div>
 
-            <div class="flex justify-between gap-3"><span class="text-zinc-500">Pasajeros</span><span data-sum="passengers">1</span></div>
-            <div class="flex justify-between gap-3"><span class="text-zinc-500">Maletas</span><span data-sum="luggage">0</span></div>
+            <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= function_exists('t') ? t('booking.passengers') : 'Pasajeros' ?></span><span data-sum="passengers">1</span></div>
+            <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= function_exists('t') ? t('booking.luggage') : 'Maletas' ?></span><span data-sum="luggage">0</span></div>
 
             <div class="pt-2 border-t border-zinc-200"></div>
 
             <div class="flex justify-between gap-3">
-              <span class="text-zinc-500">Extras (€/trayecto)</span>
-              <span data-sum="extras_per_trip">0 €</span>
-            </div>
-            <div class="flex justify-between gap-3">
-              <span class="text-zinc-500">Total extras</span>
-              <span data-sum="extras_total">0 €</span>
-            </div>
-
-            <div class="flex justify-between gap-3">
-              <span class="text-zinc-500">Vuelta</span>
-              <span data-sum="return_trip">No</span>
+              <span class="text-zinc-500"><?= function_exists('t') ? t('booking.return_trip') : 'Vuelta' ?></span>
+              <span data-sum="return_trip"><?= htmlspecialchars($i18n['no']) ?></span>
             </div>
 
             <div data-sum-block="return" class="space-y-2" style="display:none;">
-              <div class="flex justify-between gap-3"><span class="text-zinc-500">Fecha vuelta</span><span data-sum="return_date">—</span></div>
-              <div class="flex justify-between gap-3"><span class="text-zinc-500">Hora vuelta</span><span data-sum="return_time">—</span></div>
+              <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= function_exists('t') ? t('booking.return_date') : 'Fecha vuelta' ?></span><span data-sum="return_date"><?= htmlspecialchars($i18n['na']) ?></span></div>
+              <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= function_exists('t') ? t('booking.return_time') : 'Hora vuelta' ?></span><span data-sum="return_time"><?= htmlspecialchars($i18n['na']) ?></span></div>
             </div>
           </div>
         </div>
@@ -395,6 +424,14 @@ $return_origin_is_train =
 </section>
 
 <script>
+// Precios (desde PHP) + traducciones (desde t())
+window.__BOOKING_PRICES__ = {
+  out: <?= $price !== null ? json_encode((float)$price) : 'null' ?>,
+  ret: <?= $return_price !== null ? json_encode((float)$return_price) : 'null' ?>
+};
+
+window.__I18N__ = <?= json_encode($i18n, JSON_UNESCAPED_UNICODE) ?>;
+
 (function(){
   const form   = document.getElementById('bookingForm');
   const box    = document.getElementById('returnFields');
@@ -402,9 +439,17 @@ $return_origin_is_train =
 
   if (!form) return;
 
+  const prices = window.__BOOKING_PRICES__ || { out:null, ret:null };
+  const i18n   = window.__I18N__ || { yes:'Sí', no:'No', na:'—', not_available:'No disponible', rt_na:'' };
+
+  // Usa el idioma del <html lang="..."> si existe
+  const locale = (document.documentElement && document.documentElement.lang)
+    ? document.documentElement.lang
+    : 'es-ES';
+
   const eur = (n) => {
     const val = Number(n || 0);
-    return new Intl.NumberFormat('es-ES', { style:'currency', currency:'EUR' }).format(val);
+    return new Intl.NumberFormat(locale, { style:'currency', currency:'EUR' }).format(val);
   };
 
   const get = (name) => form.querySelector(`[name="${name}"]`);
@@ -431,40 +476,7 @@ $return_origin_is_train =
     box.classList.toggle('hidden', !isReturnYes());
   }
 
-  function updateSummary(){
-    // Nombre + contacto
-    const fullName = [txt('first_name'), txt('last_name')].filter(Boolean).join(' ');
-    setSum('full_name', fullName || '—');
-    setSum('email', txt('email') || '—');
-    setSum('phone', txt('phone') || '—');
-
-    // Fecha/hora
-    setSum('service_date', txt('service_date') || '—');
-    setSum('service_time', txt('service_time') || '—');
-
-    // Vuelo / tren
-    const flightInput = get('flight_number');
-    const trainInput  = get('train_number');
-
-    if (flightInput) {
-      show('[data-sum-row="flight"]', true);
-      setSum('flight_number', txt('flight_number') || '—');
-    } else {
-      show('[data-sum-row="flight"]', false);
-    }
-
-    if (trainInput) {
-      show('[data-sum-row="train"]', true);
-      setSum('train_number', txt('train_number') || '—');
-    } else {
-      show('[data-sum-row="train"]', false);
-    }
-
-    // Pax / maletas
-    setSum('passengers', txt('passengers') || '1');
-    setSum('luggage', txt('luggage') || '0');
-
-    // Extras (10€ por unidad y trayecto)
+  function calcExtrasTotal(){
     const child = parseInt(txt('extra_child_seat') || '0', 10) || 0;
     const boost = parseInt(txt('extra_booster') || '0', 10) || 0;
     const bike  = parseInt(txt('extra_bike') || '0', 10) || 0;
@@ -473,30 +485,107 @@ $return_origin_is_train =
     const extrasCount = child + boost + bike + golf;
     const extrasPerTrip = extrasCount * 10;
     const trips = isReturnYes() ? 2 : 1;
-    const extrasTotal = extrasPerTrip * trips;
+    return extrasPerTrip * trips;
+  }
 
-    setSum('extras_per_trip', eur(extrasPerTrip));
-    setSum('extras_total', eur(extrasTotal));
+  function updatePriceTotals(){
+    const main = document.getElementById('priceMain');
+    const bdOut = document.getElementById('bdOut');
+    const bdReturnRow = document.getElementById('bdReturnRow');
+    const bdReturn = document.getElementById('bdReturn');
+    const bdExtras = document.getElementById('bdExtras');
+    const bdTotal = document.getElementById('bdTotal');
+    const bdNote = document.getElementById('bdTotalNote');
 
-    // Vuelta
+    const extrasTotal = calcExtrasTotal();
     const rYes = isReturnYes();
-    setSum('return_trip', rYes ? 'Sí' : 'No');
-    show('[data-sum-block="return"]', rYes);
+
+    if (bdOut) bdOut.textContent = (prices.out != null) ? eur(prices.out) : i18n.na;
+    if (bdExtras) bdExtras.textContent = eur(extrasTotal);
 
     if (rYes) {
-      setSum('return_date', txt('return_date') || '—');
-      setSum('return_time', txt('return_time') || '—');
+      if (bdReturnRow) bdReturnRow.style.display = '';
+      if (bdReturn) bdReturn.textContent = (prices.ret != null) ? eur(prices.ret) : i18n.na;
+    } else {
+      if (bdReturnRow) bdReturnRow.style.display = 'none';
+    }
+
+    let total = null;
+
+    if (!rYes) {
+      if (prices.out != null) total = prices.out + extrasTotal;
+    } else {
+      if (prices.out != null && prices.ret != null) total = prices.out + prices.ret + extrasTotal;
+    }
+
+    if (bdTotal) bdTotal.textContent = (total != null) ? eur(total) : i18n.na;
+
+    const showNote = rYes && (prices.out == null || prices.ret == null);
+    if (bdNote) {
+      bdNote.textContent = i18n.rt_na;
+      bdNote.style.display = showNote ? '' : 'none';
+    }
+
+    if (!main) return;
+
+    // Precio principal: total si existe, si no -> ida si existe, si no -> not_available
+    if (total != null) {
+      main.textContent = eur(total);
+    } else if (prices.out != null) {
+      main.textContent = eur(prices.out);
+    } else {
+      main.textContent = i18n.not_available;
+      main.classList.add('text-zinc-400');
     }
   }
 
-  // Eventos
+  function updateSummary(){
+    const fullName = [txt('first_name'), txt('last_name')].filter(Boolean).join(' ');
+    setSum('full_name', fullName || i18n.na);
+    setSum('email', txt('email') || i18n.na);
+    setSum('phone', txt('phone') || i18n.na);
+
+    setSum('service_date', txt('service_date') || i18n.na);
+    setSum('service_time', txt('service_time') || i18n.na);
+
+    const flightInput = get('flight_number');
+    const trainInput  = get('train_number');
+
+    if (flightInput) {
+      show('[data-sum-row="flight"]', true);
+      setSum('flight_number', txt('flight_number') || i18n.na);
+    } else {
+      show('[data-sum-row="flight"]', false);
+    }
+
+    if (trainInput) {
+      show('[data-sum-row="train"]', true);
+      setSum('train_number', txt('train_number') || i18n.na);
+    } else {
+      show('[data-sum-row="train"]', false);
+    }
+
+    setSum('passengers', txt('passengers') || '1');
+    setSum('luggage', txt('luggage') || '0');
+
+    const rYes = isReturnYes();
+    setSum('return_trip', rYes ? i18n.yes : i18n.no);
+    show('[data-sum-block="return"]', rYes);
+
+    if (rYes) {
+      setSum('return_date', txt('return_date') || i18n.na);
+      setSum('return_time', txt('return_time') || i18n.na);
+    }
+
+    updatePriceTotals();
+  }
+
   form.addEventListener('input', updateSummary);
   form.addEventListener('change', () => {
     updateReturnVisibility();
     updateSummary();
   });
 
-  // init
   updateReturnVisibility();
   updateSummary();
 })();

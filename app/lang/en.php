@@ -926,6 +926,11 @@ return [
 
 'quote.not_available'     => 'Price not available',
 'booking.medium_suitcases'=> 'Medium suitcases',
+'confirm.voucher_ready'       => 'Your voucher is ready to download.',
+'confirm.download_out'        => 'Download voucher (outbound)',
+'confirm.download_ret'        => 'Download voucher (return)',
+'confirm.download_all'        => 'Download vouchers',
+'confirm.no_voucher'          => 'Voucher not found. Please contact us and provide your reference.',
 
 
 ];

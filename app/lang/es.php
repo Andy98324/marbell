@@ -928,5 +928,10 @@ return [
   'quote.not_available'     => 'Precio no disponible',
   'booking.medium_suitcases'=> 'Maletas medianas',
 
+  'confirm.voucher_ready'       => 'Tu voucher está listo para descargar.',
+  'confirm.download_out'        => 'Descargar voucher (ida)',
+  'confirm.download_ret'        => 'Descargar voucher (vuelta)',
+  'confirm.download_all'        => 'Descargar vouchers',
+  'confirm.no_voucher'          => 'No se ha encontrado el voucher. Contacta con nosotros indicando tu referencia.',
 
 ];

@@ -1,3 +1,9 @@
+<?php
+$ref_out = $ref_out ?? null;
+$ref_ret = $ref_ret ?? null;
+// $email   = $email   ?? ''; // ya no lo necesitamos aquí si no enviamos email
+?>
+
 <section class="relative overflow-hidden bg-[#0b1220] text-white rounded-3xl">
   <div class="absolute inset-0 opacity-25 pointer-events-none">
     <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2
@@ -19,15 +25,11 @@
           <?= function_exists('t') ? t('confirm.subtitle') : 'Hemos recibido tu solicitud de traslado.' ?>
         </p>
 
-        <?php if ($email): ?>
-          <p class="text-xs md:text-sm text-white/70 mb-5">
-            <?= function_exists('t') ? t('confirm.email_info') : 'Te hemos enviado un correo con todos los detalles de tu reserva y tu voucher adjunto.' ?>
-            <br>
-            <strong class="text-white"><?= htmlspecialchars($email) ?></strong>
-          </p>
-        <?php endif; ?>
+        <p class="text-xs md:text-sm text-white/70 mb-5">
+          <?= function_exists('t') ? t('confirm.voucher_ready') : 'Tu voucher está listo para descargar.' ?>
+        </p>
 
-        <!-- Referencias (pill) -->
+        <!-- Referencias -->
         <div class="mt-2 inline-flex flex-col items-center rounded-2xl bg-white/5 border border-white/10 px-6 py-4 text-sm">
           <?php if ($ref_out): ?>
             <p class="text-white mb-1">
@@ -40,6 +42,29 @@
               <strong><?= function_exists('t') ? t('confirm.ref_ret') : 'Referencia de vuelta' ?>:</strong>
               <span class="ml-1"><?= htmlspecialchars($ref_ret) ?></span>
             </p>
+          <?php endif; ?>
+        </div>
+
+        <!-- DESCARGAS -->
+        <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+          <?php if ($ref_out): ?>
+            <a
+              href="/download-voucher.php?ref=<?= urlencode($ref_out) ?>"
+              class="inline-flex items-center justify-center rounded-xl bg-white/90 hover:bg-white
+                     text-zinc-900 font-semibold px-6 py-3 shadow hover:-translate-y-0.5 transition text-sm"
+            >
+              <?= function_exists('t') ? t('confirm.download_out') : 'Descargar voucher (ida)' ?>
+            </a>
+          <?php endif; ?>
+
+          <?php if ($ref_ret): ?>
+            <a
+              href="/download-voucher.php?ref=<?= urlencode($ref_ret) ?>"
+              class="inline-flex items-center justify-center rounded-xl bg-white/90 hover:bg-white
+                     text-zinc-900 font-semibold px-6 py-3 shadow hover:-translate-y-0.5 transition text-sm"
+            >
+              <?= function_exists('t') ? t('confirm.download_ret') : 'Descargar voucher (vuelta)' ?>
+            </a>
           <?php endif; ?>
         </div>
 

@@ -1,7 +1,7 @@
 // en app/routes.php
 'GET /sitemap.xml' => function() {
   header('Content-Type: application/xml; charset=utf-8');
-  $base = 'http://157.180.74.170:8081'; // cambia a dominio cuando toque
+  $base = 'http://transfermarbell.com'; // cambia a dominio cuando toque
   $urls = ['/', '/servicios', '/precios', '/blog', '/contacto'];
   echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
   echo "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";

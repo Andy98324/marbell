@@ -37,85 +37,90 @@ function render_stars($score){
 <section class="relative overflow-hidden bg-[#0b1220] text-white">
   <!-- glow sutil como en header/footer -->
   <div class="absolute inset-0 opacity-20 pointer-events-none">
-    <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2 bg-gradient-to-br from-sky-500/30 via-transparent to-transparent rounded-full blur-3xl"></div>
-  </div>
-
-  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-  <div class="text-center max-w-4xl mx-auto">
-   <div class="relative mx-auto w-fit mb-6">
-  <!-- Halo / spotlight detrás -->
-  <span
-    class="absolute -inset-12 md:-inset-16 rounded-full
-           bg-[radial-gradient(circle,rgba(255,255,255,0.60)_0%,rgba(255,255,255,0.25)_30%,rgba(255,255,255,0.00)_70%)]
-           blur-2xl opacity-90 -z-10">
-  </span>
-
-  <!-- Logo -->
-  <img src="/assets/logo.png" alt="<?= t('brand') ?>"
-    class="relative w-auto h-44 sm:h-52 md:h-64 lg:h-72
-           max-w-[92vw] object-contain
-           drop-shadow-[0_0_12px_rgba(255,255,255,0.95)]
-           drop-shadow-[0_0_35px_rgba(255,255,255,0.75)]
-           drop-shadow-[0_0_80px_rgba(255,255,255,0.45)]
-           contrast-125 saturate-125"
-    loading="eager" fetchpriority="high">
-</div>
-
-
-
-
-    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
-      <?= t('home.h1') ?> – Motor de reservas
-    </h1>
-
-    <!-- FORMULARIO DE RUTAS -->
-    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/20">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <input id="origin" type="text" placeholder="Origen (ej. Málaga Airport)" 
-               class="px-4 py-3 rounded-xl text-black w-full" autocomplete="off">
-        <input id="destination" type="text" placeholder="Destino (ej. Marbella)" 
-               class="px-4 py-3 rounded-xl text-black w-full" autocomplete="off">
+      <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2 bg-gradient-to-br from-sky-500/30 via-transparent to-transparent rounded-full blur-3xl">
       </div>
-
-      <button id="calculateRoute" 
-              class="bg-amber-400 text-zinc-900 font-semibold px-6 py-3 rounded-xl shadow hover:-translate-y-0.5 transition">
-        <i class="uil uil-map-marker"></i> Calcular ruta
-      </button>
-
-      <!-- MAPA -->
-      <div id="map" class="mt-6 rounded-2xl overflow-hidden h-96 w-full"></div>
-
-      <!-- RESULTADOS -->
-      <!-- RESULTADOS -->
-<div id="routeInfo" class="mt-6 text-left text-white hidden">
-  <h3 class="text-xl font-semibold mb-2">Resumen del trayecto</h3>
-  <p><strong>Origen:</strong> <span id="infoOrigin"></span></p>
-  <p><strong>Destino:</strong> <span id="infoDestination"></span></p>
-  <p><strong>Distancia:</strong> <span id="infoDistance"></span></p>
-  <p><strong>Duración estimada:</strong> <span id="infoDuration"></span></p>
-
-  <button id="goToQuote"
-          class="mt-4 bg-white text-zinc-900 font-semibold px-6 py-3 rounded-xl shadow hover:-translate-y-0.5 transition hidden"
-          type="button" aria-label="Ver vehículos y precios">
-    Ver vehículos y precios
-  </button>
-</div>
-
-<!-- FORM oculto para enviar datos a quote.php -->
-<form id="quoteForm" action="/quote.php" method="post" class="hidden">
-  <input type="hidden" name="origin_address" id="f_origin_address">
-  <input type="hidden" name="origin_lat" id="f_origin_lat">
-  <input type="hidden" name="origin_lng" id="f_origin_lng">
-  <input type="hidden" name="destination_address" id="f_destination_address">
-  <input type="hidden" name="destination_lat" id="f_destination_lat">
-  <input type="hidden" name="destination_lng" id="f_destination_lng">
-  <input type="hidden" name="distance_m" id="f_distance_m">
-  <input type="hidden" name="duration_s" id="f_duration_s">
-</form>
-
-    </div>
   </div>
-</div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-10 shadow-lg border border-white/20">
+      <div class="relative mx-auto">
+        <div class="text-center max-w-4xl mx-auto">
+          <div class="relative mx-auto w-fit mb-6">
+            <!-- Halo / spotlight detrás -->
+            <span
+              class="absolute -inset-12 md:-inset-16 rounded-full
+                    bg-[radial-gradient(circle,rgba(255,255,255,0.60)_0%,rgba(255,255,255,0.25)_30%,rgba(255,255,255,0.00)_70%)]
+                    blur-2xl opacity-90 -z-10">
+            </span>
+
+            <!-- Logo -->
+            <img src="/assets/logo.png" alt="<?= t('brand') ?>"
+              class="relative w-auto h-44 sm:h-52 md:h-64 lg:h-72
+                    max-w-[92vw] object-contain
+                    drop-shadow-[0_0_12px_rgba(255,255,255,0.95)]
+                    drop-shadow-[0_0_35px_rgba(255,255,255,0.75)]
+                    drop-shadow-[0_0_80px_rgba(255,255,255,0.45)]
+                    contrast-125 saturate-125"
+              loading="eager" fetchpriority="high">
+          </div>
+
+
+
+
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
+              <?= t('home.h1') ?> – Motor de reservas
+            </h1>
+
+            <!-- FORMULARIO DE RUTAS -->
+            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/20">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <input id="origin" type="text" placeholder="Origen (ej. Málaga Airport)" 
+                        class="px-4 py-3 rounded-xl text-black w-full" autocomplete="off">
+                  <input id="destination" type="text" placeholder="Destino (ej. Marbella)" 
+                        class="px-4 py-3 rounded-xl text-black w-full" autocomplete="off">
+                </div>
+
+                  <button id="calculateRoute" 
+                          class="bg-amber-400 text-zinc-900 font-semibold px-6 py-3 rounded-xl shadow hover:-translate-y-0.5 transition">
+                    <i class="uil uil-map-marker"></i> Calcular ruta
+                  </button>
+
+                <!-- MAPA -->
+                <div id="map" class="mt-6 rounded-2xl overflow-hidden h-96 w-full"></div>
+
+                <!-- RESULTADOS -->
+                <!-- RESULTADOS -->
+                <div id="routeInfo" class="mt-6 text-left text-white hidden">
+                  <h3 class="text-xl font-semibold mb-2">Resumen del trayecto</h3>
+                  <p><strong>Origen:</strong> <span id="infoOrigin"></span></p>
+                  <p><strong>Destino:</strong> <span id="infoDestination"></span></p>
+                  <p><strong>Distancia:</strong> <span id="infoDistance"></span></p>
+                  <p><strong>Duración estimada:</strong> <span id="infoDuration"></span></p>
+
+                  <button id="goToQuote"
+                          class="mt-4 bg-white text-zinc-900 font-semibold px-6 py-3 rounded-xl shadow hover:-translate-y-0.5 transition hidden"
+                          type="button" aria-label="Ver vehículos y precios">
+                    Ver vehículos y precios
+                  </button>
+                </div>
+
+                <!-- FORM oculto para enviar datos a quote.php -->
+                <form id="quoteForm" action="/quote.php" method="post" class="hidden">
+                  <input type="hidden" name="origin_address" id="f_origin_address">
+                  <input type="hidden" name="origin_lat" id="f_origin_lat">
+                  <input type="hidden" name="origin_lng" id="f_origin_lng">
+                  <input type="hidden" name="destination_address" id="f_destination_address">
+                  <input type="hidden" name="destination_lat" id="f_destination_lat">
+                  <input type="hidden" name="destination_lng" id="f_destination_lng">
+                  <input type="hidden" name="distance_m" id="f_distance_m">
+                  <input type="hidden" name="duration_s" id="f_duration_s">
+                </form>
+
+          </div>
+      </div>
+      </div>
+      </div>
+  </div>
 </section>
 
 

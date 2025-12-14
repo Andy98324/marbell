@@ -1,7 +1,109 @@
 <?php
-$ref_out = $ref_out ?? null;
-$ref_ret = $ref_ret ?? null;
-// $email   = $email   ?? ''; // ya no lo necesitamos aquí si no enviamos email
+// public/confirm-booking.php
+declare(strict_types=1);
+
+require_once __DIR__ . '/../app/bootstrap.php';
+require_once __DIR__ . '/../app/helpers/voucher.php';
+
+// Solo POST
+if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+  header('Location: /');
+  exit;
+}
+
+$payloadB64 = $_POST['payload'] ?? '';
+$payloadB64 = is_string($payloadB64) ? trim($payloadB64) : '';
+
+if ($payloadB64 === '') {
+  header('Location: /');
+  exit;
+}
+
+$json = base64_decode($payloadB64, true);
+$data = is_string($json) ? json_decode($json, true) : null;
+
+if (!is_array($data)) {
+  header('Location: /');
+  exit;
+}
+
+// Helper refs
+function make_ref(string $suffix): string {
+  $date = date('Ymd-His');
+  $rnd  = bin2hex(random_bytes(4));
+  return "WEB-{$date}-{$rnd}-{$suffix}";
+}
+
+// Datos base
+$origin_address      = (string)($data['origin_address'] ?? '');
+$destination_address = (string)($data['destination_address'] ?? '');
+
+$first = (string)($data['first_name'] ?? '');
+$last  = (string)($data['last_name'] ?? '');
+$fullName = trim($first . ' ' . $last);
+
+$email = (string)($data['email'] ?? '');
+$phone = (string)($data['phone'] ?? '');
+$notes = (string)($data['notes'] ?? '');
+
+$passengers = (int)($data['passengers'] ?? 1);
+
+// Precios
+$total_out    = (float)($data['total_out'] ?? 0);
+$total_return = (float)($data['total_return'] ?? 0);
+
+$return_trip = (string)($data['return_trip'] ?? 'no');
+$return_yes  = ($return_trip === 'yes');
+
+// OUT
+$ref_out = make_ref('OUT');
+$reserva_out = [
+  'ref'      => $ref_out,
+  'fecha'    => (string)($data['service_date'] ?? ''),
+  'hora'     => (string)($data['service_time'] ?? ''),
+  'origen'   => $origin_address,
+  'destino'  => $destination_address,
+  'pax'      => $passengers,
+  'nombre'   => $fullName,
+  'precio'   => $total_out,
+  'telefono' => $phone,
+  'email'    => $email,
+  'notas'    => $notes,
+  'tipo'     => 'OUT',
+  'issued_at'=> date('Y-m-d H:i'),
+];
+
+$files_out = save_voucher_files($reserva_out);
+
+// RET (si aplica)
+$ref_ret = null;
+$files_ret = null;
+
+if ($return_yes) {
+  $ref_ret = make_ref('RET');
+  $reserva_ret = [
+    'ref'      => $ref_ret,
+    'fecha'    => (string)($data['return_date'] ?? ''),
+    'hora'     => (string)($data['return_time'] ?? ''),
+    'origen'   => $destination_address, // vuelta: origen = destino ida
+    'destino'  => $origin_address,      // vuelta: destino = origen ida
+    'pax'      => $passengers,
+    'nombre'   => $fullName,
+    'precio'   => $total_return,
+    'telefono' => $phone,
+    'email'    => $email,
+    'notas'    => $notes,
+    'tipo'     => 'RET',
+    'issued_at'=> date('Y-m-d H:i'),
+  ];
+
+  $files_ret = save_voucher_files($reserva_ret);
+}
+
+// Render vista confirmación
+// (tu vista ya usa $ref_out y $ref_ret)
+include __DIR__ . '/../views/confirm-booking.php';
+
 ?>
 
 <section class="relative overflow-hidden bg-[#0b1220] text-white rounded-3xl">

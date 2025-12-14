@@ -2,15 +2,10 @@
 // app/helpers/voucher.php
 declare(strict_types=1);
 
-/**
- * Devuelve el directorio donde se guardan los vouchers.
- */
 if (!function_exists('vouchers_storage_dir')) {
     function vouchers_storage_dir(): string {
-        // /app/helpers/.. → /app
-        $base = realpath(__DIR__ . '/..');
+        $base = realpath(__DIR__ . '/..'); // /app
         $dir  = $base . '/storage/vouchers';
-
         if (!is_dir($dir)) {
             @mkdir($dir, 0775, true);
         }
@@ -18,9 +13,6 @@ if (!function_exists('vouchers_storage_dir')) {
     }
 }
 
-/**
- * Sanitiza ref para nombres de archivo.
- */
 if (!function_exists('voucher_safe_ref')) {
     function voucher_safe_ref(string $ref): string {
         $ref = trim($ref);
@@ -29,20 +21,11 @@ if (!function_exists('voucher_safe_ref')) {
     }
 }
 
-/**
- * Localiza wkhtmltopdf en el sistema.
- * Puedes fijar una ruta exacta si quieres.
- */
 if (!function_exists('wkhtmltopdf_bin')) {
     function wkhtmltopdf_bin(): ?string {
-        // Si lo tienes fijo, ponlo aquí:
-        // $fixed = '/usr/bin/wkhtmltopdf';
-        // if (is_file($fixed) && is_executable($fixed)) return $fixed;
-
         $bin = trim((string)@shell_exec('command -v wkhtmltopdf 2>/dev/null'));
         if ($bin && is_file($bin) && is_executable($bin)) return $bin;
 
-        // fallback típico
         $common = '/usr/bin/wkhtmltopdf';
         if (is_file($common) && is_executable($common)) return $common;
 
@@ -50,25 +33,6 @@ if (!function_exists('wkhtmltopdf_bin')) {
     }
 }
 
-/**
- * Genera HTML elegante para voucher (sin logo).
- *
- * $reserva:
- *  - ref (string)
- *  - fecha (YYYY-MM-DD)
- *  - hora (HH:MM)
- *  - origen (string)
- *  - destino (string)
- *  - pax (int)
- *  - nombre (string)
- *  - precio (float)
- * Opcionales:
- *  - telefono, email, notas
- *  - issued_at (string)
- *  - company (string)
- *  - tipo (OUT/RET)
- *  - qr_url (url)
- */
 if (!function_exists('generate_voucher_html')) {
     function generate_voucher_html(array $reserva): string {
         $ref     = htmlspecialchars((string)($reserva['ref'] ?? ''));
@@ -82,8 +46,7 @@ if (!function_exists('generate_voucher_html')) {
         $email   = trim((string)($reserva['email'] ?? ''));
         $notas   = trim((string)($reserva['notas'] ?? ''));
         $company = htmlspecialchars((string)($reserva['company'] ?? 'Transfer Marbell'));
-        $tipo    = htmlspecialchars((string)($reserva['tipo'] ?? '')); // OUT / RET
-        $qrUrl   = trim((string)($reserva['qr_url'] ?? ''));
+        $tipo    = htmlspecialchars((string)($reserva['tipo'] ?? '')); // OUT/RET
 
         $precio  = number_format((float)($reserva['precio'] ?? 0), 2, ',', '.') . ' €';
 
@@ -100,24 +63,6 @@ if (!function_exists('generate_voucher_html')) {
             $notesBlock = '<h2>Notas</h2><div class="box"><p class="kv">'. nl2br(htmlspecialchars($notas), false) .'</p></div>';
         }
 
-        // QR opcional (si no hay url, no se muestra)
-        $qrHtml = '';
-        if ($qrUrl !== '') {
-            $qrSafe = htmlspecialchars($qrUrl);
-            // usando servicio externo para generar imagen QR (opcional)
-            // si no quieres externo, lo quitamos.
-            $qrImg = "https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=" . rawurlencode($qrUrl);
-            $qrHtml = <<<HTML
-              <div class="qr">
-                <div class="qrbox">
-                  <div class="qrtitle">QR</div>
-                  <img src="$qrImg" alt="QR" width="120" height="120">
-                  <div class="qrmuted">Abrir voucher</div>
-                </div>
-              </div>
-            HTML;
-        }
-
         return <<<HTML
 <!doctype html>
 <html lang="es">
@@ -126,21 +71,14 @@ if (!function_exists('generate_voucher_html')) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Voucher {$ref}</title>
   <style>
-    /* wkhtmltopdf friendly styles */
     :root{
-      --bg:#f6f7fb;
-      --card:#ffffff;
-      --ink:#0f172a;
-      --muted:#64748b;
-      --line:#e5e7eb;
-      --accent:#0ea5e9;
+      --bg:#f6f7fb; --card:#ffffff; --ink:#0f172a; --muted:#64748b; --line:#e5e7eb; --accent:#0ea5e9;
     }
     *{box-sizing:border-box}
     body{
       font-family: DejaVu Sans, Arial, sans-serif;
       background: var(--bg);
-      margin:0;
-      padding:26px;
+      margin:0; padding:26px;
       color:var(--ink);
     }
     .wrap{max-width:780px;margin:0 auto}
@@ -151,22 +89,10 @@ if (!function_exists('generate_voucher_html')) {
       overflow:hidden;
       box-shadow: 0 18px 45px rgba(15,23,42,.10);
     }
-    .top{
-      padding:18px 22px;
-      border-bottom:1px solid var(--line);
-      overflow:hidden;
-    }
-    .headrow{
-      width:100%;
-    }
+    .top{padding:18px 22px;border-bottom:1px solid var(--line);overflow:hidden;}
     .left{float:left; width:72%;}
     .right{float:right; width:28%; text-align:right;}
-    .title{
-      margin:0;
-      font-size:18px;
-      font-weight:800;
-      letter-spacing:-.2px;
-    }
+    .title{margin:0;font-size:18px;font-weight:800;letter-spacing:-.2px;}
     .meta{margin-top:6px; font-size:12px; color:var(--muted)}
     .pill{
       display:inline-block;
@@ -179,66 +105,20 @@ if (!function_exists('generate_voucher_html')) {
       font-weight:700;
     }
     .body{padding:18px 22px 14px}
-    h2{
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      margin:16px 0 10px;
-      color:#0b1220;
-    }
-    .grid{
-      width:100%;
-      overflow:hidden;
-    }
-    .col{
-      float:left;
-      width:48%;
-      margin-right:4%;
-    }
-    .col.last{
-      margin-right:0;
-    }
-    .box{
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px 12px;
-      background:#fff;
-    }
-    .kv{
-      margin:0 0 6px 0;
-      font-size:13px;
-      color:#111827;
-      line-height:1.5;
-    }
+    h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin:16px 0 10px;color:#0b1220;}
+    .grid{width:100%;overflow:hidden;}
+    .col{float:left;width:48%;margin-right:4%;}
+    .col.last{margin-right:0;}
+    .box{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;}
+    .kv{margin:0 0 6px 0;font-size:13px;color:#111827;line-height:1.5;}
     .kv strong{color:#0f172a}
     .muted{color:var(--muted); font-size:12px; margin:0}
-    .bigrow{
-      overflow:hidden;
-    }
+    .bigrow{overflow:hidden;}
     .bigleft{float:left}
     .bigright{float:right; font-weight:900; font-size:18px}
-    .foot{
-      border-top:1px solid var(--line);
-      padding:12px 22px;
-      font-size:12px;
-      color:var(--muted);
-      overflow:hidden;
-    }
+    .foot{border-top:1px solid var(--line);padding:12px 22px;font-size:12px;color:var(--muted);overflow:hidden;}
     .foot .fleft{float:left; width:70%;}
     .foot .fright{float:right; width:30%; text-align:right;}
-    .qr{
-      margin-top:12px;
-      text-align:right;
-    }
-    .qrbox{
-      display:inline-block;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:10px 10px;
-      background:#fff;
-    }
-    .qrtitle{font-size:11px; font-weight:800; color:#0f172a; margin-bottom:6px;}
-    .qrmuted{font-size:11px; color:var(--muted); margin-top:6px;}
     .clearfix{clear:both}
   </style>
 </head>
@@ -247,16 +127,14 @@ if (!function_exists('generate_voucher_html')) {
     <div class="card">
 
       <div class="top">
-        <div class="headrow">
-          <div class="left">
-            <h1 class="title">Voucher de servicio · {$ref}{$sub}</h1>
-            <div class="meta">Emitido: {$issuedAt}</div>
-          </div>
-          <div class="right">
-            <span class="pill">{$company}</span>
-          </div>
-          <div class="clearfix"></div>
+        <div class="left">
+          <h1 class="title">Voucher de servicio · {$ref}{$sub}</h1>
+          <div class="meta">Emitido: {$issuedAt}</div>
         </div>
+        <div class="right">
+          <span class="pill">{$company}</span>
+        </div>
+        <div class="clearfix"></div>
       </div>
 
       <div class="body">
@@ -279,8 +157,6 @@ if (!function_exists('generate_voucher_html')) {
           <div class="clearfix"></div>
         </div>
 
-        {$qrHtml}
-
         <h2>Pasajero principal</h2>
         <div class="box">
           <p class="kv"><strong>Nombre:</strong> {$nombre}</p>
@@ -299,7 +175,6 @@ if (!function_exists('generate_voucher_html')) {
         </div>
 
         {$notesBlock}
-
       </div>
 
       <div class="foot">
@@ -318,10 +193,6 @@ HTML;
     }
 }
 
-/**
- * Guarda el voucher como HTML en /app/storage/vouchers/voucher-REF.html
- * y devuelve la ruta completa al fichero.
- */
 if (!function_exists('save_voucher_html')) {
     function save_voucher_html(array $reserva): string {
         $safeRef = voucher_safe_ref((string)($reserva['ref'] ?? 'SINREF'));
@@ -335,16 +206,11 @@ if (!function_exists('save_voucher_html')) {
     }
 }
 
-/**
- * Convierte un HTML a PDF usando wkhtmltopdf.
- * Devuelve ruta al PDF o null si falla/no está instalado.
- */
 if (!function_exists('voucher_html_to_pdf')) {
     function voucher_html_to_pdf(string $htmlFile, string $pdfFile): ?string {
         $bin = wkhtmltopdf_bin();
         if ($bin === null) return null;
 
-        // Opciones seguras para layouts (A4 + márgenes)
         $cmd = escapeshellarg($bin)
              . ' --quiet'
              . ' --page-size A4'
@@ -361,10 +227,6 @@ if (!function_exists('voucher_html_to_pdf')) {
     }
 }
 
-/**
- * Guarda el voucher como PDF en /app/storage/vouchers/voucher-REF.pdf
- * (primero guarda HTML y luego convierte a PDF).
- */
 if (!function_exists('save_voucher_pdf')) {
     function save_voucher_pdf(array $reserva): ?string {
         $safeRef = voucher_safe_ref((string)($reserva['ref'] ?? 'SINREF'));
@@ -373,7 +235,6 @@ if (!function_exists('save_voucher_pdf')) {
         $htmlFile = $dir . '/voucher-' . $safeRef . '.html';
         $pdfFile  = $dir . '/voucher-' . $safeRef . '.pdf';
 
-        // guardar html (si no existe)
         $html = generate_voucher_html($reserva);
         file_put_contents($htmlFile, $html);
 
@@ -381,14 +242,10 @@ if (!function_exists('save_voucher_pdf')) {
     }
 }
 
-/**
- * Crea ambos: HTML + PDF (si wkhtmltopdf está disponible).
- * Devuelve array con rutas.
- */
 if (!function_exists('save_voucher_files')) {
     function save_voucher_files(array $reserva): array {
         $html = save_voucher_html($reserva);
-        $pdf  = save_voucher_pdf($reserva); // puede ser null
+        $pdf  = save_voucher_pdf($reserva); // puede ser null si no hay wkhtmltopdf
         return ['html' => $html, 'pdf' => $pdf];
     }
 }

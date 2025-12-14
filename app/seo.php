@@ -6,11 +6,11 @@ function seo_defaults(): array {
   'site_name'      => 'Transfer Marbell',
   'brand'          => 'Transfer Marbell',
   'locale'         => 'es_ES',
-  'base_url'       => 'http://157.180.74.170:8081',
+  'base_url'       => 'https://transfermarbell.com',
   'title'          => 'Traslados privados en la Costa del Sol',
   'description'    => 'Reserva tu traslado con conductores profesionales. Puntualidad y confort garantizados.',
   'keywords'       => 'transfer, taxi privado, marbella, aeropuerto, costa del sol',
-  'image'          => '/assets/logo-og.png',         // OG por defecto
+  'image'          => '/assets/logo.png',         // OG por defecto
   'theme_color'    => '#0ea5e9',
   'twitter'        => '@transfermarbell',
   'favicon_path'   => '/assets/icons',

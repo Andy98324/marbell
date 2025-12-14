@@ -16,6 +16,9 @@ $night_surcharge_out = $night_surcharge_out ?? 0.0;
 $night_surcharge_ret = $night_surcharge_ret ?? 0.0;
 $airport_fee         = $airport_fee ?? 0.0;
 $from_airport        = !empty($from_airport);
+
+// ✅ Clave: return_trip debe ser "yes" para considerar vuelta
+$return_yes = (($data['return_trip'] ?? '') === 'yes');
 ?>
 
 <section class="relative overflow-hidden bg-[#0b1220] text-white rounded-3xl">
@@ -65,7 +68,7 @@ $from_airport        = !empty($from_airport);
           <?= htmlspecialchars($destination_address ?? '') ?>
         </p>
         <p class="mt-1 text-sm text-zinc-600">
-          <?= number_format($km, 1, ',', '.') ?> km · <?= round($minutes) ?> min
+          <?= number_format($km ?? 0, 1, ',', '.') ?> km · <?= round($minutes ?? 0) ?> min
         </p>
       </div>
 
@@ -73,12 +76,16 @@ $from_airport        = !empty($from_airport);
         <h2 class="text-lg font-semibold text-zinc-900 mb-3">
           <?= function_exists('t') ? t('review.passenger_title') : 'Pasajero' ?>
         </h2>
+
         <p class="text-sm text-zinc-700">
           <strong><?= htmlspecialchars(($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? '')) ?></strong>
         </p>
+
         <p class="text-sm text-zinc-700">
           <?= htmlspecialchars($data['email'] ?? '') ?> · <?= htmlspecialchars($data['phone'] ?? '') ?>
         </p>
+
+        <!-- IDA -->
         <p class="mt-2 text-sm text-zinc-700">
           <strong><?= function_exists('t') ? t('booking.date') : 'Fecha del servicio' ?>:</strong>
           <?= htmlspecialchars($data['service_date'] ?? '') ?>
@@ -107,6 +114,43 @@ $from_airport        = !empty($from_airport);
           <?= (int)($data['luggage'] ?? 0) ?>
         </p>
 
+        <!-- ✅ VUELTA (datos) -->
+        <?php if ($return_yes): ?>
+          <hr class="my-3">
+
+          <p class="text-sm text-zinc-700">
+            <strong><?= function_exists('t') ? t('booking.return_trip') : '¿Quieres traslado de vuelta?' ?>:</strong>
+            <?= function_exists('t') ? t('booking.return_yes') : 'Sí' ?>
+          </p>
+
+          <p class="mt-1 text-sm text-zinc-700">
+            <strong><?= function_exists('t') ? t('booking.return_date') : 'Fecha de vuelta' ?>:</strong>
+            <?= htmlspecialchars($data['return_date'] ?? '') ?>
+            · <strong><?= function_exists('t') ? t('booking.return_time') : 'Hora de recogida (vuelta)' ?>:</strong>
+            <?= htmlspecialchars($data['return_time'] ?? '') ?>
+          </p>
+
+          <?php if (!empty($data['return_flight_number'])): ?>
+            <p class="text-sm text-zinc-700 mt-1">
+              <strong><?= function_exists('t') ? t('booking.return_flight') : 'Número de vuelo (vuelta)' ?>:</strong>
+              <?= htmlspecialchars($data['return_flight_number']) ?>
+            </p>
+          <?php endif; ?>
+
+          <?php if (!empty($data['return_train_number'])): ?>
+            <p class="text-sm text-zinc-700 mt-1">
+              <strong><?= function_exists('t') ? t('booking.return_train') : 'Número de tren (vuelta)' ?>:</strong>
+              <?= htmlspecialchars($data['return_train_number']) ?>
+            </p>
+          <?php endif; ?>
+
+        <?php else: ?>
+          <p class="mt-3 text-sm text-zinc-700">
+            <strong><?= function_exists('t') ? t('booking.return_trip') : '¿Quieres traslado de vuelta?' ?>:</strong>
+            <?= function_exists('t') ? t('booking.return_no') : 'No' ?>
+          </p>
+        <?php endif; ?>
+
         <?php if (!empty($data['notes'])): ?>
           <p class="mt-2 text-sm text-zinc-700">
             <strong><?= function_exists('t') ? t('booking.notes') : 'Observaciones' ?>:</strong><br>
@@ -134,10 +178,10 @@ $from_airport        = !empty($from_airport);
           <?php endif; ?>
 
           <?php if (
-            ($data['extra_child_seat'] ?? 0) +
-            ($data['extra_booster'] ?? 0) +
-            ($data['extra_bike'] ?? 0) +
-            ($data['extra_golf'] ?? 0) === 0
+            (int)($data['extra_child_seat'] ?? 0) +
+            (int)($data['extra_booster'] ?? 0) +
+            (int)($data['extra_bike'] ?? 0) +
+            (int)($data['extra_golf'] ?? 0) === 0
           ): ?>
             <li><?= function_exists('t') ? t('review.no_extras') : 'Sin extras.' ?></li>
           <?php endif; ?>
@@ -171,13 +215,13 @@ $from_airport        = !empty($from_airport);
           <span><?= function_exists('t') ? t('review.outbound_base') : 'Ida: tarifa base' ?></span>
           <span><?= eur($base_out_price) ?></span>
         </div>
-        <?php if ($extras_out > 0): ?>
+        <?php if (($extras_out ?? 0) > 0): ?>
           <div class="flex justify-between">
             <span><?= function_exists('t') ? t('review.outbound_extras') : 'Ida: extras' ?></span>
             <span><?= eur($extras_out) ?></span>
           </div>
         <?php endif; ?>
-        <?php if ($night_surcharge_out > 0): ?>
+        <?php if (($night_surcharge_out ?? 0) > 0): ?>
           <div class="flex justify-between">
             <span><?= function_exists('t') ? t('review.outbound_night') : 'Ida: recargo nocturno (10 %)' ?></span>
             <span><?= eur($night_surcharge_out) ?></span>
@@ -188,20 +232,20 @@ $from_airport        = !empty($from_airport);
           <span><?= eur($total_out) ?></span>
         </div>
 
-        <!-- Vuelta -->
-        <?php if (!empty($data['return_trip']) && $base_return_price !== null): ?>
+        <!-- ✅ Vuelta (precio) -->
+        <?php if ($return_yes && $base_return_price !== null): ?>
           <hr class="my-2">
           <div class="flex justify-between">
             <span><?= function_exists('t') ? t('review.return_base') : 'Vuelta: tarifa base' ?></span>
             <span><?= eur($base_return_price) ?></span>
           </div>
-          <?php if ($extras_return > 0): ?>
+          <?php if (($extras_return ?? 0) > 0): ?>
             <div class="flex justify-between">
               <span><?= function_exists('t') ? t('review.return_extras') : 'Vuelta: extras' ?></span>
               <span><?= eur($extras_return) ?></span>
             </div>
           <?php endif; ?>
-          <?php if ($night_surcharge_ret > 0): ?>
+          <?php if (($night_surcharge_ret ?? 0) > 0): ?>
             <div class="flex justify-between">
               <span><?= function_exists('t') ? t('review.return_night') : 'Vuelta: recargo nocturno (10 %)' ?></span>
               <span><?= eur($night_surcharge_ret) ?></span>
@@ -211,7 +255,8 @@ $from_airport        = !empty($from_airport);
             <span><?= function_exists('t') ? t('review.return_total') : 'Vuelta: total' ?></span>
             <span><?= eur($total_return) ?></span>
           </div>
-        <?php elseif (!empty($data['return_trip']) && $base_return_price === null): ?>
+
+        <?php elseif ($return_yes && $base_return_price === null): ?>
           <hr class="my-2">
           <p class="text-xs text-amber-700">
             <?= function_exists('t') ? t('booking.return_price_na') : 'No hay tarifa de zona definida para la vuelta. Contacta con nosotros para confirmar el precio.' ?>
@@ -235,7 +280,7 @@ $from_airport        = !empty($from_airport);
         <?= function_exists('t') ? t('home.quote_disclaimer') : 'El precio mostrado es orientativo y puede variar ligeramente según el tráfico y la disponibilidad.' ?>
       </p>
 
-      <!-- Botón confirmar reserva -->
+      <!-- Confirmar -->
       <form method="post" action="/confirm-booking.php" class="mt-5 text-center">
         <button type="submit"
                 class="rounded-xl bg-amber-400 text-zinc-900 font-semibold px-8 py-3 shadow hover:-translate-y-0.5 transition">
@@ -243,5 +288,6 @@ $from_airport        = !empty($from_airport);
         </button>
       </form>
     </aside>
+
   </div>
 </section>

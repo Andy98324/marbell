@@ -9,17 +9,35 @@ $team = [
 ?>
 
 <!-- HERO / ENCABEZADO -->
-<section class="relative overflow-hidden bg-[#0b1220] text-white">
-  <div class="absolute inset-0 opacity-20 pointer-events-none">
-    <div class="absolute -top-32 left-1/2 w-[1100px] h-[1100px] -translate-x-1/2 bg-gradient-to-br from-sky-500/30 via-transparent to-transparent rounded-full blur-3xl"></div>
+<section class="relative overflow-hidden bg-[#0b1220] text-white rounded-3xl">
+  <!-- Glow de fondo (queda recortado por el radio) -->
+  <div class="absolute inset-0 opacity-25 pointer-events-none">
+    <div class="absolute -top-32 left-1/2 w-[1100px] h-[1100px] -translate-x-1/2
+                bg-gradient-to-br from-sky-500/30 via-transparent to-transparent
+                rounded-full blur-3xl"></div>
   </div>
-  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-    <div class="max-w-3xl">
-      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight"><?= t('about.h1') ?></h1>
-      <p class="mt-3 text-white/80 text-lg leading-relaxed"><?= t('about.lead') ?></p>
+
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-18">
+    <!-- Card principal -->
+    <div class="rounded-3xl border border-white/15 bg-white/10 backdrop-blur-md shadow-2xl overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none opacity-25
+                  bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.20)_0%,rgba(255,255,255,0.00)_55%)]"></div>
+
+      <div class="relative p-7 md:p-10">
+        <div class="max-w-3xl">
+          <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">
+            <?= t('about.h1') ?>
+          </h1>
+          <p class="mt-4 text-white/80 text-lg leading-relaxed">
+            <?= t('about.lead') ?>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+
 
 <!-- QUIÉNES SOMOS / MISIÓN -->
 <section class="py-16">

@@ -300,11 +300,40 @@ $grand_total = $grand_total ?? ($total_out + ($return_yes ? $total_return : 0.0)
       </p>
 
       <form method="post" action="/confirm-booking.php" class="mt-5 text-center">
-        <button type="submit"
-                class="rounded-xl bg-amber-400 text-zinc-900 font-semibold px-8 py-3 shadow hover:-translate-y-0.5 transition">
-          <?= function_exists('t') ? t('review.confirm_cta') : 'Confirmar reserva' ?>
-        </button>
-      </form>
+  <?php
+    $payload = [
+      'origin_address'      => $origin_address ?? '',
+      'destination_address' => $destination_address ?? '',
+
+      'first_name' => $data['first_name'] ?? '',
+      'last_name'  => $data['last_name'] ?? '',
+      'email'      => $data['email'] ?? '',
+      'phone'      => $data['phone'] ?? '',
+      'notes'      => $data['notes'] ?? '',
+
+      'service_date' => $data['service_date'] ?? '',
+      'service_time' => $data['service_time'] ?? '',
+
+      'passengers' => (int)($data['passengers'] ?? 1),
+
+      'return_trip' => $data['return_trip'] ?? 'no',
+      'return_date' => $data['return_date'] ?? '',
+      'return_time' => $data['return_time'] ?? '',
+
+      // Totales YA calculados en review-booking.php
+      'total_out'    => (float)($total_out ?? 0),
+      'total_return' => (float)($total_return ?? 0),
+    ];
+    $payloadB64 = base64_encode(json_encode($payload, JSON_UNESCAPED_UNICODE));
+  ?>
+  <input type="hidden" name="payload" value="<?= htmlspecialchars($payloadB64) ?>">
+
+  <button type="submit"
+          class="rounded-xl bg-amber-400 text-zinc-900 font-semibold px-8 py-3 shadow hover:-translate-y-0.5 transition">
+    <?= function_exists('t') ? t('review.confirm_cta') : 'Confirmar reserva' ?>
+  </button>
+</form>
+
     </aside>
 
   </div>

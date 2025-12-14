@@ -39,12 +39,12 @@
         <li><a href="/nosotros" class="hover:text-white"><?= t('footer.about.us') ?></a></li>
         <li><a href="/nosotros" class="hover:text-white"><?= t('footer.about.partner') ?></a></li>
         <li>
-  <a href="http://157.180.74.170:8081/transferhub"
-     class="hover:text-white"
-     target="_blank"
-     rel="noopener">
+  <a href="https://hub.transfermarbell.com/transferhub/auth/login.php"
+   class="hover:text-white"
+   target="_blank"
+   rel="noopener">
     <?= t('footer.services.transferhub') ?>
-  </a>
+</a>
 </li>
 
       </ul>

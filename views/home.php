@@ -40,9 +40,20 @@ function render_stars($score){
     <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2 bg-gradient-to-br from-sky-500/30 via-transparent to-transparent rounded-full blur-3xl"></div>
   </div>
 
-  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+  <div class="relative mx-auto backdrop-blur-md rounded-2xl max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-20">
   <div class="text-center max-w-4xl mx-auto">
-    <img src="/assets/logo.png" alt="<?= t('brand') ?>" class="mx-auto h-24 md:h-28 w-auto mb-5" loading="eager" fetchpriority="high">
+    <img src="/assets/logo.png" alt="<?= t('brand') ?>"
+  class="mx-auto h-24 md:h-40 w-auto mb-5
+         drop-shadow-[0_0_10px_rgba(255,255,255,1)]
+         drop-shadow-[0_0_28px_rgba(255,255,255,1)]
+         drop-shadow-[0_0_60px_rgba(255,255,255,1)]
+         drop-shadow-[0_0_300px_rgba(255,255,255,1)]
+         transition duration-300
+         hover:drop-shadow-[0_0_140px_rgba(255,255,255,0.40)]"
+  loading="eager" fetchpriority="high">
+
+
+
 
     <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
       <?= t('home.h1') ?> – Motor de reservas
@@ -284,5 +295,5 @@ document.getElementById("goToQuote")?.addEventListener("click", () => {
 
 <!-- Carga de la API de Google Maps -->
 <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdejLAhodEvEQoLM8bDGpElU6xKFk12SQ&libraries=places&callback=initMap">
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5t9kRS9NRSPbMNN6gl8XD5TPNuFLpBC8&libraries=places&callback=initMap">
 </script>

@@ -1,14 +1,17 @@
 <?php
-// views/booking.php — formulario + resumen dinámico (todo traducible, sin mostrar claves)
+// views/booking.php — formulario + resumen dinámico + nocturnidad (+10%) + traducciones seguras
 
-// Helper € (si no existe)
 if (!function_exists('eur')) {
   function eur($v): string {
     return number_format((float)$v, 2, ',', '.') . ' €';
   }
 }
 
-// ✅ Helper traducción seguro: si falta la clave NO imprime "booking.xxx"
+/**
+ * ✅ Traducción segura:
+ * - Si no existe t(), devuelve fallback
+ * - Si t() devuelve la clave (porque falta), devuelve fallback (así NO se ve "booking.xxx")
+ */
 if (!function_exists('tt')) {
   function tt(string $key, string $fallback = ''): string {
     if (!function_exists('t')) return $fallback;
@@ -23,8 +26,8 @@ $km      = isset($km) ? (float)$km : 0;
 $minutes = isset($minutes) ? (float)$minutes : 0;
 
 $vehicle = $vehicle ?? [];
-$price   = $price ?? null;            // ida
-$return_price = $return_price ?? null; // vuelta
+$price   = $price ?? null;            // ida (base)
+$return_price = $return_price ?? null; // vuelta (base)
 
 $vehName  = $vehicle['name'] ?? '';
 $vehImg   = $vehicle['img'] ?? '';
@@ -34,7 +37,7 @@ $vehLugg  = $vehicle['luggage'] ?? '';
 $ask_flight = !empty($ask_flight);
 $ask_train  = !empty($ask_train);
 
-// 👉 Para la vuelta, el ORIGEN de la vuelta es el destino de la ida
+// Para la vuelta: el ORIGEN de la vuelta es el destino de la ida
 $return_origin_is_airport =
     stripos($destination_address, 'AGP') !== false
  || stripos($destination_address, 'Aeropuerto de Málaga') !== false
@@ -115,67 +118,56 @@ $i18n = [
         <div class="grid gap-4 sm:grid-cols-2">
           <div>
             <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.first_name', 'First name') ?></label>
-            <input type="text" name="first_name" required
-                   class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <input type="text" name="first_name" required class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
           </div>
           <div>
             <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.last_name', 'Last name') ?></label>
-            <input type="text" name="last_name" required
-                   class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <input type="text" name="last_name" required class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
           </div>
         </div>
 
         <div class="grid gap-4 sm:grid-cols-2">
           <div>
             <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.email', 'Email') ?></label>
-            <input type="email" name="email" required
-                   class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <input type="email" name="email" required class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
           </div>
           <div>
             <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.phone', 'Phone') ?></label>
-            <input type="tel" name="phone" required
-                   class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <input type="tel" name="phone" required class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
           </div>
         </div>
 
         <div class="grid gap-4 sm:grid-cols-2">
           <div>
             <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.date', 'Service date') ?></label>
-            <input type="date" name="service_date" required
-                   class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <input type="date" name="service_date" required class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
           </div>
           <div>
             <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.time', 'Pickup time') ?></label>
-            <input type="time" name="service_time" required
-                   class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <input type="time" name="service_time" required class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
           </div>
         </div>
 
-        <!-- Vuelo / Tren -->
         <?php if ($ask_flight): ?>
           <div>
             <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.flight', 'Flight number') ?></label>
-            <input type="text" name="flight_number" required
-                   class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <input type="text" name="flight_number" required class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
           </div>
         <?php elseif ($ask_train): ?>
           <div>
             <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.train', 'Train number') ?></label>
-            <input type="text" name="train_number" required
-                   class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <input type="text" name="train_number" required class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
           </div>
         <?php endif; ?>
 
         <div class="grid gap-4 sm:grid-cols-2">
           <div>
             <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.passengers', 'Number of passengers') ?></label>
-            <input type="number" name="passengers" min="1" value="1" required
-                   class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <input type="number" name="passengers" min="1" value="1" required class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
           </div>
           <div>
             <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.luggage', 'Number of suitcases') ?></label>
-            <input type="number" name="luggage" min="0" value="0"
-                   class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <input type="number" name="luggage" min="0" value="0" class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
           </div>
         </div>
 
@@ -198,29 +190,25 @@ $i18n = [
           <div class="grid gap-4 sm:grid-cols-2">
             <div>
               <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.return_date', 'Return date') ?></label>
-              <input type="date" name="return_date"
-                     class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <input type="date" name="return_date" class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
             </div>
             <div>
               <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.return_time', 'Return pickup time') ?></label>
-              <input type="time" name="return_time"
-                     class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <input type="time" name="return_time" class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
             </div>
           </div>
 
           <?php if ($return_origin_is_airport): ?>
             <div class="mt-3">
               <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.return_flight', 'Return flight number') ?></label>
-              <input type="text" name="return_flight_number"
-                     class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <input type="text" name="return_flight_number" class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
             </div>
           <?php endif; ?>
 
           <?php if ($return_origin_is_train): ?>
             <div class="mt-3">
               <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.return_train', 'Return train number') ?></label>
-              <input type="text" name="return_train_number"
-                     class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <input type="text" name="return_train_number" class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
             </div>
           <?php endif; ?>
 
@@ -250,36 +238,30 @@ $i18n = [
           <div class="grid gap-3 sm:grid-cols-2">
             <div>
               <label class="block text-xs font-medium text-zinc-700 mb-1"><?= tt('booking.extra.child_seat', 'Child seat') ?></label>
-              <input type="number" name="extra_child_seat" min="0" value="0"
-                     class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <input type="number" name="extra_child_seat" min="0" value="0" class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
             </div>
             <div>
               <label class="block text-xs font-medium text-zinc-700 mb-1"><?= tt('booking.extra.booster', 'Booster seat') ?></label>
-              <input type="number" name="extra_booster" min="0" value="0"
-                     class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <input type="number" name="extra_booster" min="0" value="0" class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
             </div>
             <div>
               <label class="block text-xs font-medium text-zinc-700 mb-1"><?= tt('booking.extra.bike', 'Bicycle') ?></label>
-              <input type="number" name="extra_bike" min="0" value="0"
-                     class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <input type="number" name="extra_bike" min="0" value="0" class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
             </div>
             <div>
               <label class="block text-xs font-medium text-zinc-700 mb-1"><?= tt('booking.extra.golf', 'Golf clubs') ?></label>
-              <input type="number" name="extra_golf" min="0" value="0"
-                     class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <input type="number" name="extra_golf" min="0" value="0" class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
             </div>
           </div>
         </div>
 
         <div class="pt-2">
           <label class="block text-sm font-medium text-zinc-700 mb-1"><?= tt('booking.notes', 'Notes') ?></label>
-          <textarea name="notes" rows="3"
-                    class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"></textarea>
+          <textarea name="notes" rows="3" class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"></textarea>
         </div>
 
         <div class="pt-2">
-          <button type="submit"
-                  class="w-full md:w-auto rounded-xl bg-amber-400 text-zinc-900 font-semibold px-8 py-3 shadow hover:-translate-y-0.5 transition">
+          <button type="submit" class="w-full md:w-auto rounded-xl bg-amber-400 text-zinc-900 font-semibold px-8 py-3 shadow hover:-translate-y-0.5 transition">
             <?= tt('booking.review_cta', 'Review summary') ?>
           </button>
         </div>
@@ -302,7 +284,6 @@ $i18n = [
           <?= htmlspecialchars(trim($vehPax . ($vehLugg !== '' ? " • {$vehLugg} " . tt('booking.medium_suitcases','Medium suitcases') : ''))) ?>
         </p>
 
-        <!-- Precio principal -->
         <div class="mt-4 text-3xl font-extrabold text-zinc-900">
           <span id="priceMain">
             <?php if ($price !== null): ?>
@@ -317,7 +298,7 @@ $i18n = [
           <?= tt('home.quote_disclaimer', 'Displayed price is an approximation and may vary slightly depending on traffic and availability.') ?>
         </p>
 
-        <!-- Desglose (sin claves visibles nunca) -->
+        <!-- Desglose -->
         <div class="mt-4 w-full text-left">
           <div class="rounded-xl border border-zinc-200 p-4 text-sm text-zinc-700 space-y-2">
             <div class="flex justify-between gap-3">
@@ -328,6 +309,11 @@ $i18n = [
             <div class="flex justify-between gap-3" id="bdReturnRow" style="display:none;">
               <span class="text-zinc-500"><?= tt('booking.return', 'Return') ?></span>
               <span id="bdReturn"><?= $return_price !== null ? eur($return_price) : '' ?></span>
+            </div>
+
+            <div class="flex justify-between gap-3" id="bdNightRow" style="display:none;">
+              <span class="text-zinc-500"><?= tt('booking.night_surcharge', 'Night surcharge (+10%)') ?></span>
+              <span id="bdNight">0 €</span>
             </div>
 
             <div class="flex justify-between gap-3">
@@ -346,52 +332,29 @@ $i18n = [
           </div>
         </div>
 
-        <!-- Resumen datos (si está vacío, NO se muestra nada) -->
+        <!-- Resumen datos (vacío = no muestra nada) -->
         <div class="mt-5 w-full text-left">
           <div class="rounded-xl border border-zinc-200 p-4 text-sm text-zinc-700 space-y-2">
-            <div class="flex justify-between gap-3">
-              <span class="text-zinc-500"><?= tt('booking.first_name', 'First name') ?></span>
-              <span data-sum="full_name"></span>
-            </div>
-            <div class="flex justify-between gap-3">
-              <span class="text-zinc-500"><?= tt('booking.email', 'Email') ?></span>
-              <span data-sum="email"></span>
-            </div>
-            <div class="flex justify-between gap-3">
-              <span class="text-zinc-500"><?= tt('booking.phone', 'Phone') ?></span>
-              <span data-sum="phone"></span>
-            </div>
+            <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= tt('booking.first_name', 'First name') ?></span><span data-sum="full_name"></span></div>
+            <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= tt('booking.email', 'Email') ?></span><span data-sum="email"></span></div>
+            <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= tt('booking.phone', 'Phone') ?></span><span data-sum="phone"></span></div>
 
             <div class="pt-2 border-t border-zinc-200"></div>
 
-            <div class="flex justify-between gap-3">
-              <span class="text-zinc-500"><?= tt('booking.date', 'Service date') ?></span>
-              <span data-sum="service_date"></span>
-            </div>
-            <div class="flex justify-between gap-3">
-              <span class="text-zinc-500"><?= tt('booking.time', 'Pickup time') ?></span>
-              <span data-sum="service_time"></span>
-            </div>
+            <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= tt('booking.date', 'Service date') ?></span><span data-sum="service_date"></span></div>
+            <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= tt('booking.time', 'Pickup time') ?></span><span data-sum="service_time"></span></div>
 
             <div class="flex justify-between gap-3" data-sum-row="flight" style="display:none;">
-              <span class="text-zinc-500"><?= tt('booking.flight', 'Flight number') ?></span>
-              <span data-sum="flight_number"></span>
+              <span class="text-zinc-500"><?= tt('booking.flight', 'Flight number') ?></span><span data-sum="flight_number"></span>
             </div>
             <div class="flex justify-between gap-3" data-sum-row="train" style="display:none;">
-              <span class="text-zinc-500"><?= tt('booking.train', 'Train number') ?></span>
-              <span data-sum="train_number"></span>
+              <span class="text-zinc-500"><?= tt('booking.train', 'Train number') ?></span><span data-sum="train_number"></span>
             </div>
 
             <div class="pt-2 border-t border-zinc-200"></div>
 
-            <div class="flex justify-between gap-3">
-              <span class="text-zinc-500"><?= tt('booking.passengers', 'Number of passengers') ?></span>
-              <span data-sum="passengers">1</span>
-            </div>
-            <div class="flex justify-between gap-3">
-              <span class="text-zinc-500"><?= tt('booking.luggage', 'Number of suitcases') ?></span>
-              <span data-sum="luggage">0</span>
-            </div>
+            <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= tt('booking.passengers', 'Number of passengers') ?></span><span data-sum="passengers">1</span></div>
+            <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= tt('booking.luggage', 'Number of suitcases') ?></span><span data-sum="luggage">0</span></div>
 
             <div class="pt-2 border-t border-zinc-200"></div>
 
@@ -401,14 +364,8 @@ $i18n = [
             </div>
 
             <div data-sum-block="return" class="space-y-2" style="display:none;">
-              <div class="flex justify-between gap-3">
-                <span class="text-zinc-500"><?= tt('booking.return_date', 'Return date') ?></span>
-                <span data-sum="return_date"></span>
-              </div>
-              <div class="flex justify-between gap-3">
-                <span class="text-zinc-500"><?= tt('booking.return_time', 'Return pickup time') ?></span>
-                <span data-sum="return_time"></span>
-              </div>
+              <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= tt('booking.return_date', 'Return date') ?></span><span data-sum="return_date"></span></div>
+              <div class="flex justify-between gap-3"><span class="text-zinc-500"><?= tt('booking.return_time', 'Return pickup time') ?></span><span data-sum="return_time"></span></div>
             </div>
           </div>
         </div>
@@ -420,7 +377,6 @@ $i18n = [
 </section>
 
 <script>
-// Precios + textos traducibles (sin mostrar claves)
 window.__BOOKING_PRICES__ = {
   out: <?= $price !== null ? json_encode((float)$price) : 'null' ?>,
   ret: <?= $return_price !== null ? json_encode((float)$return_price) : 'null' ?>
@@ -445,7 +401,7 @@ window.__I18N__ = <?= json_encode($i18n, JSON_UNESCAPED_UNICODE) ?>;
   const setSum = (key, value) => {
     const el = document.querySelector(`[data-sum="${key}"]`);
     if (!el) return;
-    el.textContent = value ? value : ''; // ✅ vacío si no hay texto
+    el.textContent = value ? value : '';
   };
 
   const show = (selector, on) => {
@@ -462,6 +418,15 @@ window.__I18N__ = <?= json_encode($i18n, JSON_UNESCAPED_UNICODE) ?>;
   function updateReturnVisibility(){
     if (!box) return;
     box.classList.toggle('hidden', !isReturnYes());
+  }
+
+  function isNightTime(timeStr){
+    // "HH:MM" -> true si 23:00..23:59 o 00:00..07:00 (incluidas)
+    if (!timeStr || !/^\d{2}:\d{2}$/.test(timeStr)) return false;
+    const [hh, mm] = timeStr.split(':').map(n => parseInt(n, 10));
+    if (Number.isNaN(hh) || Number.isNaN(mm)) return false;
+    const minutes = hh * 60 + mm;
+    return minutes >= (23 * 60) || minutes <= (7 * 60);
   }
 
   function calcExtrasTotal(){
@@ -481,6 +446,8 @@ window.__I18N__ = <?= json_encode($i18n, JSON_UNESCAPED_UNICODE) ?>;
     const bdOut = document.getElementById('bdOut');
     const bdReturnRow = document.getElementById('bdReturnRow');
     const bdReturn = document.getElementById('bdReturn');
+    const bdNightRow = document.getElementById('bdNightRow');
+    const bdNight = document.getElementById('bdNight');
     const bdExtras = document.getElementById('bdExtras');
     const bdTotal = document.getElementById('bdTotal');
     const bdNote = document.getElementById('bdTotalNote');
@@ -488,26 +455,43 @@ window.__I18N__ = <?= json_encode($i18n, JSON_UNESCAPED_UNICODE) ?>;
     const extrasTotal = calcExtrasTotal();
     const rYes = isReturnYes();
 
-    if (bdOut) bdOut.textContent = (prices.out != null) ? eur(prices.out) : '';
-    if (bdExtras) bdExtras.textContent = eur(extrasTotal);
+    const outBase = prices.out;
+    const retBase = prices.ret;
+
+    const outTime = txt('service_time');
+    const retTime = txt('return_time');
+
+    const outNight = (outBase != null && isNightTime(outTime)) ? outBase * 0.10 : 0;
+    const retNight = (rYes && retBase != null && isNightTime(retTime)) ? retBase * 0.10 : 0;
+
+    const outAdj = (outBase != null) ? (outBase + outNight) : null;
+    const retAdj = (retBase != null) ? (retBase + retNight) : null;
+
+    if (bdOut) bdOut.textContent = (outAdj != null) ? eur(outAdj) : '';
 
     if (rYes) {
       if (bdReturnRow) bdReturnRow.style.display = '';
-      if (bdReturn) bdReturn.textContent = (prices.ret != null) ? eur(prices.ret) : '';
+      if (bdReturn) bdReturn.textContent = (retAdj != null) ? eur(retAdj) : '';
     } else {
       if (bdReturnRow) bdReturnRow.style.display = 'none';
     }
 
+    const nightTotal = (outNight || 0) + (retNight || 0);
+    if (bdNightRow) bdNightRow.style.display = nightTotal > 0 ? '' : 'none';
+    if (bdNight) bdNight.textContent = nightTotal > 0 ? eur(nightTotal) : eur(0);
+
+    if (bdExtras) bdExtras.textContent = eur(extrasTotal);
+
     let total = null;
     if (!rYes) {
-      if (prices.out != null) total = prices.out + extrasTotal;
+      if (outAdj != null) total = outAdj + extrasTotal;
     } else {
-      if (prices.out != null && prices.ret != null) total = prices.out + prices.ret + extrasTotal;
+      if (outAdj != null && retAdj != null) total = outAdj + retAdj + extrasTotal;
     }
 
     if (bdTotal) bdTotal.textContent = (total != null) ? eur(total) : '';
 
-    const showNote = rYes && (prices.out == null || prices.ret == null);
+    const showNote = rYes && (outAdj == null || retAdj == null);
     if (bdNote) {
       bdNote.textContent = i18n.rt_na;
       bdNote.style.display = showNote ? '' : 'none';
@@ -518,8 +502,8 @@ window.__I18N__ = <?= json_encode($i18n, JSON_UNESCAPED_UNICODE) ?>;
     if (total != null) {
       main.textContent = eur(total);
       main.classList.remove('text-zinc-400');
-    } else if (prices.out != null) {
-      main.textContent = eur(prices.out);
+    } else if (outAdj != null) {
+      main.textContent = eur(outAdj);
       main.classList.remove('text-zinc-400');
     } else {
       main.textContent = i18n.not_available;

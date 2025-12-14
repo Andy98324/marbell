@@ -36,32 +36,49 @@ $return_origin_is_train =
  || stripos($destination_address, 'Estación de Málaga') !== false;
 ?>
 
-<section class="relative overflow-hidden bg-[#0b1220] text-white">
-  <div class="absolute inset-0 opacity-20 pointer-events-none">
-    <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2 bg-gradient-to-br from-sky-500/30 via-transparent to-transparent rounded-full blur-3xl"></div>
+<section class="relative overflow-hidden bg-[#0b1220] text-white rounded-3xl">
+  <div class="absolute inset-0 opacity-25 pointer-events-none">
+    <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2
+                bg-gradient-to-br from-sky-500/30 via-transparent to-transparent
+                rounded-full blur-3xl"></div>
   </div>
 
   <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-    <div class="text-center max-w-3xl mx-auto">
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
-        <?= function_exists('t') ? t('booking.title') : 'Completa tu reserva' ?>
-      </h1>
+    <div class="rounded-3xl border border-white/15 bg-white/10 backdrop-blur-md shadow-2xl overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none opacity-25
+                  bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.20)_0%,rgba(255,255,255,0.00)_55%)]"></div>
 
-      <div class="mt-4 grid gap-2 text-white/90 text-sm">
-        <p><strong><?= function_exists('t') ? t('home.from') : 'Origen' ?>:</strong>
-          <span class="text-white/80"><?= htmlspecialchars($origin_address) ?></span></p>
-        <p><strong><?= function_exists('t') ? t('home.to') : 'Destino' ?>:</strong>
-          <span class="text-white/80"><?= htmlspecialchars($destination_address) ?></span></p>
-        <p class="text-white/70">
-          • <strong><?= function_exists('t') ? t('home.distance') : 'Distancia' ?>:</strong>
-          <?= number_format($km, 1, ',', '.') ?> km
-          · <strong><?= function_exists('t') ? t('home.duration') : 'Duración estimada' ?>:</strong>
-          <?= round($minutes) ?> min
-        </p>
+      <div class="relative p-7 md:p-10">
+        <div class="text-center max-w-3xl mx-auto">
+          <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
+            <?= function_exists('t') ? t('booking.title') : 'Completa tu reserva' ?>
+          </h1>
+
+          <div class="mt-5 inline-block text-left rounded-2xl bg-white/5 border border-white/10 px-5 py-4">
+            <div class="grid gap-2 text-white/90 text-sm">
+              <p>
+                <strong><?= function_exists('t') ? t('home.from') : 'Origen' ?>:</strong>
+                <span class="text-white/80"><?= htmlspecialchars($origin_address) ?></span>
+              </p>
+              <p>
+                <strong><?= function_exists('t') ? t('home.to') : 'Destino' ?>:</strong>
+                <span class="text-white/80"><?= htmlspecialchars($destination_address) ?></span>
+              </p>
+              <p class="text-white/70">
+                • <strong><?= function_exists('t') ? t('home.distance') : 'Distancia' ?>:</strong>
+                <?= number_format($km, 1, ',', '.') ?> km
+                · <strong><?= function_exists('t') ? t('home.duration') : 'Duración estimada' ?>:</strong>
+                <?= round($minutes) ?> min
+              </p>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
 </section>
+
 
 <section class="py-10 bg-zinc-50">
   <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 grid gap-8 lg:grid-cols-[1.2fr,1fr]">
@@ -306,7 +323,7 @@ $return_origin_is_train =
         <?php endif; ?>
         <p class="font-semibold text-zinc-900"><?= htmlspecialchars($vehName) ?></p>
         <p class="text-sm text-zinc-600">
-          <?= htmlspecialchars(trim($vehPax . ($vehLugg !== '' ? " • {$vehLugg} maletas" : ''))) ?>
+          <?= htmlspecialchars(trim($vehPax . ($vehLugg !== '' ? " • {$vehLugg} Maletas medianas" : ''))) ?>
         </p>
 
         <div class="mt-4 text-3xl font-extrabold text-zinc-900">

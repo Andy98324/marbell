@@ -763,7 +763,7 @@ return [
 'vehicle.minivan' => 'Minivan',
 'vehicle.minibus' => 'Minibús',
 'vehicle.capacity' => 'Capacidad',
-'vehicle.luggage' => 'Maletas',
+'vehicle.luggage' => 'Maletas Medianas',
 'vehicle.passengers' => 'Pasajeros',
 'vehicle.perfect_for' => 'Ideal para',
 

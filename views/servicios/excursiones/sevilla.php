@@ -5,14 +5,28 @@ function fix_sevilla_img($src){
 }
 ?>
 
-<!-- HERO -->
-<section class="relative overflow-hidden bg-[#0b1220] text-white">
-  <div class="absolute inset-0 opacity-20 pointer-events-none">
-    <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2 bg-gradient-to-br from-sky-500/30 via-transparent to-transparent rounded-full blur-3xl"></div>
+<!-- HERO (Excursión Nerja) -->
+<section class="relative overflow-hidden bg-[#0b1220] text-white rounded-3xl">
+  <div class="absolute inset-0 opacity-25 pointer-events-none">
+    <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2
+                bg-gradient-to-br from-sky-500/30 via-transparent to-transparent
+                rounded-full blur-3xl"></div>
   </div>
-  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight"><?= t('excursions.sevilla.h1') ?></h1>
-    <p class="mt-3 text-white/80 text-lg leading-relaxed max-w-3xl"><?= t('excursions.sevilla.lead') ?></p>
+
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-18">
+    <div class="rounded-3xl border border-white/15 bg-white/10 backdrop-blur-md shadow-2xl overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none opacity-25
+                  bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.20)_0%,rgba(255,255,255,0.00)_55%)]"></div>
+
+      <div class="relative p-7 md:p-10">
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">
+          <?= t('excursions.sevilla.h1') ?>
+        </h1>
+        <p class="mt-4 text-white/80 text-lg leading-relaxed max-w-3xl">
+          <?= t('excursions.sevilla.lead') ?>
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -62,7 +76,27 @@ function fix_sevilla_img($src){
   </div>
 </section>
 
-<?php include __DIR__ . '/_cta_includes.php'; ?>
+<!-- CTA + INCLUYE -->
+<section class="py-16 bg-zinc-50">
+  <div class="mx-auto max-w-3xl px-4 text-center">
+    <a href="https://wa.me/34951748494" target="_blank" rel="noopener"
+       class="relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-sky-600 px-8 py-3 text-lg font-semibold text-white shadow-lg transition hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500">
+      <span class="relative z-10"><?= t('excursions.cta.whatsapp') ?></span>
+    </a>
+
+    <div class="mt-10 mx-auto max-w-md text-left">
+      <div class="rounded-2xl bg-white ring-1 ring-black/10 shadow-md p-6">
+        <h3 class="text-lg font-semibold text-zinc-900 mb-3"><?= t('excursions.h1') ?? 'Incluye:' ?></h3>
+        <ul class="text-zinc-700 text-sm space-y-2">
+          <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-sky-500"></span><?= t('excursions.includes.map') ?></li>
+          <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-sky-500"></span><?= t('excursions.includes.audio') ?></li>
+          <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-sky-500"></span><?= t('excursions.includes.transfer') ?></li>
+          <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-sky-500"></span><?= t('excursions.includes.assistance') ?></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- JSON-LD (lo imprimes como ya lo tienes) -->
 <script type="application/ld+json"><?= json_encode($schema, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES) ?></script>

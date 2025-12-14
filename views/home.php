@@ -40,17 +40,26 @@ function render_stars($score){
     <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2 bg-gradient-to-br from-sky-500/30 via-transparent to-transparent rounded-full blur-3xl"></div>
   </div>
 
-  <div class="relative mx-auto backdrop-blur-md rounded-2xl max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-20">
   <div class="text-center max-w-4xl mx-auto">
-    <img src="/assets/logo.png" alt="<?= t('brand') ?>"
-  class="mx-auto h-24 md:h-40 w-auto mb-5
-         drop-shadow-[0_0_10px_rgba(255,255,255,1)]
-         drop-shadow-[0_0_28px_rgba(255,255,255,1)]
-         drop-shadow-[0_0_60px_rgba(255,255,255,1)]
-         drop-shadow-[0_0_300px_rgba(255,255,255,1)]
-         transition duration-300
-         hover:drop-shadow-[0_0_140px_rgba(255,255,255,0.40)]"
-  loading="eager" fetchpriority="high">
+   <div class="relative mx-auto w-fit mb-6">
+  <!-- Halo / spotlight detrás -->
+  <span
+    class="absolute -inset-12 md:-inset-16 rounded-full
+           bg-[radial-gradient(circle,rgba(255,255,255,0.60)_0%,rgba(255,255,255,0.25)_30%,rgba(255,255,255,0.00)_70%)]
+           blur-2xl opacity-90 -z-10">
+  </span>
+
+  <!-- Logo -->
+  <img src="/assets/logo.png" alt="<?= t('brand') ?>"
+    class="relative w-auto h-44 sm:h-52 md:h-64 lg:h-72
+           max-w-[92vw] object-contain
+           drop-shadow-[0_0_12px_rgba(255,255,255,0.95)]
+           drop-shadow-[0_0_35px_rgba(255,255,255,0.75)]
+           drop-shadow-[0_0_80px_rgba(255,255,255,0.45)]
+           contrast-125 saturate-125"
+    loading="eager" fetchpriority="high">
+</div>
 
 
 

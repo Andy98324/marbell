@@ -65,49 +65,88 @@ $lang = current_lang();
 
 <style>[x-cloak]{display:none!important}</style>
 
-<header x-data="{mobile:false, open:null}" class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-[#1f2a44]/70 bg-[#1f2a44]">
+<header
+  x-data="{mobile:false, open:null}"
+  class="sticky top-0 z-50
+         bg-[#1f2a44]/95 supports-[backdrop-filter]:bg-[#1f2a44]/80
+         backdrop-blur-md
+         border-b border-white/10
+         shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
+
   <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-white" role="navigation" aria-label="Main">
     <div class="flex items-center justify-between h-16">
-      <!-- Logo -->
-      <a href="/" class="flex items-center gap-3" aria-label="<?= htmlspecialchars(t('brand')) ?>">
-        <img src="/assets/logo.png" alt="<?= htmlspecialchars(t('brand')) ?>" class="h-10 md:h-12 w-auto object-contain" width="160" height="48" loading="eager" fetchpriority="high">
-        <span class="sr-only"><?= t('brand') ?></span>
-      </a>
+
+      <!-- Logo (más grande + brillo suave) -->
+<a href="/" class="flex items-center gap-3" aria-label="<?= htmlspecialchars(t('brand')) ?>">
+  <span class="inline-flex items-center justify-center
+               rounded-xl bg-white/20 border border-white/20
+               px-2 py-1 shadow-sm">
+    <img
+      src="/assets/logo.png"
+      alt="<?= htmlspecialchars(t('brand')) ?>"
+      class="h-10 md:h-11 w-auto object-contain
+             drop-shadow-[0_0_8px_rgba(255,255,255,0.55)]
+             drop-shadow-[0_0_18px_rgba(255,255,255,0.25)]"
+      loading="eager" fetchpriority="high">
+  </span>
+
+  <span class="hidden lg:block leading-tight">
+    <span class="block font-extrabold tracking-wide">Transfer Marbell</span>
+    <span class="block text-xs text-white/70">Traslados privados</span>
+  </span>
+</a>
+
+
 
       <!-- Desktop -->
-      <ul class="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium">
+      <ul class="hidden md:flex items-center gap-2 lg:gap-3 text-[13px] lg:text-sm font-semibold tracking-wide">
         <?php $i=0; foreach ($nav as $item): $i++; $active = is_active($item['href'] ?? '#', $currentPath); ?>
           <li class="relative" @keydown.escape.window="open=null">
+
             <?php if (!empty($item['items'])): ?>
               <button
                 @click="open === <?= $i ?> ? open=null : open=<?= $i ?>"
                 :aria-expanded="open === <?= $i ?> ? 'true' : 'false'"
-                class="inline-flex items-center gap-1 uppercase focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 <?= $active ? 'text-white' : 'text-white/80 hover:text-white' ?>">
+                class="inline-flex items-center gap-1 uppercase
+                       px-3 py-2 rounded-xl
+                       transition
+                       <?= $active ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-white/90 hover:text-white hover:bg-white/10' ?>
+                       focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
                 <?= htmlspecialchars($item['label']) ?>
-                <svg class="h-4 w-4 opacity-70" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
+                <svg class="h-4 w-4 opacity-80" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
               </button>
 
-              <!-- Mega -->
+              <!-- Mega (más “premium” y legible) -->
               <div
                 x-cloak x-show="open === <?= $i ?>" x-transition
                 @click.outside="open=null"
-                class="absolute left-1/2 -translate-x-1/2 mt-3 w-[min(88vw,760px)] rounded-2xl bg-white text-zinc-800 shadow-2xl ring-1 ring-black/10">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-3">
+                class="absolute left-1/2 -translate-x-1/2 mt-3 w-[min(90vw,820px)]
+                       rounded-2xl bg-white text-zinc-900
+                       shadow-2xl ring-1 ring-black/10 overflow-hidden">
+
+                <div class="px-5 py-3 bg-zinc-50 border-b border-zinc-200">
+                  <div class="text-xs font-semibold tracking-wide text-zinc-500 uppercase">
+                    <?= htmlspecialchars($item['label']) ?>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-4">
                   <?php foreach ($item['items'] as $sub): ?>
                     <a href="<?= htmlspecialchars($sub['href']) ?>"
-                       class="group flex items-start gap-3 rounded-xl p-3 hover:bg-zinc-50 focus:bg-zinc-50 focus:outline-none">
-                      <div class="mt-0.5 h-8 w-8 rounded-lg bg-zinc-100 grid place-items-center">
-                        <!-- Icono placeholder; cámbialo si quieres -->
-                        <svg class="h-4 w-4 text-zinc-600" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zM4 11h16v2H4zM4 16h10v2H4z"/></svg>
+                       class="group flex items-start gap-3 rounded-xl p-3
+                              hover:bg-zinc-50 focus:bg-zinc-50 focus:outline-none
+                              ring-1 ring-transparent hover:ring-zinc-200 transition">
+                      <div class="mt-0.5 h-9 w-9 rounded-lg bg-zinc-100 grid place-items-center">
+                        <svg class="h-4 w-4 text-zinc-700" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zM4 11h16v2H4zM4 16h10v2H4z"/></svg>
                       </div>
                       <div class="min-w-0">
                         <div class="flex items-center gap-2">
-                          <span class="truncate font-semibold text-zinc-900"><?= htmlspecialchars($sub['label']) ?></span>
+                          <span class="truncate font-bold text-zinc-900"><?= htmlspecialchars($sub['label']) ?></span>
                           <?php if (str_contains(($sub['href'] ?? ''), '/servicios/traslados')): ?>
                             <span class="text-[10px] uppercase tracking-wide rounded bg-sky-100 text-sky-700 px-1.5 py-0.5">Popular</span>
                           <?php endif; ?>
                         </div>
-                        <p class="text-xs text-zinc-500 line-clamp-2">
+                        <p class="text-xs text-zinc-600 line-clamp-2">
                           <?= htmlspecialchars($sub['title'] ?? '') ?: 'Ver detalles, tarifas y disponibilidad' ?>
                         </p>
                       </div>
@@ -116,68 +155,116 @@ $lang = current_lang();
                   <?php endforeach; ?>
                 </div>
               </div>
+
             <?php else: ?>
               <a href="<?= htmlspecialchars($item['href']) ?>"
-                 class="uppercase relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-current after:transition-[width] hover:after:w-full <?= $active ? 'text-white after:w-full' : 'text-white/80 hover:text-white' ?>">
+                 class="uppercase px-3 py-2 rounded-xl transition
+                        <?= $active ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-white/90 hover:text-white hover:bg-white/10' ?>">
                 <?= htmlspecialchars($item['label']) ?>
               </a>
             <?php endif; ?>
+
           </li>
         <?php endforeach; ?>
       </ul>
 
       <!-- Acciones -->
       <div class="hidden md:flex items-center gap-3">
-        <div class="relative group">
-          <div class="hidden md:flex items-center gap-3">
-            <span class="text-sm text-white/60 mr-2"><?= t('nav.language') ?>:</span>
-            <a href="<?= switch_lang_url('es') ?>" class="rounded bg-white/10 px-2 py-1 text-xs <?= current_lang()=='es'?'bg-sky-600':'' ?>">ES</a>
-            <a href="<?= switch_lang_url('en') ?>" class="rounded bg-white/10 px-2 py-1 text-xs <?= current_lang()=='en'?'bg-sky-600':'' ?>">EN</a>
-          </div>
-        </div>
-        <a href="/#goToQuote" class="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700">
-  <?= t('nav.book') ?>
-</a>
+        <!-- Idiomas (más visibles) -->
+        <div class="hidden md:flex items-center gap-2">
+          <span class="text-sm text-white/70 mr-2"><?= t('nav.language') ?>:</span>
 
+          <a href="<?= switch_lang_url('es') ?>"
+             class="rounded-lg px-2.5 py-1 text-xs font-semibold
+                    border border-white/15
+                    <?= current_lang()=='es' ? 'bg-white/20 text-white' : 'bg-white/10 text-white/85 hover:bg-white/15' ?>">
+            ES
+          </a>
+
+          <a href="<?= switch_lang_url('en') ?>"
+             class="rounded-lg px-2.5 py-1 text-xs font-semibold
+                    border border-white/15
+                    <?= current_lang()=='en' ? 'bg-white/20 text-white' : 'bg-white/10 text-white/85 hover:bg-white/15' ?>">
+            EN
+          </a>
+        </div>
+
+        <!-- CTA Reservar (ahora sí destaca) -->
+        <a href="/#goToQuote"
+           class="inline-flex items-center rounded-full px-5 py-2 text-sm font-extrabold
+                  bg-sky-600 hover:bg-sky-500
+                  shadow-lg shadow-sky-600/25
+                  ring-1 ring-white/15
+                  transition">
+          <?= t('nav.book') ?>
+        </a>
       </div>
 
       <!-- Burger -->
-      <button @click="mobile=!mobile; open=null" class="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg bg-white/10" aria-controls="mobile-menu" :aria-expanded="mobile ? 'true' : 'false'">
+      <button
+        @click="mobile=!mobile; open=null"
+        class="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-xl
+               bg-white/10 hover:bg-white/15 border border-white/10"
+        aria-controls="mobile-menu" :aria-expanded="mobile ? 'true' : 'false'">
         <svg x-show="!mobile" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
         <svg x-show="mobile" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     </div>
 
     <!-- Mobile -->
-    <div id="mobile-menu" x-cloak x-show="mobile" x-transition class="md:hidden pb-3">
-      <ul class="space-y-2">
-        <?php foreach ($nav as $item): ?>
-          <?php if (empty($item['items'])): ?>
-            <li><a href="<?= htmlspecialchars($item['href']) ?>" class="block rounded-lg px-3 py-2 text-white/90 hover:bg-white/10 <?= is_active($item['href'], $currentPath) ? 'bg-white/15 text-white' : '' ?>"><?= htmlspecialchars($item['label']) ?></a></li>
-          <?php else: ?>
-            <li x-data="{dd:false}">
-              <button @click="dd=!dd" class="w-full rounded-lg px-3 py-2 flex items-center justify-between text-white/90 hover:bg-white/10">
-                <span><?= htmlspecialchars($item['label']) ?></span>
-                <svg class="h-4 w-4 transition" :class="dd ? 'rotate-180' : ''" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
-              </button>
-              <ul x-show="dd" x-transition class="mt-1 ml-2 space-y-1">
-                <?php foreach ($item['items'] as $sub): ?>
-                  <li><a href="<?= htmlspecialchars($sub['href']) ?>" class="block rounded px-3 py-1.5 text-white/80 hover:bg-white/10"><?= htmlspecialchars($sub['label']) ?></a></li>
-                <?php endforeach; ?>
-              </ul>
-            </li>
-          <?php endif; ?>
-        <?php endforeach; ?>
-        <li class="flex items-center gap-2 px-3 pt-2">
-          <span class="text-white/70 text-sm"><?= t('nav.language') ?>:</span>
-          <a href="<?= htmlspecialchars(switch_lang_url('es')) ?>" class="rounded bg-white/10 px-2 py-1 text-xs <?= $lang==='es' ? 'ring-1 ring-white/60' : '' ?>">ES</a>
-          <a href="<?= htmlspecialchars(switch_lang_url('en')) ?>" class="rounded bg-white/10 px-2 py-1 text-xs <?= $lang==='en' ? 'ring-1 ring-white/60' : '' ?>">EN</a>
-          <a href="/#goToQuote"
-            class="ml-auto rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700">
-            <?= t('nav.book') ?>
-          </a>
-        </li>
-      </ul>
+    <div id="mobile-menu" x-cloak x-show="mobile" x-transition class="md:hidden pb-4">
+      <div class="mt-3 rounded-2xl bg-white/10 border border-white/10 backdrop-blur-md p-2">
+        <ul class="space-y-1">
+          <?php foreach ($nav as $item): ?>
+            <?php if (empty($item['items'])): ?>
+              <li>
+                <a href="<?= htmlspecialchars($item['href']) ?>"
+                   class="block rounded-xl px-3 py-2 font-semibold
+                          <?= is_active($item['href'], $currentPath) ? 'bg-white/15 text-white' : 'text-white/90 hover:bg-white/10' ?>">
+                  <?= htmlspecialchars($item['label']) ?>
+                </a>
+              </li>
+            <?php else: ?>
+              <li x-data="{dd:false}">
+                <button @click="dd=!dd"
+                        class="w-full rounded-xl px-3 py-2 flex items-center justify-between font-semibold
+                               text-white/90 hover:bg-white/10">
+                  <span><?= htmlspecialchars($item['label']) ?></span>
+                  <svg class="h-4 w-4 transition" :class="dd ? 'rotate-180' : ''" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
+                </button>
+                <ul x-show="dd" x-transition class="mt-1 ml-2 space-y-1">
+                  <?php foreach ($item['items'] as $sub): ?>
+                    <li>
+                      <a href="<?= htmlspecialchars($sub['href']) ?>"
+                         class="block rounded-lg px-3 py-2 text-white/85 hover:bg-white/10">
+                        <?= htmlspecialchars($sub['label']) ?>
+                      </a>
+                    </li>
+                  <?php endforeach; ?>
+                </ul>
+              </li>
+            <?php endif; ?>
+          <?php endforeach; ?>
+
+          <li class="flex items-center gap-2 px-3 pt-2 mt-2 border-t border-white/10">
+            <span class="text-white/80 text-sm"><?= t('nav.language') ?>:</span>
+            <a href="<?= htmlspecialchars(switch_lang_url('es')) ?>"
+               class="rounded-lg bg-white/10 border border-white/15 px-2.5 py-1 text-xs font-semibold <?= $lang==='es' ? 'bg-white/20 text-white' : 'text-white/85' ?>">
+              ES
+            </a>
+            <a href="<?= htmlspecialchars(switch_lang_url('en')) ?>"
+               class="rounded-lg bg-white/10 border border-white/15 px-2.5 py-1 text-xs font-semibold <?= $lang==='en' ? 'bg-white/20 text-white' : 'text-white/85' ?>">
+              EN
+            </a>
+
+            <a href="/#goToQuote"
+               class="ml-auto rounded-xl bg-sky-600 px-4 py-2 text-sm font-extrabold text-white hover:bg-sky-500 transition shadow-lg shadow-sky-600/25">
+              <?= t('nav.book') ?>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
+
   </nav>
 </header>

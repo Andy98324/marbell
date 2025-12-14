@@ -3,10 +3,45 @@
 
     <!-- Columna 1: Marca + redes + pagos -->
     <div>
-      <a href="/" class="flex items-center gap-3 mb-4">
-        <img src="/assets/logo.png" alt="<?= t('brand') ?>" class="h-10 w-auto object-contain" loading="lazy">
-        <span class="sr-only"><?= t('brand') ?></span>
-      </a>
+      <a href="/" class="flex items-center gap-3" aria-label="<?= htmlspecialchars(t('brand')) ?>">
+  <!-- Wordmark: halo más marcado + letras más juntas -->
+<span class="relative flex items-center gap-1">
+  <!-- Halo blanco MÁS marcado -->
+  <span class="absolute -inset-x-4 -inset-y-2 rounded-2xl
+               bg-[radial-gradient(circle,rgba(255,255,255,0.55)_0%,rgba(255,255,255,0.22)_38%,rgba(255,255,255,0.00)_72%)]
+               blur-2xl opacity-100 -z-10"></span>
+
+  <span class="text-[#18c6c8] font-bold uppercase tracking-[0.08em] md:tracking-[0.10em]
+               [text-shadow:0_1px_0_rgba(255,255,255,0.20)]">
+    Transfer
+  </span>
+
+  <span class="text-[#0b2a3a] font-semibold uppercase tracking-[0.06em] md:tracking-[0.08em]
+               [text-shadow:0_1px_0_rgba(255,255,255,0.18)]">
+    Mar
+  </span>
+
+  <!-- check más pegado -->
+  <svg viewBox="0 0 24 24" class="h-[14px] w-[14px] opacity-95 mx-0.5">
+    <circle cx="12" cy="12" r="9"
+            fill="rgba(24,198,200,0.14)"
+            stroke="rgba(24,198,200,0.95)"
+            stroke-width="1.8"/>
+    <path d="M8.2 12.4l2.4 2.5 5.6-6.1"
+          fill="none"
+          stroke="rgba(24,198,200,0.95)"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+  </svg>
+
+  <span class="text-[#0b2a3a] font-semibold uppercase tracking-[0.06em] md:tracking-[0.08em]
+               [text-shadow:0_1px_0_rgba(255,255,255,0.18)]">
+    Bell
+  </span>
+</span>
+
+</a>
       <p class="text-sm text-white/80 leading-relaxed">
         <?= t('brand') ?> — <?= t('footer.services.long') ?>
       </p>

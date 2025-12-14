@@ -85,7 +85,7 @@ $lang = current_lang();
 <span class="relative flex items-center gap-1">
   <!-- Halo blanco MÁS marcado -->
   <span class="absolute -inset-x-4 -inset-y-2 rounded-2xl
-               bg-[radial-gradient(circle,rgba(255,255,255,0.55)_0%,rgba(255, 255, 255, 0.34)_38%,rgba(255,255,255,0.00)_72%)]
+               bg-[radial-gradient(circle,rgba(255,255,255,0.55)_0%,rgba(255,255,255,0.22)_38%,rgba(255,255,255,0.00)_72%)]
                blur-2xl opacity-100 -z-10"></span>
 
   <span class="text-[#18c6c8] font-bold uppercase tracking-[0.08em] md:tracking-[0.10em]

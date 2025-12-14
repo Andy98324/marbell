@@ -153,7 +153,11 @@ $cards = [
                aria-labelledby="<?= $cardId ?>"
                class="mt-5 inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500">
               <?= htmlspecialchars($c['cta_label']) ?>
-              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 5l7 7-7 7M5 19V5h8"/></svg>
+              <svg width="25" height="25" viewBox="0 0 24 24" fill="currentColor"
+     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M10 17l6-5-6-5v10z" />
+</svg>
+
             </a>
           </div>
         </article>

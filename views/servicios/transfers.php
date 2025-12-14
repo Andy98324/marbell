@@ -57,7 +57,7 @@ $cards = [
     'badge' => t('transfers.badge.corporate'),
     'title' => t('transfers.corporate.title'),
     'text' => t('transfers.corporate.text'),
-    'cta_href' => '/contacto?asunto=corporativo',
+    'cta_href' => 'https://wa.me/34951748494',
     'cta_label' => t('cta.request_quote'),
   ],
   [
@@ -70,7 +70,7 @@ $cards = [
       t('transfers.bullets.map'),
       t('transfers.bullets.pois'),
     ],
-    'cta_href' => '/#goToQuote',
+    'cta_href' => '/excursiones.php',
     'cta_label' => t('cta.see_more'),
   ],
 ];

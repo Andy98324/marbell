@@ -90,8 +90,46 @@ $lang = current_lang();
       loading="eager" fetchpriority="high">
   </span>
 
-  <span class="hidden lg:block leading-tight">
-    <span class="block font-extrabold tracking-wide">Transfer Marbell</span>
+  <span class="uppercase font-extrabold tracking-[0.14em] leading-none select-none">
+  <!-- TRANSFER (turquesa) -->
+  <span class="text-[#18c6c8]
+               [text-shadow:0_1px_0_rgba(255,255,255,0.18),0_0_14px_rgba(24,198,200,0.25)]">
+    Transfer
+  </span>
+
+  <span class="ml-2"></span>
+
+  <!-- MAR (azul oscuro) -->
+  <span class="text-[#0b2a3a]
+               [text-shadow:0_1px_0_rgba(255,255,255,0.18)]">
+    Mar
+  </span>
+
+  <!-- Check círculo (como el logo) -->
+  <span class="inline-flex align-middle mx-1 -translate-y-[1px]" aria-hidden="true">
+    <svg viewBox="0 0 24 24" class="h-4 w-4">
+      <circle cx="12" cy="12" r="9"
+              fill="rgba(24,198,200,0.18)"
+              stroke="rgba(24,198,200,0.95)"
+              stroke-width="2"/>
+      <path d="M8.2 12.4l2.4 2.5 5.6-6.1"
+            fill="none"
+            stroke="rgba(24,198,200,0.95)"
+            stroke-width="2.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+    </svg>
+  </span>
+
+  <!-- BELL (azul oscuro) -->
+  <span class="text-[#0b2a3a]
+               [text-shadow:0_1px_0_rgba(255,255,255,0.18)]">
+    Bell
+  </span>
+</span>
+
+
+
     <span class="block text-xs text-white/70">Traslados privados</span>
   </span>
 </a>

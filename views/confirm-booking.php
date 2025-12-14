@@ -71,6 +71,21 @@ $reserva_out = [
   'notas'    => $notes,
   'tipo'     => 'OUT',
   'issued_at'=> date('Y-m-d H:i'),
+  'extras' => [
+  'Sillita infantil' => (int)($data['extra_child_seat'] ?? 0),
+  'Alzador'          => (int)($data['extra_booster'] ?? 0),
+  'Bicicleta'        => (int)($data['extra_bike'] ?? 0),
+  'Palos de golf'    => (int)($data['extra_golf'] ?? 0),
+],
+
+'vehicle_name'     => (string)($data['vehicle_name'] ?? ''),
+'vehicle_capacity' => (string)($data['vehicle_capacity'] ?? ''),
+'vehicle_code'     => (string)($data['vehicle_code'] ?? ''),
+
+'price_base'        => (float)($data['base_out_price'] ?? 0),
+'price_extras'      => (float)($data['extras_out'] ?? 0),
+'price_night'       => (float)($data['night_surcharge_out'] ?? 0),
+'price_airport_fee' => (float)($data['airport_fee_out'] ?? 0),
 ];
 
 $files_out = save_voucher_files($reserva_out);

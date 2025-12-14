@@ -301,31 +301,88 @@ $grand_total = $grand_total ?? ($total_out + ($return_yes ? $total_return : 0.0)
 
       <form method="post" action="/confirm-booking.php" class="mt-5 text-center">
   <?php
+    // ✅ Extras (cantidades)
+    $extra_child_seat = (int)($data['extra_child_seat'] ?? 0);
+    $extra_booster    = (int)($data['extra_booster'] ?? 0);
+    $extra_bike       = (int)($data['extra_bike'] ?? 0);
+    $extra_golf       = (int)($data['extra_golf'] ?? 0);
+
+    // ✅ Texto capacidad del vehículo (lo mismo que muestras en la vista)
+    $vehCapacityText = trim($vehPax . ($vehLugg !== '' ? " • {$vehLugg} maletas" : ''));
+
+    // ✅ Intentar recuperar el code si lo tienes en $vehicle
+    // (si no existe, déjalo vacío; NO rompe nada)
+    $vehCode = (string)($vehicle['code'] ?? '');
+
+    // ✅ Payload completo
     $payload = [
-      'origin_address'      => $origin_address ?? '',
-      'destination_address' => $destination_address ?? '',
+      // Ruta
+      'origin_address'      => (string)($origin_address ?? ''),
+      'destination_address' => (string)($destination_address ?? ''),
+      'km'                  => (float)($km ?? 0),
+      'minutes'             => (float)($minutes ?? 0),
 
-      'first_name' => $data['first_name'] ?? '',
-      'last_name'  => $data['last_name'] ?? '',
-      'email'      => $data['email'] ?? '',
-      'phone'      => $data['phone'] ?? '',
-      'notes'      => $data['notes'] ?? '',
+      // Pasajero
+      'first_name' => (string)($data['first_name'] ?? ''),
+      'last_name'  => (string)($data['last_name'] ?? ''),
+      'email'      => (string)($data['email'] ?? ''),
+      'phone'      => (string)($data['phone'] ?? ''),
+      'notes'      => (string)($data['notes'] ?? ''),
 
-      'service_date' => $data['service_date'] ?? '',
-      'service_time' => $data['service_time'] ?? '',
+      // Servicio ida
+      'service_date' => (string)($data['service_date'] ?? ''),
+      'service_time' => (string)($data['service_time'] ?? ''),
 
+      // Vuelo/Tren (si los hay)
+      'flight_number' => (string)($data['flight_number'] ?? ''),
+      'train_number'  => (string)($data['train_number'] ?? ''),
+
+      // Pax / maletas
       'passengers' => (int)($data['passengers'] ?? 1),
+      'luggage'    => (int)($data['luggage'] ?? 0),
 
-      'return_trip' => $data['return_trip'] ?? 'no',
-      'return_date' => $data['return_date'] ?? '',
-      'return_time' => $data['return_time'] ?? '',
+      // ✅ Vehículo elegido
+      'vehicle_name'     => (string)($vehName ?? ''),
+      'vehicle_capacity' => (string)($vehCapacityText ?? ''),
+      'vehicle_code'     => (string)($vehCode ?? ''),
+      'vehicle_img'      => (string)($vehImg ?? ''), // por si lo quieres en el futuro
 
-      // Totales YA calculados en review-booking.php
-      'total_out'    => (float)($total_out ?? 0),
-      'total_return' => (float)($total_return ?? 0),
+      // ✅ Extras (cantidades)
+      'extra_child_seat' => $extra_child_seat,
+      'extra_booster'    => $extra_booster,
+      'extra_bike'       => $extra_bike,
+      'extra_golf'       => $extra_golf,
+
+      // ✅ Desglose ida
+      'base_out_price'      => (float)($base_out_price ?? 0),
+      'extras_out'          => (float)($extras_out ?? 0),
+      'night_surcharge_out' => (float)($night_surcharge_out ?? 0),
+      'airport_fee_out'     => (float)($airport_fee ?? 0),
+      'total_out'           => (float)($total_out ?? 0),
+
+      // Vuelta
+      'return_trip' => (string)($data['return_trip'] ?? 'no'),
+      'return_date' => (string)($data['return_date'] ?? ''),
+      'return_time' => (string)($data['return_time'] ?? ''),
+
+      // Vuelta vuelo/tren
+      'return_flight_number' => (string)($data['return_flight_number'] ?? ''),
+      'return_train_number'  => (string)($data['return_train_number'] ?? ''),
+
+      // ✅ Desglose vuelta
+      // (si no hay tarifa, base_return_price puede ser null)
+      'base_return_price'    => $base_return_price, // puede ser null
+      'extras_return'        => (float)($extras_return ?? 0),
+      'night_surcharge_ret'  => (float)($night_surcharge_ret ?? 0),
+      'total_return'         => (float)($total_return ?? 0),
+
+      // ✅ Total general
+      'grand_total'          => (float)($grand_total ?? 0),
     ];
+
     $payloadB64 = base64_encode(json_encode($payload, JSON_UNESCAPED_UNICODE));
   ?>
+
   <input type="hidden" name="payload" value="<?= htmlspecialchars($payloadB64) ?>">
 
   <button type="submit"
@@ -333,6 +390,7 @@ $grand_total = $grand_total ?? ($total_out + ($return_yes ? $total_return : 0.0)
     <?= function_exists('t') ? t('review.confirm_cta') : 'Confirmar reserva' ?>
   </button>
 </form>
+
 
     </aside>
 

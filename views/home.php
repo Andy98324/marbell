@@ -117,9 +117,9 @@ function render_stars($score){
                 </form>
 
           </div>
+        </div>
       </div>
-      </div>
-      </div>
+    </div>
   </div>
 </section>
 

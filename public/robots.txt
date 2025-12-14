@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: http://157.180.74.170:8081/sitemap.xml
+Sitemap: http://transfermarbell.com/sitemap.xml

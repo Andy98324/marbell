@@ -1,11 +1,25 @@
-<!-- HERO -->
-<section class="relative overflow-hidden bg-[#0b1220] text-white">
-  <div class="absolute inset-0 opacity-20 pointer-events-none">
-    <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2 bg-gradient-to-br from-sky-500/30 via-transparent to-transparent rounded-full blur-3xl"></div>
+<!-- HERO (Excursión Nerja) -->
+<section class="relative overflow-hidden bg-[#0b1220] text-white rounded-3xl">
+  <div class="absolute inset-0 opacity-25 pointer-events-none">
+    <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2
+                bg-gradient-to-br from-sky-500/30 via-transparent to-transparent
+                rounded-full blur-3xl"></div>
   </div>
-  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight"><?= t('guided.sevilla_ac.h1') ?></h1>
-    <p class="mt-3 text-white/80 text-lg leading-relaxed max-w-3xl"><?= t('guided.sevilla_ac.lead') ?></p>
+
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-18">
+    <div class="rounded-3xl border border-white/15 bg-white/10 backdrop-blur-md shadow-2xl overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none opacity-25
+                  bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.20)_0%,rgba(255,255,255,0.00)_55%)]"></div>
+
+      <div class="relative p-7 md:p-10">
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">
+          <?= t('guided.sevilla_ac.h1') ?>
+        </h1>
+        <p class="mt-4 text-white/80 text-lg leading-relaxed max-w-3xl">
+          <?= t('guided.sevilla_ac.lead') ?>
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -71,7 +85,7 @@
                     <div class="flex flex-wrap gap-2">
                       <a class="inline-flex items-center gap-1 rounded-full bg-green-50 text-green-700 ring-1 ring-green-200 px-3 py-1 hover:bg-green-100"
                          target="_blank" rel="noopener"
-                         href="https://wa.me/34692926919?text=<?= rawurlencode($msg) ?>">WhatsApp</a>
+                         href="https://wa.me/34951748494?text=<?= rawurlencode($msg) ?>">WhatsApp</a>
                       <a class="inline-flex items-center gap-1 rounded-full bg-sky-50 text-sky-700 ring-1 ring-sky-200 px-3 py-1 hover:bg-sky-100"
                          target="_blank" rel="noopener"
                          href="https://t.me/34692926919?text=<?= rawurlencode($msg) ?>">Telegram</a>
@@ -89,7 +103,7 @@
                     <div class="flex flex-wrap gap-2">
                       <a class="inline-flex items-center gap-1 rounded-full bg-green-50 text-green-700 ring-1 ring-green-200 px-3 py-1 hover:bg-green-100"
                          target="_blank" rel="noopener"
-                         href="https://wa.me/34692926919?text=<?= rawurlencode($msg8) ?>">WhatsApp</a>
+                         href="https://wa.me/34951748494?text=<?= rawurlencode($msg8) ?>">WhatsApp</a>
                       <a class="inline-flex items-center gap-1 rounded-full bg-sky-50 text-sky-700 ring-1 ring-sky-200 px-3 py-1 hover:bg-sky-100"
                          target="_blank" rel="noopener"
                          href="https://t.me/34692926919?text=<?= rawurlencode($msg8) ?>">Telegram</a>
@@ -126,7 +140,7 @@
                   <div class="flex flex-wrap gap-2">
                     <a class="inline-flex items-center gap-1 rounded-full bg-green-50 text-green-700 ring-1 ring-green-200 px-3 py-1 hover:bg-green-100"
                        target="_blank" rel="noopener"
-                       href="https://wa.me/34692926919?text=<?= rawurlencode($msgT) ?>">WhatsApp</a>
+                       href="https://wa.me/34951748494?text=<?= rawurlencode($msgT) ?>">WhatsApp</a>
                     <a class="inline-flex items-center gap-1 rounded-full bg-sky-50 text-sky-700 ring-1 ring-sky-200 px-3 py-1 hover:bg-sky-100"
                        target="_blank" rel="noopener"
                        href="https://t.me/34692926919?text=<?= rawurlencode($msgT) ?>">Telegram</a>
@@ -148,7 +162,7 @@
 
     <!-- CTA -->
     <div class="mt-10 text-center">
-      <a href="https://wa.me/34692926919" target="_blank" rel="noopener"
+      <a href="https://wa.me/34951748494" target="_blank" rel="noopener"
          class="relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-sky-600 px-8 py-3 text-lg font-semibold text-white shadow-lg transition hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500">
         <span class="relative z-10"><?= t('guided.sevilla_ac.cta.info') ?></span>
         <span class="absolute inset-0 bg-gradient-to-r from-sky-400 via-sky-600 to-sky-400 opacity-0 group-hover:opacity-100 transition-opacity"></span>

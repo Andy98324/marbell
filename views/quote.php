@@ -175,13 +175,20 @@ $noZoneMatch = $noZoneMatch ?? false;
                 <span class="text-zinc-900"><?= eur($price) ?></span>
               <?php else: ?>
                 <div class="text-zinc-400 text-base">
-                  <?= function_exists('t') ? t('quote.not_available') : 'Precio no disponible' ?>
+                  <?= htmlspecialchars(function_exists('t') ? t('quote.not_available') : 'Precio no disponible') ?>
                 </div>
 
-                <a href="https://wa.me/34951748494?text=Hola%2C%20preguntanos%20por%20el%20mejor%20precio"
+                <?php
+                  $waPhone = '34951748494';
+                  $waMsg   = function_exists('t') ? (t('quote.ask_best_price_msg') ?: 'Hola, preguntanos por el mejor precio') : 'Hola, preguntanos por el mejor precio';
+                  $waHref  = 'https://wa.me/' . $waPhone . '?text=' . rawurlencode($waMsg);
+                  $waLabel = function_exists('t') ? (t('quote.ask_best_price') ?: 'Pregúntanos por el mejor precio') : 'Pregúntanos por el mejor precio';
+                ?>
+
+                <a href="<?= htmlspecialchars($waHref) ?>"
                   target="_blank" rel="noopener noreferrer"
                   class="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-green-700">
-                  Pregúntanos por el mejor precio
+                  <?= htmlspecialchars($waLabel) ?>
                 </a>
               <?php endif; ?>
 

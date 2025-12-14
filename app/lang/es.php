@@ -794,7 +794,9 @@ return [
   'quote.sort.lug_desc' => 'Equipaje (mayor a menor)',
   'quote.sort.lug_asc' => 'Equipaje (menor a mayor)',
 
-  'quote.not_available' => 'Precio no disponible',
+  'quote.not_available'       => 'Precio no disponible',
+  'quote.ask_best_price'      => 'Pregúntanos por nuestra disponibilidad.',
+  'quote.ask_best_price_msg'  => 'Hola, pregúntanos por nuestra disponibilidad.',
   'quote.no_zone_price' => 'Sin tarifa definida para esta zona',
   'quote.zone_price'    => 'Tarifa fija por zona',
 

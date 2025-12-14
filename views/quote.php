@@ -83,11 +83,11 @@ $noZoneMatch = $noZoneMatch ?? false;
                 : 'Por favor, contáctanos y te daremos precio al momento.' ?>
         </p>
         <div class="mt-4 flex items-center justify-center gap-3">
-          <a href="tel:+34XXXXXXXXX"
+          <a href="tel:+34951748494"
              class="rounded-xl bg-amber-400 text-zinc-900 font-semibold px-5 py-2 shadow">
             <?= function_exists('t') ? t('quote.call') : 'Llamar' ?>
           </a>
-          <a href="mailto:info@tudominio.com"
+          <a href="mailto:info@transfermarbell.com"
              class="rounded-xl bg-white/10 border border-zinc-200 text-zinc-800 font-semibold px-5 py-2">
             <?= function_exists('t') ? t('quote.write') : 'Escribir' ?>
           </a>

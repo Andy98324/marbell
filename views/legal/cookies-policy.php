@@ -1,20 +1,22 @@
+<h2>1. ¿Qué son las cookies?</h2>
+<p>Las cookies son pequeños archivos que se descargan en tu dispositivo al acceder a determinadas páginas web. Permiten, entre otras cosas, almacenar y recuperar información sobre la navegación.</p>
 
+<h2>2. Tipos de cookies</h2>
+<ul>
+  <li><strong>Técnicas (necesarias):</strong> permiten el funcionamiento básico del sitio.</li>
+  <li><strong>Preferencias:</strong> recuerdan opciones (idioma, etc.).</li>
+  <li><strong>Analíticas:</strong> ayudan a medir y analizar el uso del sitio (si se usan).</li>
+  <li><strong>Marketing:</strong> orientadas a publicidad personalizada (si se usan).</li>
+</ul>
 
-<!-- HERO -->
-<section class="relative overflow-hidden bg-[#0b1220] text-white">
-  <div class="absolute inset-0 opacity-20 pointer-events-none">
-    <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2 bg-gradient-to-br from-sky-500/30 via-transparent to-transparent rounded-full blur-3xl"></div>
-  </div>
-  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight"><?= t('legal.cookies.h1') ?></h1>
-    <p class="mt-3 text-white/80 text-lg leading-relaxed max-w-3xl"><?= t('legal.cookies.lead') ?></p>
-  </div>
-</section>
+<h2>3. Cookies propias y de terceros</h2>
+<p>Este sitio puede utilizar cookies propias y de terceros. Por ejemplo, la integración de <strong>Google Maps</strong> puede instalar cookies de terceros y realizar solicitudes a servidores de Google.</p>
 
-<!-- CONTENIDO -->
-<section class="py-16 bg-white">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 prose prose-zinc max-w-none">
-    <?= t('legal.cookies.content') ?>
-  </div>
-</section>
+<h2>4. ¿Cómo gestionar o desactivar cookies?</h2>
+<p>Puedes permitir, bloquear o eliminar cookies desde la configuración de tu navegador. También podrás modificar tu consentimiento cuando corresponda mediante el panel de configuración de cookies del sitio (si está habilitado).</p>
 
+<h2>5. Tabla de cookies</h2>
+<p><em>[COMPLETAR: incluir aquí una tabla/listado con nombre de la cookie, proveedor, finalidad, duración y tipo. Ej.: cookies técnicas propias, cookies de Google Maps, etc.]</em></p>
+
+<h2>6. Marco normativo</h2>
+<p>El uso de cookies se regula, entre otras normas, por el art. 22.2 de la LSSI y los criterios de la AEPD.</p>

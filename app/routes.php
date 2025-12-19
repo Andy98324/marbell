@@ -47,7 +47,237 @@ return [
   header('Location: /servicios/traslados', true, 301);
   exit;
 },
+/* =========================
+   PRIVACY POLICY
+========================= */
 
+// URL limpia
+'GET /privacy-policy' => function () {
+  $title   = t('footer.legal.privacy');
+  $seoData = [
+    'title'       => $title,
+    'description' => $title,
+    'image'       => '/assets/logo-og.png',
+    'breadcrumbs' => [
+      ['@id'=>'/',               'name'=>t('nav.home')],
+      ['@id'=>'/privacy-policy', 'name'=>t('footer.legal.privacy')],
+    ],
+  ];
+  require __DIR__ . '/../views/legal/privacy-policy.php';
+},
+
+// URL antigua (redirige)
+'GET /Privacy-policy.php' => function () use ($redirect301) {
+  $redirect301('/privacy-policy');
+},
+
+
+/* =========================
+   TERMS & CONDITIONS
+========================= */
+
+'GET /terms-and-conditions' => function () {
+  $title   = t('footer.legal.terms');
+  $seoData = [
+    'title'       => $title,
+    'description' => $title,
+    'image'       => '/assets/logo-og.png',
+    'breadcrumbs' => [
+      ['@id'=>'/',                     'name'=>t('nav.home')],
+      ['@id'=>'/terms-and-conditions', 'name'=>t('footer.legal.terms')],
+    ],
+  ];
+  require __DIR__ . '/../views/legal/terms-and-conditions.php';
+},
+
+// OJO: el & en la ruta es mala idea, pero si te llega tráfico con eso, lo soportamos:
+'GET /Terms&conditions.php' => function () use ($redirect301) {
+  $redirect301('/terms-and-conditions');
+},
+
+
+/* =========================
+   COOKIES POLICY
+========================= */
+
+'GET /cookies-policy' => function () {
+  $title   = t('footer.legal.cookies');
+  $seoData = [
+    'title'       => $title,
+    'description' => $title,
+    'image'       => '/assets/logo-og.png',
+    'breadcrumbs' => [
+      ['@id'=>'/',               'name'=>t('nav.home')],
+      ['@id'=>'/cookies-policy', 'name'=>t('footer.legal.cookies')],
+    ],
+  ];
+  require __DIR__ . '/../views/legal/cookies-policy.php';
+},
+
+'GET /Cookies-Policy.php' => function () use ($redirect301) {
+  $redirect301('/cookies-policy');
+},
+
+
+/* =========================
+   SECURITY POLICY
+========================= */
+
+'GET /security-policy' => function () {
+  $title   = t('footer.legal.security');
+  $seoData = [
+    'title'       => $title,
+    'description' => $title,
+    'image'       => '/assets/logo-og.png',
+    'breadcrumbs' => [
+      ['@id'=>'/',                'name'=>t('nav.home')],
+      ['@id'=>'/security-policy', 'name'=>t('footer.legal.security')],
+    ],
+  ];
+  require __DIR__ . '/../views/legal/security-policy.php';
+},
+
+'GET /Security-policy.php' => function () use ($redirect301) {
+  $redirect301('/security-policy');
+},
+
+
+/* =========================
+   PAYMENT POLICY
+========================= */
+
+'GET /payment-policy' => function () {
+  $title   = t('footer.legal.payment');
+  $seoData = [
+    'title'       => $title,
+    'description' => $title,
+    'image'       => '/assets/logo-og.png',
+    'breadcrumbs' => [
+      ['@id'=>'/',               'name'=>t('nav.home')],
+      ['@id'=>'/payment-policy', 'name'=>t('footer.legal.payment')],
+    ],
+  ];
+  require __DIR__ . '/../views/legal/payment-policy.php';
+},
+
+'GET /Payment-policy.php' => function () use ($redirect301) {
+  $redirect301('/payment-policy');
+},
+
+
+/* =========================
+   ANTI-FRAUD POLICY
+========================= */
+
+'GET /anti-fraud-policy' => function () {
+  $title   = t('footer.legal.antifraud');
+  $seoData = [
+    'title'       => $title,
+    'description' => $title,
+    'image'       => '/assets/logo-og.png',
+    'breadcrumbs' => [
+      ['@id'=>'/',                  'name'=>t('nav.home')],
+      ['@id'=>'/anti-fraud-policy', 'name'=>t('footer.legal.antifraud')],
+    ],
+  ];
+  require __DIR__ . '/../views/legal/anti-fraud-policy.php';
+},
+
+'GET /Anti-fraud-policy.php' => function () use ($redirect301) {
+  $redirect301('/anti-fraud-policy');
+},
+
+
+/* =========================
+   REGULATORY COMPLIANCE
+========================= */
+
+'GET /regulatory-compliance' => function () {
+  $title   = t('footer.legal.compliance');
+  $seoData = [
+    'title'       => $title,
+    'description' => $title,
+    'image'       => '/assets/logo-og.png',
+    'breadcrumbs' => [
+      ['@id'=>'/',                     'name'=>t('nav.home')],
+      ['@id'=>'/regulatory-compliance','name'=>t('footer.legal.compliance')],
+    ],
+  ];
+  require __DIR__ . '/../views/legal/regulatory-compliance.php';
+},
+
+'GET /Regulatory-compliance.php' => function () use ($redirect301) {
+  $redirect301('/regulatory-compliance');
+},
+
+
+/* =========================
+   COMMUNICATION POLICY
+========================= */
+
+'GET /communication-policy' => function () {
+  $title   = t('footer.legal.communication');
+  $seoData = [
+    'title'       => $title,
+    'description' => $title,
+    'image'       => '/assets/logo-og.png',
+    'breadcrumbs' => [
+      ['@id'=>'/',                    'name'=>t('nav.home')],
+      ['@id'=>'/communication-policy','name'=>t('footer.legal.communication')],
+    ],
+  ];
+  require __DIR__ . '/../views/legal/communication-policy.php';
+},
+
+'GET /Communication-Policy.php' => function () use ($redirect301) {
+  $redirect301('/communication-policy');
+},
+
+
+/* =========================
+   DATA RETENTION POLICY
+========================= */
+
+'GET /data-retention-policy' => function () {
+  $title   = t('footer.legal.retention');
+  $seoData = [
+    'title'       => $title,
+    'description' => $title,
+    'image'       => '/assets/logo-og.png',
+    'breadcrumbs' => [
+      ['@id'=>'/',                     'name'=>t('nav.home')],
+      ['@id'=>'/data-retention-policy','name'=>t('footer.legal.retention')],
+    ],
+  ];
+  require __DIR__ . '/../views/legal/data-retention-policy.php';
+},
+
+'GET /Data-Retention-Policy.php' => function () use ($redirect301) {
+  $redirect301('/data-retention-policy');
+},
+
+
+/* =========================
+   ACCEPTABLE USE POLICY
+========================= */
+
+'GET /acceptable-use-policy' => function () {
+  $title   = t('footer.legal.acceptable');
+  $seoData = [
+    'title'       => $title,
+    'description' => $title,
+    'image'       => '/assets/logo-og.png',
+    'breadcrumbs' => [
+      ['@id'=>'/',                     'name'=>t('nav.home')],
+      ['@id'=>'/acceptable-use-policy','name'=>t('footer.legal.acceptable')],
+    ],
+  ];
+  require __DIR__ . '/../views/legal/acceptable-use-policy.php';
+},
+
+'GET /Acceptable-Use-Policy.php' => function () use ($redirect301) {
+  $redirect301('/acceptable-use-policy');
+},
  'GET /servicios/traslados' => function () {
   $title   = t('transfers.title_short');
   $seoData = [

@@ -14,14 +14,18 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
 $payloadB64 = $_POST['payload'] ?? '';
 $payloadB64 = is_string($payloadB64) ? trim($payloadB64) : '';
 
-if ($payloadB64 === '') {
+if ($payloadB64 === '' || strlen($payloadB64) > 20000) { // límite básico
   header('Location: /');
   exit;
 }
 
 $json = base64_decode($payloadB64, true);
-$data = is_string($json) ? json_decode($json, true) : null;
+if ($json === false) {
+  header('Location: /');
+  exit;
+}
 
+$data = json_decode($json, true);
 if (!is_array($data)) {
   header('Location: /');
   exit;
@@ -48,15 +52,49 @@ $notes = (string)($data['notes'] ?? '');
 
 $passengers = (int)($data['passengers'] ?? 1);
 
-// Precios
-$total_out    = (float)($data['total_out'] ?? 0);
-$total_return = (float)($data['total_return'] ?? 0);
+// Vehículo
+$vehicle_name     = (string)($data['vehicle_name'] ?? '');
+$vehicle_capacity = (string)($data['vehicle_capacity'] ?? '');
+$vehicle_code     = (string)($data['vehicle_code'] ?? '');
 
+// Extras (cantidades)
+$extra_child_seat = (int)($data['extra_child_seat'] ?? 0);
+$extra_booster    = (int)($data['extra_booster'] ?? 0);
+$extra_bike       = (int)($data['extra_bike'] ?? 0);
+$extra_golf       = (int)($data['extra_golf'] ?? 0);
+
+$extras_arr = [
+  'Sillita infantil' => $extra_child_seat,
+  'Alzador'          => $extra_booster,
+  'Bicicleta'        => $extra_bike,
+  'Palos de golf'    => $extra_golf,
+];
+
+// Precios ida
+$total_out = (float)($data['total_out'] ?? 0);
+$base_out_price      = (float)($data['base_out_price'] ?? 0);
+$extras_out          = (float)($data['extras_out'] ?? 0);
+$night_surcharge_out = (float)($data['night_surcharge_out'] ?? 0);
+$airport_fee_out     = (float)($data['airport_fee_out'] ?? 0);
+
+// Vuelta: detección robusta
 $return_trip = (string)($data['return_trip'] ?? 'no');
-$return_yes  = ($return_trip === 'yes');
+$return_yes =
+  ($return_trip === 'yes')
+  || !empty($data['return_date'])
+  || !empty($data['return_time']);
 
-// OUT
+// Precios vuelta
+$base_return_price   = $data['base_return_price'] ?? null; // puede ser null
+if ($base_return_price !== null) $base_return_price = (float)$base_return_price;
+
+$total_return        = (float)($data['total_return'] ?? 0);
+$extras_return       = (float)($data['extras_return'] ?? 0);
+$night_surcharge_ret = (float)($data['night_surcharge_ret'] ?? 0);
+
+// ===== OUT =====
 $ref_out = make_ref('OUT');
+
 $reserva_out = [
   'ref'      => $ref_out,
   'fecha'    => (string)($data['service_date'] ?? ''),
@@ -65,37 +103,35 @@ $reserva_out = [
   'destino'  => $destination_address,
   'pax'      => $passengers,
   'nombre'   => $fullName,
-  'precio'   => $total_out,
   'telefono' => $phone,
   'email'    => $email,
   'notas'    => $notes,
   'tipo'     => 'OUT',
   'issued_at'=> date('Y-m-d H:i'),
-  'extras' => [
-  'Sillita infantil' => (int)($data['extra_child_seat'] ?? 0),
-  'Alzador'          => (int)($data['extra_booster'] ?? 0),
-  'Bicicleta'        => (int)($data['extra_bike'] ?? 0),
-  'Palos de golf'    => (int)($data['extra_golf'] ?? 0),
-],
 
-'vehicle_name'     => (string)($data['vehicle_name'] ?? ''),
-'vehicle_capacity' => (string)($data['vehicle_capacity'] ?? ''),
-'vehicle_code'     => (string)($data['vehicle_code'] ?? ''),
+  // Voucher: vehículo + extras
+  'vehicle_name'     => $vehicle_name,
+  'vehicle_capacity' => $vehicle_capacity,
+  'vehicle_code'     => $vehicle_code,
+  'extras'           => $extras_arr,
 
-'price_base'        => (float)($data['base_out_price'] ?? 0),
-'price_extras'      => (float)($data['extras_out'] ?? 0),
-'price_night'       => (float)($data['night_surcharge_out'] ?? 0),
-'price_airport_fee' => (float)($data['airport_fee_out'] ?? 0),
+  // Total + desglose (para que lo pinte el voucher)
+  'precio'           => $total_out,
+  'price_base'       => $base_out_price,
+  'price_extras'     => $extras_out,
+  'price_night'      => $night_surcharge_out,
+  'price_airport_fee'=> $airport_fee_out,
 ];
 
 $files_out = save_voucher_files($reserva_out);
 
-// RET (si aplica)
+// ===== RET (si aplica) =====
 $ref_ret = null;
 $files_ret = null;
 
 if ($return_yes) {
   $ref_ret = make_ref('RET');
+
   $reserva_ret = [
     'ref'      => $ref_ret,
     'fecha'    => (string)($data['return_date'] ?? ''),
@@ -104,21 +140,31 @@ if ($return_yes) {
     'destino'  => $origin_address,      // vuelta: destino = origen ida
     'pax'      => $passengers,
     'nombre'   => $fullName,
-    'precio'   => $total_return,
     'telefono' => $phone,
     'email'    => $email,
     'notas'    => $notes,
     'tipo'     => 'RET',
     'issued_at'=> date('Y-m-d H:i'),
+
+    'vehicle_name'     => $vehicle_name,
+    'vehicle_capacity' => $vehicle_capacity,
+    'vehicle_code'     => $vehicle_code,
+    'extras'           => $extras_arr,
+
+    // si no hay tarifa definida, total_return probablemente será 0
+    'precio'           => $total_return,
+    'price_base'       => (float)($base_return_price ?? 0),
+    'price_extras'     => $extras_return,
+    'price_night'      => $night_surcharge_ret,
+    'price_airport_fee'=> 0.0,
   ];
 
   $files_ret = save_voucher_files($reserva_ret);
 }
 
-// Render vista confirmación
-// (tu vista ya usa $ref_out y $ref_ret)
+// Render vista confirmación (SOLO vista)
 include __DIR__ . '/../views/confirm-booking.php';
-
+exit;
 ?>
 
 <section class="relative overflow-hidden bg-[#0b1220] text-white rounded-3xl">

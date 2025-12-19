@@ -154,7 +154,7 @@
           <div class="flex flex-col gap-4">
 
             <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/70">
-              <li><a href="/Privacy-policy.php" class="hover:text-white"><?= t('footer.legal.privacy') ?></a></li>
+              <li><a href="https://www.transfermarbell.com/Privacy-policy.php" class="hover:text-white"><?= t('footer.legal.privacy') ?></a></li>
               <li><a href="/Terms&conditions.php" class="hover:text-white"><?= t('footer.legal.terms') ?></a></li>
               <li><a href="/Cookies-Policy.php" class="hover:text-white"><?= t('footer.legal.cookies') ?></a></li>
               <li><a href="/Security-policy.php" class="hover:text-white"><?= t('footer.legal.security') ?></a></li>

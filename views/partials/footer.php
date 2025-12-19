@@ -154,18 +154,13 @@
           <div class="flex flex-col gap-4">
 
             <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/70">
-              <li><a href="/privacy-policy" class="hover:text-white"><?= t('footer.legal.privacy') ?></a></li>
-              <li><a href="/terms-and-conditions" class="hover:text-white"><?= t('footer.legal.terms') ?></a></li>
-              <li><a href="/cookies-policy" class="hover:text-white"><?= t('footer.legal.cookies') ?></a></li>
-              <li><a href="/security-policy" class="hover:text-white"><?= t('footer.legal.security') ?></a></li>
-              <li><a href="/payment-policy" class="hover:text-white"><?= t('footer.legal.payment') ?></a></li>
-              <li><a href="/anti-fraud-policy" class="hover:text-white"><?= t('footer.legal.antifraud') ?></a></li>
-              <li><a href="/regulatory-compliance" class="hover:text-white"><?= t('footer.legal.compliance') ?></a></li>
-              <li><a href="/communication-policy" class="hover:text-white"><?= t('footer.legal.communication') ?></a></li>
-              <li><a href="/data-retention-policy" class="hover:text-white"><?= t('footer.legal.retention') ?></a></li>
-              <li><a href="/acceptable-use-policy" class="hover:text-white"><?= t('footer.legal.acceptable') ?></a></li>
-
+              <li>
+                <a href="/legal" class="hover:text-white">
+                  <?= t('footer.legal.center') ?>
+                </a>
+              </li>
             </ul>
+
 
             <div class="text-sm text-white/70">
               © <?= date('Y') ?> <?= t('brand') ?>. <?= t('footer.rights') ?>

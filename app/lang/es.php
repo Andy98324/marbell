@@ -933,5 +933,31 @@ return [
   'confirm.download_ret'        => 'Descargar voucher (vuelta)',
   'confirm.download_all'        => 'Descargar vouchers',
   'confirm.no_voucher'          => 'No se ha encontrado el voucher. Contacta con nosotros indicando tu referencia.',
+  'footer.legal.center' => 'Legal',
+
+  // Centro legal
+  'legal.center.h1'   => 'Centro legal',
+  'legal.center.lead' => 'Información legal, políticas y condiciones del servicio.',
+  'legal.center.company.title' => 'Datos de la empresa',
+
+  // Aviso legal
+  'legal.notice.title' => 'Aviso legal',
+
+  // Tarjetas del centro legal (títulos/desc)
+  'legal.links.notice.title' => 'Aviso legal',
+  'legal.links.notice.desc'  => 'Datos del titular del sitio web y condiciones de uso.',
+
+  'legal.links.terms.desc'   => 'Condiciones de contratación, pagos, cancelaciones y no-show.',
+  'legal.links.privacy.desc' => 'Cómo tratamos tus datos personales y tus derechos.',
+  'legal.links.cookies.desc' => 'Uso de cookies, terceros (Google/Stripe) y cómo configurarlas.',
+
+  // Opcionales (si los mantienes)
+  'legal.links.security.desc'       => 'Medidas de seguridad y buenas prácticas para proteger tu información.',
+  'legal.links.payment.desc'        => 'Información sobre pagos, anticipo por enlace de Stripe y confirmación de reservas.',
+  'legal.links.antifraud.desc'      => 'Prevención de fraude, uso indebido y verificación cuando sea necesaria.',
+  'legal.links.compliance.desc'     => 'Compromisos de cumplimiento normativo y estándares aplicables.',
+  'legal.links.communication.desc'  => 'Canales de comunicación (email/WhatsApp) y tiempos de respuesta.',
+  'legal.links.retention.desc'      => 'Plazos de conservación de datos y criterios de eliminación.',
+  'legal.links.acceptable.desc'     => 'Normas de uso aceptable del sitio y prohibiciones.',
 
 ];

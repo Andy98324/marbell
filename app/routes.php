@@ -698,5 +698,31 @@ return [
     // calcula $quotes igual que en public/quote.php (o saca a helper)
     $require_view('quote.php');
   },
+'GET /legal' => function () use ($require_view) {
+  $title   = t('footer.legal.center');
+  $seoData = [
+    'title'       => $title,
+    'description' => $title,
+    'image'       => '/assets/logo-og.png',
+    'breadcrumbs' => [
+      ['@id'=>'/',       'name'=>t('nav.home')],
+      ['@id'=>'/legal',  'name'=>$title],
+    ],
+  ];
+  $require_view('legal/index.php');
+},
 
+'GET /aviso-legal' => function () use ($require_view) {
+  $title   = t('legal.notice.title');
+  $seoData = [
+    'title'       => $title,
+    'description' => $title,
+    'image'       => '/assets/logo-og.png',
+    'breadcrumbs' => [
+      ['@id'=>'/',            'name'=>t('nav.home')],
+      ['@id'=>'/aviso-legal', 'name'=>$title],
+    ],
+  ];
+  $require_view('legal/aviso-legal.php');
+},
 ];

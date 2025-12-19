@@ -932,5 +932,31 @@ return [
 'confirm.download_all'        => 'Download vouchers',
 'confirm.no_voucher'          => 'Voucher not found. Please contact us and provide your reference.',
 
+'footer.legal.center' => 'Legal',
+
+  // Legal center
+  'legal.center.h1'   => 'Legal Center',
+  'legal.center.lead' => 'Legal information, policies and service terms.',
+  'legal.center.company.title' => 'Company details',
+
+  // Legal notice
+  'legal.notice.title' => 'Legal notice',
+
+  // Cards (title/desc)
+  'legal.links.notice.title' => 'Legal notice',
+  'legal.links.notice.desc'  => 'Website owner details and terms of use.',
+
+  'legal.links.terms.desc'   => 'Booking terms, payments, cancellations and no-show policy.',
+  'legal.links.privacy.desc' => 'How we process personal data and your rights.',
+  'legal.links.cookies.desc' => 'Cookies usage, third parties (Google/Stripe) and how to manage them.',
+
+  // Optional (if you keep them)
+  'legal.links.security.desc'       => 'Security measures and best practices to protect your information.',
+  'legal.links.payment.desc'        => 'Payment information, proportional deposit via Stripe payment link and booking confirmation.',
+  'legal.links.antifraud.desc'      => 'Fraud prevention, misuse and verification when required.',
+  'legal.links.compliance.desc'     => 'Regulatory compliance commitments and applicable standards.',
+  'legal.links.communication.desc'  => 'Communication channels (email/WhatsApp) and response times.',
+  'legal.links.retention.desc'      => 'Data retention periods and deletion criteria.',
+  'legal.links.acceptable.desc'     => 'Acceptable use rules and prohibited activities.',
 
 ];

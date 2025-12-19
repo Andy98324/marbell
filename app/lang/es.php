@@ -960,4 +960,284 @@ return [
   'legal.links.retention.desc'      => 'Plazos de conservación de datos y criterios de eliminación.',
   'legal.links.acceptable.desc'     => 'Normas de uso aceptable del sitio y prohibiciones.',
 
+  'legal.security.h1'   => 'Política de seguridad',
+'legal.security.lead' => 'Medidas y buenas prácticas para proteger tus datos, reservas y pagos.',
+'legal.security.content' => '
+<h2>1. Objetivo</h2>
+<p>En Transfer Erkaitand S.L.U. aplicamos medidas técnicas y organizativas razonables para proteger la información y garantizar un uso seguro de nuestro sitio web y de los servicios asociados a la reserva de traslados.</p>
+
+<h2>2. Medidas de seguridad</h2>
+<ul>
+  <li><strong>Acceso restringido:</strong> el acceso a sistemas y cuentas internas está limitado al personal autorizado.</li>
+  <li><strong>Principio de mínima necesidad:</strong> solo se accede a los datos necesarios para gestionar la reserva y prestar el servicio.</li>
+  <li><strong>Actualizaciones y mantenimiento:</strong> mantenemos el software y componentes del sitio actualizados cuando es posible.</li>
+  <li><strong>Registro y monitorización:</strong> podemos generar registros técnicos (logs) para detectar incidencias, fallos o intentos de uso indebido.</li>
+</ul>
+
+<h2>3. Pagos seguros (enlaces de Stripe)</h2>
+<p>Para confirmar determinadas reservas, podemos solicitar un anticipo proporcional mediante un <strong>enlace de pago de Stripe</strong> enviado por WhatsApp o por email. La información de tu tarjeta se introduce y procesa en la plataforma de Stripe; nosotros no almacenamos datos completos de tarjeta.</p>
+
+<h2>4. Comunicación por WhatsApp y correo electrónico</h2>
+<p>Si eliges WhatsApp o email para comunicarte con nosotros, ten en cuenta que es un canal gestionado por terceros (WhatsApp/Meta o tu proveedor de correo). Te recomendamos no compartir información sensible innecesaria (por ejemplo, datos completos de tarjeta).</p>
+
+<h2>5. Google Maps</h2>
+<p>El sitio puede integrar Google Maps para facilitar ubicaciones. Al utilizarlo, Google puede recopilar datos técnicos y establecer cookies de terceros según sus propias políticas. Puedes consultar más información en nuestra <a href="/cookies-policy">Política de cookies</a>.</p>
+
+<h2>6. Recomendaciones al usuario</h2>
+<ul>
+  <li>Comprueba que estás en el dominio correcto antes de introducir datos: <strong>transfermarbell.com</strong>.</li>
+  <li>No compartas por WhatsApp/email datos completos de tarjeta o contraseñas.</li>
+  <li>Revisa que el enlace de pago procede de nuestros canales habituales antes de efectuar el pago.</li>
+</ul>
+
+<h2>7. Incidencias de seguridad</h2>
+<p>Si detectas un posible problema de seguridad (enlaces sospechosos, suplantación, uso indebido de datos), contáctanos en <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a> o en el teléfono <a href="tel:+34951748494">+34 951 748 494</a>.</p>
+
+<h2>8. Actualizaciones</h2>
+<p>Podemos actualizar esta política para adaptarla a cambios técnicos o legales. La versión vigente será la publicada en esta página.</p>
+',
+
+'legal.antifraud.h1'   => 'Política antifraude',
+'legal.antifraud.lead' => 'Medidas para prevenir pagos fraudulentos, suplantaciones y usos indebidos del servicio.',
+'legal.antifraud.content' => '
+<h2>1. Objetivo</h2>
+<p>Esta política describe las medidas que aplicamos para prevenir el fraude, la suplantación de identidad y el uso indebido de nuestro sitio web y del servicio de traslados.</p>
+
+<h2>2. Situaciones que pueden considerarse sospechosas</h2>
+<ul>
+  <li>Solicitudes con datos incompletos o incoherentes (por ejemplo, horarios imposibles o ubicaciones incongruentes).</li>
+  <li>Intentos repetidos de pago fallidos o enlaces de pago utilizados de forma anómala.</li>
+  <li>Comunicaciones que aparenten ser del cliente pero no coincidan con los datos de la reserva.</li>
+  <li>Uso abusivo del formulario (spam) o de los canales de contacto.</li>
+</ul>
+
+<h2>3. Pagos y enlaces de Stripe</h2>
+<p>Para confirmar determinadas reservas, podemos solicitar un anticipo proporcional mediante un <strong>enlace de pago de Stripe</strong> enviado por WhatsApp o por email. La información de pago se introduce y procesa en la plataforma de Stripe; nosotros no almacenamos datos completos de tarjeta.</p>
+<p><strong>Recomendación:</strong> verifica siempre que el enlace de pago procede de nuestros canales oficiales antes de completar el pago.</p>
+
+<h2>4. Verificaciones</h2>
+<p>Con el fin de proteger al cliente y al prestador, podremos solicitar confirmación adicional de ciertos datos (por ejemplo, nombre, teléfono, email, detalles de la reserva o identificación del punto de encuentro) cuando sea razonablemente necesario.</p>
+
+<h2>5. Medidas que podemos adoptar</h2>
+<ul>
+  <li>Revisar manualmente una solicitud antes de confirmarla.</li>
+  <li>Solicitar información adicional para validar la reserva.</li>
+  <li>Rechazar o cancelar una reserva si existen indicios razonables de fraude o uso indebido.</li>
+  <li>Bloquear temporalmente envíos automatizados o IPs en caso de spam/abuso, cuando proceda.</li>
+</ul>
+
+<h2>6. Suplantación y enlaces sospechosos</h2>
+<p>Si recibes mensajes o enlaces que aparentan ser nuestros pero te resultan sospechosos, no realices ningún pago y contacta con nosotros inmediatamente.</p>
+
+<h2>7. Contacto</h2>
+<p>Para reportar incidencias o sospechas de fraude: <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a> o <a href="tel:+34951748494">+34 951 748 494</a>.</p>
+
+<h2>8. Actualizaciones</h2>
+<p>Podemos actualizar esta política para adaptarla a cambios del servicio, medidas de seguridad o normativa aplicable. La versión vigente será la publicada en esta página.</p>
+',
+'legal.communication.h1'   => 'Política de comunicación',
+'legal.communication.lead' => 'Canales oficiales, recomendaciones y tiempos de respuesta para gestionar reservas e incidencias.',
+'legal.communication.content' => '
+<h2>1. Objetivo</h2>
+<p>Esta política explica los canales oficiales de comunicación y las recomendaciones para que la gestión de reservas, cambios e incidencias sea rápida y segura.</p>
+
+<h2>2. Canales oficiales</h2>
+<ul>
+  <li><strong>Email (información y reservas):</strong> <a href="mailto:info@transfermarbell.com">info@transfermarbell.com</a></li>
+  <li><strong>Soporte y reclamaciones:</strong> <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a></li>
+  <li><strong>Teléfono:</strong> <a href="tel:+34951748494">+34 951 748 494</a></li>
+  <li><strong>WhatsApp:</strong> <a target="_blank" rel="noopener" href="https://wa.me/34951748494">(+34) 951 748 494</a></li>
+</ul>
+
+<h2>3. Recomendaciones para una atención más rápida</h2>
+<p>Cuando nos contactes, incluye (siempre que sea posible):</p>
+<ul>
+  <li>Nombre y teléfono/email utilizado en la reserva.</li>
+  <li>Fecha y hora del servicio.</li>
+  <li>Punto de recogida y destino.</li>
+  <li>Si aplica, número de vuelo/tren/barco.</li>
+</ul>
+
+<h2>4. Horarios y tiempos de respuesta</h2>
+<p>Tratamos de responder lo antes posible. En periodos de alta demanda, el tiempo de respuesta puede variar. Para incidencias en el momento de la recogida, recomendamos llamar por teléfono o WhatsApp.</p>
+
+<h2>5. Confirmaciones y cambios</h2>
+<ul>
+  <li>Las confirmaciones de reserva se realizan por email o WhatsApp.</li>
+  <li>Los cambios solicitados (hora, lugar, número de pasajeros, etc.) están sujetos a disponibilidad y pueden afectar al precio.</li>
+  <li>En servicios con horario (vuelos, trenes), es importante comunicar cualquier cambio tan pronto como sea posible.</li>
+</ul>
+
+<h2>6. Seguridad en las comunicaciones</h2>
+<ul>
+  <li>No solicitamos datos completos de tarjeta por WhatsApp ni por email.</li>
+  <li>Si te enviamos un pago, será mediante <strong>enlace de pago de Stripe</strong> por WhatsApp o email.</li>
+  <li>Si recibes mensajes o enlaces sospechosos, contacta con nosotros antes de realizar cualquier pago.</li>
+</ul>
+
+<h2>7. Reclamaciones</h2>
+<p>Para quejas o reclamaciones, contacta con <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a>. Incluye la mayor cantidad de información posible para poder ayudarte.</p>
+
+<h2>8. Actualizaciones</h2>
+<p>Podemos actualizar esta política para adaptarla a cambios operativos o de servicio. La versión vigente será la publicada en esta página.</p>
+',
+'legal.acceptable.h1'   => 'Política de uso aceptable',
+'legal.acceptable.lead' => 'Normas de uso del sitio web y prohibiciones para evitar abusos, fraude y accesos no autorizados.',
+'legal.acceptable.content' => '
+<h2>1. Objetivo</h2>
+<p>Esta política establece las normas de uso aceptable de este sitio web. Al navegar por el sitio o usar los formularios de reserva, el usuario se compromete a cumplir estas reglas.</p>
+
+<h2>2. Uso permitido</h2>
+<ul>
+  <li>Consultar información y solicitar reservas de traslados de forma legítima.</li>
+  <li>Contactar con nosotros mediante los canales disponibles (formulario, email, teléfono o WhatsApp).</li>
+  <li>Utilizar el sitio sin interferir en su funcionamiento ni perjudicar a terceros.</li>
+</ul>
+
+<h2>3. Conductas prohibidas</h2>
+<ul>
+  <li>Usar el sitio con fines ilícitos, fraudulentos o que vulneren derechos de terceros.</li>
+  <li>Enviar contenido falso, engañoso o suplantar la identidad de otras personas.</li>
+  <li>Realizar intentos de acceso no autorizado, explotación de vulnerabilidades o ataques (incluyendo fuerza bruta, inyección, scraping abusivo, etc.).</li>
+  <li>Introducir malware, realizar acciones que degraden el servicio o sobrecarguen la infraestructura (spam, envíos masivos, bots, etc.).</li>
+  <li>Copiar, extraer o reutilizar contenidos del sitio sin autorización cuando no esté permitido por ley.</li>
+</ul>
+
+<h2>4. Formularios y comunicaciones</h2>
+<p>Los formularios y canales de contacto deben utilizarse para fines legítimos (reservas, consultas, soporte). Queda prohibido su uso para spam, publicidad no solicitada o envío de contenido ofensivo.</p>
+
+<h2>5. Medidas ante uso indebido</h2>
+<p>Si detectamos un uso indebido, podremos:</p>
+<ul>
+  <li>Bloquear temporalmente el acceso desde IPs o patrones de tráfico abusivos.</li>
+  <li>Rechazar solicitudes o reservas cuando existan indicios razonables de fraude o abuso.</li>
+  <li>Adoptar medidas técnicas y/o legales para proteger el servicio y a los usuarios.</li>
+</ul>
+
+<h2>6. Responsabilidad del usuario</h2>
+<p>El usuario es responsable del uso que realice del sitio y de la veracidad de la información facilitada. Un uso indebido puede afectar a la prestación del servicio y generar responsabilidades.</p>
+
+<h2>7. Contacto</h2>
+<p>Si detectas un problema de seguridad o un uso indebido del sitio, contáctanos en <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a> o en <a href="tel:+34951748494">+34 951 748 494</a>.</p>
+
+<h2>8. Actualizaciones</h2>
+<p>Podemos actualizar esta política para adaptarla a cambios técnicos u operativos. La versión vigente será la publicada en esta página.</p>
+',
+'legal.payment.h1'   => 'Política de pagos',
+'legal.payment.lead' => 'Información sobre anticipos, enlaces de pago de Stripe, confirmación de reservas y reembolsos.',
+'legal.payment.content' => '
+<h2>1. Objetivo</h2>
+<p>Esta política describe cómo se gestionan los pagos asociados a las reservas de traslados en Transfer Erkaitand S.L.U.</p>
+
+<h2>2. Anticipo para confirmar la reserva</h2>
+<p>Para confirmar determinadas reservas, podremos solicitar un <strong>anticipo proporcional</strong> al importe total del servicio. El importe del anticipo se indicará antes de efectuar el pago.</p>
+
+<h2>3. Forma de pago (Stripe)</h2>
+<ul>
+  <li>El anticipo se abona mediante un <strong>enlace de pago de Stripe</strong>.</li>
+  <li>El enlace de pago se envía al cliente por <strong>WhatsApp</strong> o por <strong>email</strong>, utilizando los datos facilitados en la reserva.</li>
+  <li>Los datos de tarjeta se introducen y procesan en la plataforma de Stripe. Nosotros no almacenamos los datos completos de la tarjeta.</li>
+</ul>
+
+<h2>4. Confirmación de la reserva</h2>
+<p>La reserva se considerará <strong>confirmada</strong> cuando:</p>
+<ul>
+  <li>Se haya verificado la disponibilidad del servicio, y</li>
+  <li>Se haya recibido el pago del anticipo (si corresponde), y</li>
+  <li>Se haya enviado la confirmación al cliente por email o WhatsApp.</li>
+</ul>
+
+<h2>5. Seguridad y recomendaciones</h2>
+<ul>
+  <li>Verifica que el enlace de pago procede de nuestros canales oficiales antes de realizar el pago.</li>
+  <li>No solicitamos datos completos de tarjeta por WhatsApp o email.</li>
+  <li>Si recibes un enlace sospechoso, contacta con nosotros antes de pagar.</li>
+</ul>
+
+<h2>6. Facturación</h2>
+<p>Si necesitas factura o justificante, solicita la información a <a href="mailto:info@transfermarbell.com">info@transfermarbell.com</a> indicando los datos de la reserva.</p>
+
+<h2>7. Reembolsos</h2>
+<p>Los reembolsos, cuando procedan, se gestionarán según la <a href="/terms-and-conditions">política de cancelación</a> y las condiciones de la reserva. En general:</p>
+<ul>
+  <li><strong>Cancelación con al menos 24 horas</strong> de antelación: el anticipo podrá reembolsarse.</li>
+  <li><strong>Cancelación fuera de plazo</strong> o <strong>no-show</strong>: el anticipo podrá no ser reembolsable.</li>
+</ul>
+
+<h2>8. Contacto</h2>
+<p>Para dudas sobre pagos: <a href="mailto:info@transfermarbell.com">info@transfermarbell.com</a>. Para incidencias o reclamaciones: <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a> o <a href="tel:+34951748494">+34 951 748 494</a>.</p>
+
+<h2>9. Actualizaciones</h2>
+<p>Podemos actualizar esta política para adaptarla a cambios operativos o del servicio. La versión vigente será la publicada en esta página.</p>
+',
+'legal.compliance.h1'   => 'Cumplimiento normativo',
+'legal.compliance.lead' => 'Compromisos de cumplimiento en materia de protección de datos, consumo, pagos y uso responsable del servicio.',
+'legal.compliance.content' => '
+<h2>1. Objetivo</h2>
+<p>En Transfer Erkaitand S.L.U. trabajamos para operar de forma responsable y conforme a la normativa aplicable a nuestra actividad, especialmente en lo relativo a la contratación del servicio, la protección de datos y la seguridad de los pagos.</p>
+
+<h2>2. Protección de datos</h2>
+<p>Tratamos los datos personales conforme al Reglamento General de Protección de Datos (RGPD) y la normativa española aplicable. Puedes consultar la información completa en nuestra <a href="/privacy-policy">Política de privacidad</a>.</p>
+
+<h2>3. Cookies y servicios de terceros</h2>
+<p>El sitio puede integrar servicios de terceros como Google Maps y canales de comunicación como WhatsApp. Cuando corresponde, se informa sobre cookies y tecnologías similares en la <a href="/cookies-policy">Política de cookies</a>.</p>
+
+<h2>4. Contratación, cancelaciones y no-show</h2>
+<p>Las condiciones de contratación, la política de cancelación (24 horas) y las reglas de no-show se recogen en nuestros <a href="/terms-and-conditions">Términos y condiciones</a>. Recomendamos leerlos antes de confirmar una reserva.</p>
+
+<h2>5. Pagos</h2>
+<p>Para confirmar determinadas reservas, podemos solicitar un anticipo proporcional mediante enlace de pago de Stripe. La información de pago se procesa en la plataforma del proveedor y nosotros no almacenamos datos completos de tarjeta. Más información en la <a href="/payment-policy">Política de pagos</a>.</p>
+
+<h2>6. Prevención de fraude y uso indebido</h2>
+<p>Aplicamos medidas razonables para prevenir fraude, suplantaciones y abuso del servicio, tal y como se describe en la <a href="/anti-fraud-policy">Política antifraude</a> y en la <a href="/acceptable-use-policy">Política de uso aceptable</a>.</p>
+
+<h2>7. Atención al cliente y reclamaciones</h2>
+<p>Ponemos a disposición canales de contacto para consultas, incidencias y reclamaciones. Para soporte y reclamaciones: <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a>. Para información general: <a href="mailto:info@transfermarbell.com">info@transfermarbell.com</a>.</p>
+
+<h2>8. Actualizaciones</h2>
+<p>Podemos actualizar estas políticas para reflejar cambios normativos u operativos. La versión vigente será la publicada en el sitio.</p>
+',
+'legal.retention.h1'   => 'Política de conservación de datos',
+'legal.retention.lead' => 'Cuánto tiempo conservamos los datos de reservas, pagos y comunicaciones, y cuándo los eliminamos.',
+'legal.retention.content' => '
+<h2>1. Objetivo</h2>
+<p>Esta política describe los criterios generales de conservación y eliminación de datos personales relacionados con solicitudes y reservas de traslados.</p>
+
+<h2>2. Principios generales</h2>
+<ul>
+  <li>Conservamos los datos durante el tiempo necesario para cumplir la finalidad para la que fueron recogidos.</li>
+  <li>Podemos conservarlos durante los plazos exigidos por normativa aplicable (por ejemplo, obligaciones fiscales/contables) y mientras puedan derivarse responsabilidades.</li>
+  <li>Aplicamos medidas razonables para limitar el acceso y el uso de los datos durante el periodo de conservación.</li>
+</ul>
+
+<h2>3. Categorías y criterios de conservación</h2>
+
+<h3>3.1. Solicitudes sin contratar</h3>
+<p>Conservamos los datos de solicitudes no confirmadas durante un plazo razonable para gestionar la petición, realizar seguimiento y atender posibles consultas posteriores.</p>
+
+<h3>3.2. Reservas confirmadas y prestación del servicio</h3>
+<p>Los datos asociados a reservas confirmadas se conservan mientras sea necesario para prestar el servicio, gestionar incidencias, cambios, cancelaciones, no-show y atención al cliente.</p>
+
+<h3>3.3. Facturación y obligaciones legales</h3>
+<p>Los datos necesarios para facturación y obligaciones contables/fiscales se conservarán durante los plazos legales aplicables.</p>
+
+<h3>3.4. Pagos (Stripe)</h3>
+<p>Los pagos se procesan mediante Stripe. Nosotros no almacenamos datos completos de tarjeta. Conservamos la información necesaria para justificar el pago, conciliar la reserva y gestionar posibles incidencias o reembolsos cuando proceda.</p>
+
+<h3>3.5. Comunicaciones (email/WhatsApp)</h3>
+<p>Podemos conservar comunicaciones relacionadas con la reserva o soporte durante el tiempo necesario para atender la consulta y, cuando sea relevante, para acreditar gestiones realizadas o resolver reclamaciones.</p>
+
+<h2>4. Eliminación y anonimización</h2>
+<p>Cuando los datos ya no sean necesarios o expire el plazo de conservación aplicable, procederemos a su eliminación o, cuando proceda, a su anonimización/bloqueo conforme a criterios legales y técnicos razonables.</p>
+
+<h2>5. Derechos del usuario</h2>
+<p>El usuario puede ejercer sus derechos en materia de protección de datos (acceso, rectificación, supresión, oposición, limitación y portabilidad) conforme a nuestra <a href="/privacy-policy">Política de privacidad</a>.</p>
+
+<h2>6. Contacto</h2>
+<p>Para consultas sobre conservación de datos: <a href="mailto:info@transfermarbell.com">info@transfermarbell.com</a>. Para soporte/reclamaciones: <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a>.</p>
+
+<h2>7. Actualizaciones</h2>
+<p>Podemos actualizar esta política para adaptarla a cambios normativos u operativos. La versión vigente será la publicada en esta página.</p>
+',
+
 ];

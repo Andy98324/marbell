@@ -959,4 +959,284 @@ return [
   'legal.links.retention.desc'      => 'Data retention periods and deletion criteria.',
   'legal.links.acceptable.desc'     => 'Acceptable use rules and prohibited activities.',
 
+  'legal.security.h1'   => 'Security policy',
+'legal.security.lead' => 'Measures and best practices to protect your data, bookings and payments.',
+'legal.security.content' => '
+<h2>1. Purpose</h2>
+<p>At Transfer Erkaitand S.L.U. we apply reasonable technical and organisational measures to protect information and support the secure use of our website and the services related to booking private transfers.</p>
+
+<h2>2. Security measures</h2>
+<ul>
+  <li><strong>Restricted access:</strong> access to internal systems is limited to authorised staff.</li>
+  <li><strong>Data minimisation:</strong> we access only the data needed to manage the booking and deliver the service.</li>
+  <li><strong>Updates and maintenance:</strong> we keep software and components updated whenever possible.</li>
+  <li><strong>Logging and monitoring:</strong> we may generate technical logs to detect incidents, failures or misuse attempts.</li>
+</ul>
+
+<h2>3. Secure payments (Stripe payment links)</h2>
+<p>To confirm certain bookings, we may request a proportional deposit via a <strong>Stripe payment link</strong> sent by WhatsApp or email. Card details are entered and processed on Stripe’s platform; we do not store full card details.</p>
+
+<h2>4. Communication via WhatsApp and email</h2>
+<p>If you choose WhatsApp or email, please note these channels are operated by third parties (WhatsApp/Meta or your email provider). We recommend you do not share unnecessary sensitive information (for example, full card details).</p>
+
+<h2>5. Google Maps</h2>
+<p>The website may embed Google Maps to help with locations. When used, Google may collect technical data and set third-party cookies under its own policies. Please see our <a href="/cookies-policy">Cookies policy</a> for more details.</p>
+
+<h2>6. User recommendations</h2>
+<ul>
+  <li>Check you are on the correct domain before entering data: <strong>transfermarbell.com</strong>.</li>
+  <li>Do not share full card details or passwords via WhatsApp/email.</li>
+  <li>Verify the payment link comes from our usual channels before paying.</li>
+</ul>
+
+<h2>7. Security incidents</h2>
+<p>If you notice a potential security issue (suspicious links, impersonation, misuse of data), contact us at <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a> or call <a href="tel:+34951748494">+34 951 748 494</a>.</p>
+
+<h2>8. Updates</h2>
+<p>We may update this policy to reflect technical or legal changes. The current version will always be the one published on this page.</p>
+',
+'legal.antifraud.h1'   => 'Anti-fraud policy',
+'legal.antifraud.lead' => 'Measures to prevent fraudulent payments, impersonation and misuse of the service.',
+'legal.antifraud.content' => '
+<h2>1. Purpose</h2>
+<p>This policy explains the measures we apply to help prevent fraud, impersonation and misuse of our website and private transfer service.</p>
+
+<h2>2. Examples of suspicious activity</h2>
+<ul>
+  <li>Requests with incomplete or inconsistent details (e.g., impossible timings or conflicting locations).</li>
+  <li>Repeated failed payment attempts or unusual use of payment links.</li>
+  <li>Messages that appear to come from the customer but do not match the booking details.</li>
+  <li>Abusive use of booking forms (spam) or contact channels.</li>
+</ul>
+
+<h2>3. Payments and Stripe payment links</h2>
+<p>To confirm certain bookings, we may request a proportional deposit via a <strong>Stripe payment link</strong> sent by WhatsApp or email. Payment details are entered and processed on Stripe’s platform; we do not store full card details.</p>
+<p><strong>Tip:</strong> always verify that the payment link comes from our official channels before completing payment.</p>
+
+<h2>4. Verification</h2>
+<p>To protect both the customer and the provider, we may request additional confirmation of certain details (for example, name, phone, email, booking details or meeting point confirmation) when reasonably necessary.</p>
+
+<h2>5. Measures we may take</h2>
+<ul>
+  <li>Manually review a request before confirming it.</li>
+  <li>Request additional information to validate a booking.</li>
+  <li>رفض/إلغاء (reject/cancel) a booking if there are reasonable indications of fraud or misuse.</li>
+  <li>Temporarily block automated submissions or IPs in case of spam/abuse, where appropriate.</li>
+</ul>
+
+<h2>6. Impersonation and suspicious links</h2>
+<p>If you receive messages or links that claim to be from us but seem suspicious, do not make any payment and contact us immediately.</p>
+
+<h2>7. Contact</h2>
+<p>To report incidents or suspected fraud: <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a> or call <a href="tel:+34951748494">+34 951 748 494</a>.</p>
+
+<h2>8. Updates</h2>
+<p>We may update this policy to reflect changes in our service, security measures or applicable regulations. The current version will always be the one published on this page.</p>
+',
+'legal.communication.h1'   => 'Communication policy',
+'legal.communication.lead' => 'Official channels, recommendations and response guidelines for bookings and incidents.',
+'legal.communication.content' => '
+<h2>1. Purpose</h2>
+<p>This policy explains our official communication channels and recommendations to handle bookings, changes and incidents quickly and safely.</p>
+
+<h2>2. Official channels</h2>
+<ul>
+  <li><strong>Email (info and bookings):</strong> <a href="mailto:info@transfermarbell.com">info@transfermarbell.com</a></li>
+  <li><strong>Support and complaints:</strong> <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a></li>
+  <li><strong>Phone:</strong> <a href="tel:+34951748494">+34 951 748 494</a></li>
+  <li><strong>WhatsApp:</strong> <a target="_blank" rel="noopener" href="https://wa.me/34951748494">(+34) 951 748 494</a></li>
+</ul>
+
+<h2>3. What to include for faster assistance</h2>
+<p>When contacting us, please include (when possible):</p>
+<ul>
+  <li>Your name and the phone/email used for the booking.</li>
+  <li>Service date and time.</li>
+  <li>Pickup location and destination.</li>
+  <li>If applicable, flight/train/ship number.</li>
+</ul>
+
+<h2>4. Response times</h2>
+<p>We aim to reply as quickly as possible. During peak periods, response times may vary. For urgent pickup-time incidents, we recommend contacting us by phone or WhatsApp.</p>
+
+<h2>5. Confirmations and changes</h2>
+<ul>
+  <li>Booking confirmations are sent by email or WhatsApp.</li>
+  <li>Requested changes (time, location, number of passengers, etc.) are subject to availability and may affect the price.</li>
+  <li>For scheduled services (flights/trains), please inform us of any changes as soon as possible.</li>
+</ul>
+
+<h2>6. Communication security</h2>
+<ul>
+  <li>We do not request full card details via WhatsApp or email.</li>
+  <li>If a payment is required, we will send a <strong>Stripe payment link</strong> by WhatsApp or email.</li>
+  <li>If you receive suspicious messages or links, contact us before making any payment.</li>
+</ul>
+
+<h2>7. Complaints</h2>
+<p>For complaints or claims, contact <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a>. Please provide as much detail as possible so we can assist you.</p>
+
+<h2>8. Updates</h2>
+<p>We may update this policy to reflect operational or service changes. The current version will always be the one published on this page.</p>
+',
+'legal.acceptable.h1'   => 'Acceptable use policy',
+'legal.acceptable.lead' => 'Website usage rules and prohibited activities to prevent abuse, fraud and unauthorised access.',
+'legal.acceptable.content' => '
+<h2>1. Purpose</h2>
+<p>This policy sets out the acceptable use rules for this website. By browsing the site or using the booking forms, you agree to comply with these rules.</p>
+
+<h2>2. Permitted use</h2>
+<ul>
+  <li>Browse information and request private transfer bookings for legitimate purposes.</li>
+  <li>Contact us through available channels (form, email, phone or WhatsApp).</li>
+  <li>Use the site without interfering with its operation or harming third parties.</li>
+</ul>
+
+<h2>3. Prohibited activities</h2>
+<ul>
+  <li>Using the site for illegal or fraudulent purposes, or in a way that infringes third-party rights.</li>
+  <li>Submitting false or misleading information, or impersonating others.</li>
+  <li>Attempting unauthorised access, exploiting vulnerabilities or carrying out attacks (including brute force, injection, abusive scraping, etc.).</li>
+  <li>Uploading malware or taking actions that degrade the service or overload infrastructure (spam, bulk submissions, bots, etc.).</li>
+  <li>Copying, extracting or reusing site content without permission where not allowed by law.</li>
+</ul>
+
+<h2>4. Forms and communications</h2>
+<p>Forms and contact channels must be used for legitimate purposes (bookings, enquiries, support). Using them for spam, unsolicited advertising or offensive content is prohibited.</p>
+
+<h2>5. Measures in case of misuse</h2>
+<p>If we detect misuse, we may:</p>
+<ul>
+  <li>Temporarily block access from abusive IPs or traffic patterns.</li>
+  <li>Reject requests or bookings where there are reasonable indications of fraud or abuse.</li>
+  <li>Take technical and/or legal measures to protect the service and users.</li>
+</ul>
+
+<h2>6. User responsibility</h2>
+<p>You are responsible for how you use the site and for the accuracy of the information you provide. Misuse may affect service delivery and may lead to liabilities.</p>
+
+<h2>7. Contact</h2>
+<p>If you notice a security issue or misuse of the site, contact us at <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a> or call <a href="tel:+34951748494">+34 951 748 494</a>.</p>
+
+<h2>8. Updates</h2>
+<p>We may update this policy to reflect technical or operational changes. The current version will always be the one published on this page.</p>
+',
+'legal.payment.h1'   => 'Payment policy',
+'legal.payment.lead' => 'Information about deposits, Stripe payment links, booking confirmation and refunds.',
+'legal.payment.content' => '
+<h2>1. Purpose</h2>
+<p>This policy explains how payments related to private transfer bookings are handled by Transfer Erkaitand S.L.U.</p>
+
+<h2>2. Deposit to confirm a booking</h2>
+<p>To confirm certain bookings, we may request a <strong>proportional deposit</strong> based on the total service amount. The deposit amount will be shown before payment.</p>
+
+<h2>3. Payment method (Stripe)</h2>
+<ul>
+  <li>The deposit is paid via a <strong>Stripe payment link</strong>.</li>
+  <li>The payment link is sent to the customer by <strong>WhatsApp</strong> or <strong>email</strong> using the details provided in the booking request.</li>
+  <li>Card details are entered and processed on Stripe’s platform. We do not store full card details.</li>
+</ul>
+
+<h2>4. Booking confirmation</h2>
+<p>A booking is considered <strong>confirmed</strong> when:</p>
+<ul>
+  <li>Service availability has been verified, and</li>
+  <li>The deposit has been received (when applicable), and</li>
+  <li>We have sent confirmation to the customer by email or WhatsApp.</li>
+</ul>
+
+<h2>5. Security tips</h2>
+<ul>
+  <li>Always verify the payment link comes from our official channels before paying.</li>
+  <li>We never request full card details via WhatsApp or email.</li>
+  <li>If you receive a suspicious link, contact us before making any payment.</li>
+</ul>
+
+<h2>6. Invoicing</h2>
+<p>If you need an invoice or receipt, please contact <a href="mailto:info@transfermarbell.com">info@transfermarbell.com</a> and include your booking details.</p>
+
+<h2>7. Refunds</h2>
+<p>Refunds, when applicable, are handled according to our <a href="/terms-and-conditions">cancellation policy</a> and the specific booking conditions. In general:</p>
+<ul>
+  <li><strong>Cancellations made at least 24 hours</strong> before the scheduled time: the deposit may be refundable.</li>
+  <li><strong>Late cancellations</strong> or <strong>no-show</strong>: the deposit may be non-refundable.</li>
+</ul>
+
+<h2>8. Contact</h2>
+<p>Payment questions: <a href="mailto:info@transfermarbell.com">info@transfermarbell.com</a>. Support/complaints: <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a> or call <a href="tel:+34951748494">+34 951 748 494</a>.</p>
+
+<h2>9. Updates</h2>
+<p>We may update this policy to reflect operational or service changes. The current version will always be the one published on this page.</p>
+',
+'legal.compliance.h1'   => 'Regulatory compliance',
+'legal.compliance.lead' => 'Compliance commitments regarding data protection, consumer terms, payments and responsible use of the service.',
+'legal.compliance.content' => '
+<h2>1. Purpose</h2>
+<p>At Transfer Erkaitand S.L.U. we aim to operate responsibly and in line with the rules applicable to our activity, especially regarding service contracting, data protection and payment security.</p>
+
+<h2>2. Data protection</h2>
+<p>We process personal data in accordance with the GDPR and applicable Spanish regulations. Full details are available in our <a href="/privacy-policy">Privacy policy</a>.</p>
+
+<h2>3. Cookies and third-party services</h2>
+<p>The website may embed third-party services such as Google Maps and use communication channels such as WhatsApp. Where applicable, we provide information about cookies and similar technologies in our <a href="/cookies-policy">Cookies policy</a>.</p>
+
+<h2>4. Contracting, cancellations and no-show</h2>
+<p>Our booking terms, cancellation policy (24 hours) and no-show rules are described in our <a href="/terms-and-conditions">Terms and conditions</a>. We recommend reading them before confirming a booking.</p>
+
+<h2>5. Payments</h2>
+<p>To confirm certain bookings, we may request a proportional deposit via a Stripe payment link. Payment details are processed on the provider’s platform and we do not store full card details. More information is available in our <a href="/payment-policy">Payment policy</a>.</p>
+
+<h2>6. Fraud prevention and misuse</h2>
+<p>We apply reasonable measures to prevent fraud, impersonation and misuse, as described in our <a href="/anti-fraud-policy">Anti-fraud policy</a> and <a href="/acceptable-use-policy">Acceptable use policy</a>.</p>
+
+<h2>7. Customer support and complaints</h2>
+<p>We provide contact channels for enquiries, incidents and complaints. Support/complaints: <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a>. General enquiries: <a href="mailto:info@transfermarbell.com">info@transfermarbell.com</a>.</p>
+
+<h2>8. Updates</h2>
+<p>We may update these policies to reflect regulatory or operational changes. The current version will always be the one published on the website.</p>
+',
+'legal.retention.h1'   => 'Data retention policy',
+'legal.retention.lead' => 'How long we keep booking, payment and communication data, and when we delete it.',
+'legal.retention.content' => '
+<h2>1. Purpose</h2>
+<p>This policy describes the general criteria we use to retain and delete personal data related to private transfer enquiries and bookings.</p>
+
+<h2>2. General principles</h2>
+<ul>
+  <li>We retain data for as long as necessary to fulfil the purpose for which it was collected.</li>
+  <li>We may retain data for legally required periods (for example, tax/accounting obligations) and while liabilities may arise.</li>
+  <li>We apply reasonable measures to limit access and use of data during the retention period.</li>
+</ul>
+
+<h2>3. Retention categories and criteria</h2>
+
+<h3>3.1. Enquiries not converted into bookings</h3>
+<p>We retain data from unconfirmed enquiries for a reasonable period to manage the request, follow up and handle any later questions.</p>
+
+<h3>3.2. Confirmed bookings and service delivery</h3>
+<p>Data related to confirmed bookings is retained as needed to deliver the service and handle incidents, changes, cancellations, no-show cases and customer support.</p>
+
+<h3>3.3. Invoicing and legal obligations</h3>
+<p>Data required for invoicing and tax/accounting obligations will be retained for the applicable legal periods.</p>
+
+<h3>3.4. Payments (Stripe)</h3>
+<p>Payments are processed through Stripe. We do not store full card details. We retain the information required to evidence the payment, reconcile the booking and handle any incidents or refunds when applicable.</p>
+
+<h3>3.5. Communications (email/WhatsApp)</h3>
+<p>We may retain communications related to a booking or support for as long as needed to address the request and, when relevant, to evidence actions taken or resolve complaints.</p>
+
+<h2>4. Deletion and anonymisation</h2>
+<p>When data is no longer needed or once the applicable retention period expires, we will delete it or, where appropriate, anonymise/block it using reasonable legal and technical criteria.</p>
+
+<h2>5. Your rights</h2>
+<p>You may exercise your data protection rights (access, rectification, erasure, objection, restriction and portability) as described in our <a href="/privacy-policy">Privacy policy</a>.</p>
+
+<h2>6. Contact</h2>
+<p>Questions about retention: <a href="mailto:info@transfermarbell.com">info@transfermarbell.com</a>. Support/complaints: <a href="mailto:support@transfermarbell.com">support@transfermarbell.com</a>.</p>
+
+<h2>7. Updates</h2>
+<p>We may update this policy to reflect regulatory or operational changes. The current version will always be the one published on this page.</p>
+',
+
+
 ];

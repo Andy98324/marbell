@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/partials/header.php'; ?>
+
 
 <!-- HERO -->
 <section class="relative overflow-hidden bg-[#0b1220] text-white">
@@ -18,5 +18,3 @@
   </div>
 </section>
 
-<?php require __DIR__ . '/partials/footer.php'; ?>
-<?php require __DIR__ . '/layout.php'; ?>

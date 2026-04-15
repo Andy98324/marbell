@@ -7,6 +7,9 @@ $routes = require __DIR__ . '/../app/routes.php';
 
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+header('X-Debug-Method: ' . $method);
+header('X-Debug-Path: ' . $path);
+header('X-Debug-Key: ' . $method . ' ' . (rtrim($path, '/') ?: '/'));
 $key = $method . ' ' . (rtrim($path, '/') ?: '/');
 
 if (!isset($routes[$key])) {

@@ -168,6 +168,38 @@ function render_stars($score){
 </section>
 
 
+
+
+<?php $destinationPages = require __DIR__ . '/../app/destinations.php'; ?>
+<!-- PRINCIPALES DESTINOS -->
+<section class="py-16 bg-zinc-50">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center mb-10">
+      <h2 class="text-3xl font-bold tracking-tight mb-2">Principales destinos</h2>
+      <p class="text-zinc-600">Los destinos más visitados de la Costa del Sol, ciudades de Andalucía y Sierra Nevada, con páginas específicas para que Google indexe mejor cada ruta.</p>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <?php foreach (['marbella','puerto-banus','fuengirola','benalmadena','nerja','sevilla','granada','sierra-nevada'] as $slug): 
+        $d = $destinationPages[$slug]; ?>
+        <article class="group rounded-2xl bg-white shadow-xl ring-1 ring-black/5 overflow-hidden hover:-translate-y-0.5 hover:shadow-2xl transition">
+          <img src="<?= htmlspecialchars($d['image']) ?>" alt="<?= htmlspecialchars($d['name']) ?>" class="w-full aspect-[16/10] object-cover" loading="lazy">
+          <div class="p-5">
+            <div class="text-xs font-semibold uppercase tracking-wide text-sky-700"><?= htmlspecialchars($d['group']) ?></div>
+            <h3 class="mt-1 text-lg font-bold text-zinc-900"><?= htmlspecialchars($d['name']) ?></h3>
+            <p class="mt-2 text-sm text-zinc-600"><?= htmlspecialchars($d['lead']) ?></p>
+            <a href="/destinos/<?= htmlspecialchars($slug) ?>" class="mt-4 inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700">Ver destino</a>
+          </div>
+        </article>
+      <?php endforeach; ?>
+    </div>
+
+    <div class="mt-8 text-center">
+      <a href="/destinos" class="inline-flex items-center gap-2 rounded-xl bg-[#0b1220] px-5 py-3 text-sm font-semibold text-white hover:opacity-95">Ver todos los destinos</a>
+    </div>
+  </div>
+</section>
+
 <!-- TESTIMONIOS (Glide.js) -->
 <section class="py-16">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

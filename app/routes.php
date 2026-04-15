@@ -10,6 +10,8 @@ $redirect301 = function (string $to) {
   exit;
 };
 
+$destinationPages = require __DIR__ . '/destinations.php';
+
 $require_view = function (string $relativePathFromViews) {
   $full = __DIR__ . '/../views/' . ltrim($relativePathFromViews, '/');
 
@@ -23,11 +25,11 @@ $require_view = function (string $relativePathFromViews) {
   require $full;
 };
 
-return [
+$routes = [
 
   'GET /' => function () use ($require_view) {
-    $title   = t('home.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('home.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('home.seo.title'),
       'description' => t('home.seo.desc'),
       'image'       => '/assets/logo-og.png',
@@ -37,8 +39,8 @@ return [
   },
 
   'GET /nosotros' => function () use ($require_view) {
-    $title   = t('about.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('about.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('about.seo.title'),
       'description' => t('about.seo.desc'),
       'keywords'    => t('about.seo.keywords'),
@@ -52,8 +54,8 @@ return [
   },
 
   'GET /panel' => function () {
-    $title   = t('panel.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('panel.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('panel.seo.title'),
       'description' => t('panel.seo.desc'),
       'keywords'    => t('panel.seo.keywords'),
@@ -78,8 +80,8 @@ return [
   ========================= */
 
   'GET /privacy-policy' => function () use ($require_view) {
-    $title   = t('footer.legal.privacy');
-    $seoData = [
+    $GLOBALS['title'] = t('footer.legal.privacy');
+    $GLOBALS['seoData'] = [
       'title'       => $title,
       'description' => $title,
       'image'       => '/assets/logo-og.png',
@@ -92,8 +94,8 @@ return [
   },
 
   'GET /terms-and-conditions' => function () use ($require_view) {
-    $title   = t('footer.legal.terms');
-    $seoData = [
+    $GLOBALS['title'] = t('footer.legal.terms');
+    $GLOBALS['seoData'] = [
       'title'       => $title,
       'description' => $title,
       'image'       => '/assets/logo-og.png',
@@ -106,8 +108,8 @@ return [
   },
 
   'GET /cookies-policy' => function () use ($require_view) {
-    $title   = t('footer.legal.cookies');
-    $seoData = [
+    $GLOBALS['title'] = t('footer.legal.cookies');
+    $GLOBALS['seoData'] = [
       'title'       => $title,
       'description' => $title,
       'image'       => '/assets/logo-og.png',
@@ -120,8 +122,8 @@ return [
   },
 
   'GET /security-policy' => function () use ($require_view) {
-    $title   = t('footer.legal.security');
-    $seoData = [
+    $GLOBALS['title'] = t('footer.legal.security');
+    $GLOBALS['seoData'] = [
       'title'       => $title,
       'description' => $title,
       'image'       => '/assets/logo-og.png',
@@ -134,8 +136,8 @@ return [
   },
 
   'GET /payment-policy' => function () use ($require_view) {
-    $title   = t('footer.legal.payment');
-    $seoData = [
+    $GLOBALS['title'] = t('footer.legal.payment');
+    $GLOBALS['seoData'] = [
       'title'       => $title,
       'description' => $title,
       'image'       => '/assets/logo-og.png',
@@ -148,8 +150,8 @@ return [
   },
 
   'GET /anti-fraud-policy' => function () use ($require_view) {
-    $title   = t('footer.legal.antifraud');
-    $seoData = [
+    $GLOBALS['title'] = t('footer.legal.antifraud');
+    $GLOBALS['seoData'] = [
       'title'       => $title,
       'description' => $title,
       'image'       => '/assets/logo-og.png',
@@ -162,8 +164,8 @@ return [
   },
 
   'GET /regulatory-compliance' => function () use ($require_view) {
-    $title   = t('footer.legal.compliance');
-    $seoData = [
+    $GLOBALS['title'] = t('footer.legal.compliance');
+    $GLOBALS['seoData'] = [
       'title'       => $title,
       'description' => $title,
       'image'       => '/assets/logo-og.png',
@@ -176,8 +178,8 @@ return [
   },
 
   'GET /communication-policy' => function () use ($require_view) {
-    $title   = t('footer.legal.communication');
-    $seoData = [
+    $GLOBALS['title'] = t('footer.legal.communication');
+    $GLOBALS['seoData'] = [
       'title'       => $title,
       'description' => $title,
       'image'       => '/assets/logo-og.png',
@@ -190,8 +192,8 @@ return [
   },
 
   'GET /data-retention-policy' => function () use ($require_view) {
-    $title   = t('footer.legal.retention');
-    $seoData = [
+    $GLOBALS['title'] = t('footer.legal.retention');
+    $GLOBALS['seoData'] = [
       'title'       => $title,
       'description' => $title,
       'image'       => '/assets/logo-og.png',
@@ -204,8 +206,8 @@ return [
   },
 
   'GET /acceptable-use-policy' => function () use ($require_view) {
-    $title   = t('footer.legal.acceptable');
-    $seoData = [
+    $GLOBALS['title'] = t('footer.legal.acceptable');
+    $GLOBALS['seoData'] = [
       'title'       => $title,
       'description' => $title,
       'image'       => '/assets/logo-og.png',
@@ -237,8 +239,8 @@ return [
   ========================= */
 
   'GET /servicios/traslados' => function () use ($require_view) {
-    $title   = t('transfers.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('transfers.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('transfers.seo.title'),
       'description' => t('transfers.seo.desc'),
       'keywords'    => t('transfers.seo.keywords'),
@@ -253,8 +255,8 @@ return [
   },
 
   'GET /flota' => function () use ($require_view) {
-    $title   = t('flota.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('flota.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('flota.seo.title'),
       'description' => t('flota.seo.desc'),
       'keywords'    => t('flota.seo.keywords'),
@@ -268,8 +270,8 @@ return [
   },
 
   'GET /servicios/excursiones' => function () use ($require_view) {
-    $title   = t('excursions.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('excursions.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('excursions.seo.title'),
       'description' => t('excursions.seo.desc'),
       'keywords'    => t('excursions.seo.keywords'),
@@ -284,8 +286,8 @@ return [
   },
 
   'GET /servicios/excursiones/nerja-frigiliana' => function () use ($require_view) {
-    $title   = t('excursions.nerja.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('excursions.nerja.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('excursions.nerja.seo.title'),
       'description' => t('excursions.nerja.seo.desc'),
       'keywords'    => t('excursions.nerja.seo.keywords'),
@@ -302,7 +304,7 @@ return [
   },
 
   'GET /servicios/excursiones/ronda-setenil' => function () use ($require_view) {
-    $seoData = [
+    $GLOBALS['seoData'] = [
       'title'       => t('excursions.ronda.seo.title'),
       'description' => t('excursions.ronda.seo.desc'),
       'keywords'    => t('excursions.ronda.seo.keywords'),
@@ -319,7 +321,7 @@ return [
   },
 
   'GET /servicios/excursiones/granada-albaicin' => function () use ($require_view) {
-    $seoData = [
+    $GLOBALS['seoData'] = [
       'title'       => t('excursions.granada.seo.title'),
       'description' => t('excursions.granada.seo.desc'),
       'keywords'    => t('excursions.granada.seo.keywords'),
@@ -336,7 +338,7 @@ return [
   },
 
   'GET /servicios/excursiones/cordoba' => function () use ($require_view) {
-    $seoData = [
+    $GLOBALS['seoData'] = [
       'title'       => t('excursions.cordoba.seo.title'),
       'description' => t('excursions.cordoba.seo.desc'),
       'keywords'    => t('excursions.cordoba.seo.keywords'),
@@ -353,7 +355,7 @@ return [
   },
 
   'GET /servicios/excursiones/sevilla' => function () use ($require_view) {
-    $seoData = [
+    $GLOBALS['seoData'] = [
       'title'       => t('excursions.sevilla.seo.title'),
       'description' => t('excursions.sevilla.seo.desc'),
       'keywords'    => t('excursions.sevilla.seo.keywords'),
@@ -370,7 +372,7 @@ return [
   },
 
   'GET /servicios/excursiones/cadiz' => function () use ($require_view) {
-    $seoData = [
+    $GLOBALS['seoData'] = [
       'title'       => t('excursions.cadiz.seo.title'),
       'description' => t('excursions.cadiz.seo.desc'),
       'keywords'    => t('excursions.cadiz.seo.keywords'),
@@ -387,8 +389,8 @@ return [
   },
 
   'GET /servicios/visitas-guiadas' => function () use ($require_view) {
-    $title   = t('guided.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('guided.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('guided.seo.title'),
       'description' => t('guided.seo.desc'),
       'keywords'    => t('guided.seo.keywords'),
@@ -403,8 +405,8 @@ return [
   },
 
   'GET /servicios/visitas-guiadas/cordoba' => function () use ($require_view) {
-    $title = t('guided.cordoba.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('guided.cordoba.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('guided.cordoba.seo.title'),
       'description' => t('guided.cordoba.seo.desc'),
       'keywords'    => t('guided.cordoba.seo.keywords'),
@@ -420,8 +422,8 @@ return [
   },
 
   'GET /servicios/visitas-guiadas/gibraltar' => function () use ($require_view) {
-    $title = t('guided.gibraltar.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('guided.gibraltar.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('guided.gibraltar.seo.title'),
       'description' => t('guided.gibraltar.seo.desc'),
       'keywords'    => t('guided.gibraltar.seo.keywords'), // (tenías gibraltgar)
@@ -437,8 +439,8 @@ return [
   },
 
   'GET /servicios/visitas-guiadas/granada-alhambra' => function () use ($require_view) {
-    $title = t('guided.alhambra.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('guided.alhambra.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('guided.alhambra.seo.title'),
       'description' => t('guided.alhambra.seo.desc'),
       'keywords'    => t('guided.alhambra.seo.keywords'),
@@ -454,8 +456,8 @@ return [
   },
 
   'GET /servicios/visitas-guiadas/granada-city' => function () use ($require_view) {
-    $title = t('guided.granada-city.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('guided.granada-city.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('guided.granada-city.seo.title'),
       'description' => t('guided.granada-city.seo.desc'),
       'keywords'    => t('guided.granada-city.seo.keywords'),
@@ -471,8 +473,8 @@ return [
   },
 
   'GET /servicios/visitas-guiadas/malaga' => function () use ($require_view) {
-    $title = t('guided.malaga.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('guided.malaga.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('guided.malaga.seo.title'),
       'description' => t('guided.malaga.seo.desc'),
       'keywords'    => t('guided.malaga.seo.keywords'),
@@ -488,8 +490,8 @@ return [
   },
 
   'GET /servicios/visitas-guiadas/ronda' => function () use ($require_view) {
-    $title = t('guided.ronda.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('guided.ronda.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('guided.ronda.seo.title'),
       'description' => t('guided.ronda.seo.desc'),
       'keywords'    => t('guided.ronda.seo.keywords'),
@@ -505,8 +507,8 @@ return [
   },
 
   'GET /servicios/visitas-guiadas/sevilla-alcazar-catedral' => function () use ($require_view) {
-    $title = t('guided.sevilla-alcazar-catedral.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('guided.sevilla-alcazar-catedral.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('guided.sevilla-alcazar-catedral.seo.title'),
       'description' => t('guided.sevilla-alcazar-catedral.seo.desc'),
       'keywords'    => t('guided.sevilla-alcazar-catedral.seo.keywords'),
@@ -522,8 +524,8 @@ return [
   },
 
   'GET /servicios/visitas-guiadas/sevilla-essential' => function () use ($require_view) {
-    $title = t('guided.sevilla-essential.title_short');
-    $seoData = [
+    $GLOBALS['title'] = t('guided.sevilla-essential.title_short');
+    $GLOBALS['seoData'] = [
       'title'       => t('guided.sevilla-essential.seo.title'),
       'description' => t('guided.sevilla-essential.seo.desc'),
       'keywords'    => t('guided.sevilla-essential.seo.keywords'),
@@ -545,8 +547,8 @@ return [
   'GET /fleet-sedans' => function () use ($require_view) { $require_view('fleet-sedans.php'); },
 
   'GET /sedanes' => function () use ($require_view) {
-    $title = t('fleet.sedans.h1');
-    $seoData = [
+    $GLOBALS['title'] = t('fleet.sedans.h1');
+    $GLOBALS['seoData'] = [
       'title'       => t('fleet.sedans.seo.title'),
       'description' => t('fleet.sedans.seo.desc'),
       'keywords'    => t('fleet.sedans.seo.keywords'),
@@ -563,8 +565,8 @@ return [
   'GET /fleet-sedans-premium' => function () use ($require_view) { $require_view('fleet-sedans-premium.php'); },
 
   'GET /sedanes-premium' => function () use ($require_view) {
-    $title = t('fleet.sedans_p.h1');
-    $seoData = [
+    $GLOBALS['title'] = t('fleet.sedans_p.h1');
+    $GLOBALS['seoData'] = [
       'title'       => t('fleet.sedans_p.seo.title'),
       'description' => t('fleet.sedans_p.seo.desc'),
       'keywords'    => t('fleet.sedans_p.seo.keywords'),
@@ -581,8 +583,8 @@ return [
   'GET /fleet-minivans' => function () use ($require_view) { $require_view('fleet-minivans.php'); },
 
   'GET /minivans' => function () use ($require_view) {
-    $title = t('fleet.minivans.h1');
-    $seoData = [
+    $GLOBALS['title'] = t('fleet.minivans.h1');
+    $GLOBALS['seoData'] = [
       'title'       => t('fleet.minivans.seo.title'),
       'description' => t('fleet.minivans.seo.desc'),
       'keywords'    => t('fleet.minivans.seo.keywords'),
@@ -599,8 +601,8 @@ return [
   'GET /fleet-minivans-premium' => function () use ($require_view) { $require_view('fleet-minivans-premium.php'); },
 
   'GET /minivans-premium' => function () use ($require_view) {
-    $title = t('fleet.minivans_p.h1');
-    $seoData = [
+    $GLOBALS['title'] = t('fleet.minivans_p.h1');
+    $GLOBALS['seoData'] = [
       'title'       => t('fleet.minivans_p.seo.title'),
       'description' => t('fleet.minivans_p.seo.desc'),
       'keywords'    => t('fleet.minivans_p.seo.keywords'),
@@ -617,8 +619,8 @@ return [
   'GET /fleet-minibuses' => function () use ($require_view) { $require_view('fleet-minibuses.php'); },
 
   'GET /microbuses' => function () use ($require_view) {
-    $title = t('fleet.minibuses.h1');
-    $seoData = [
+    $GLOBALS['title'] = t('fleet.minibuses.h1');
+    $GLOBALS['seoData'] = [
       'title'       => t('fleet.minibuses.seo.title'),
       'description' => t('fleet.minibuses.seo.desc'),
       'keywords'    => t('fleet.minibuses.seo.keywords'),
@@ -635,8 +637,8 @@ return [
   'GET /fleet-coaches' => function () use ($require_view) { $require_view('fleet-coaches.php'); },
 
   'GET /autocares' => function () use ($require_view) {
-    $title = t('fleet.coaches.h1');
-    $seoData = [
+    $GLOBALS['title'] = t('fleet.coaches.h1');
+    $GLOBALS['seoData'] = [
       'title'       => t('fleet.coaches.seo.title'),
       'description' => t('fleet.coaches.seo.desc'),
       'keywords'    => t('fleet.coaches.seo.keywords'),
@@ -653,8 +655,8 @@ return [
   'GET /fleet-adapted-4' => function () use ($require_view) { $require_view('fleet-adapted-4.php'); },
 
   'GET /adaptados-4' => function () use ($require_view) {
-    $title = t('fleet.adapted4.h1');
-    $seoData = [
+    $GLOBALS['title'] = t('fleet.adapted4.h1');
+    $GLOBALS['seoData'] = [
       'title'       => t('fleet.adapted4.seo.title'),
       'description' => t('fleet.adapted4.seo.desc'),
       'keywords'    => t('fleet.adapted4.seo.keywords'),
@@ -671,8 +673,8 @@ return [
   'GET /fleet-adapted-8' => function () use ($require_view) { $require_view('fleet-adapted-8.php'); },
 
   'GET /adaptados-8' => function () use ($require_view) {
-    $title = t('fleet.adapted8.h1');
-    $seoData = [
+    $GLOBALS['title'] = t('fleet.adapted8.h1');
+    $GLOBALS['seoData'] = [
       'title'       => t('fleet.adapted8.seo.title'),
       'description' => t('fleet.adapted8.seo.desc'),
       'keywords'    => t('fleet.adapted8.seo.keywords'),
@@ -699,8 +701,8 @@ return [
     $require_view('quote.php');
   },
 'GET /legal' => function () use ($require_view) {
-  $title   = t('footer.legal.center');
-  $seoData = [
+  $GLOBALS['title'] = t('footer.legal.center');
+  $GLOBALS['seoData'] = [
     'title'       => $title,
     'description' => $title,
     'image'       => '/assets/logo-og.png',
@@ -713,8 +715,8 @@ return [
 },
 
 'GET /aviso-legal' => function () use ($require_view) {
-  $title   = t('legal.notice.title');
-  $seoData = [
+  $GLOBALS['title'] = t('legal.notice.title');
+  $GLOBALS['seoData'] = [
     'title'       => $title,
     'description' => $title,
     'image'       => '/assets/logo-og.png',
@@ -725,4 +727,31 @@ return [
   ];
   $require_view('legal/aviso-legal.php');
 },
+
+  'GET /destinos' => function () use ($destinationPages) {
+    $GLOBALS['title'] = 'Principales destinos';
+    $GLOBALS['seoData'] = [
+      'title' => 'Principales destinos desde o hasta el Aeropuerto de Málaga',
+      'description' => 'Descubre los principales destinos de la Costa del Sol, ciudades de Andalucía y Sierra Nevada con páginas optimizadas para Google.',
+      'keywords' => 'destinos costa del sol, traslado privado malaga marbella, transfer malaga fuengirola, transfer malaga sevilla, sierra nevada',
+      'image' => '/assets/logo-og.png',
+    ];
+    require __DIR__ . '/../views/destinos/index.php';
+  },
 ];
+
+foreach ($destinationPages as $slug => $destination) {
+  $routes['GET /destinos/' . $slug] = function () use ($destination) {
+    $GLOBALS['destination'] = $destination;
+    $GLOBALS['title'] = $destination['short_title'];
+    $GLOBALS['seoData'] = [
+      'title' => $destination['title'],
+      'description' => $destination['meta_description'],
+      'keywords' => $destination['keywords'],
+      'image' => $destination['image'],
+    ];
+    require __DIR__ . '/../views/destinos/landing.php';
+  };
+}
+
+return $routes;

@@ -1,0 +1,7 @@
+Cambios aplicados:
+- Nueva sección en home: Principales destinos.
+- Nuevo hub /destinos con agrupación por Costa del Sol, Ciudades de Andalucía y Sierra Nevada.
+- 14 páginas nuevas optimizadas para indexación:
+  Marbella, Puerto Banús, Estepona, Fuengirola, Benalmádena, Mijas, Nerja, Frigiliana, Torrox, Sevilla, Granada, Córdoba, Cádiz, Sierra Nevada.
+- Sitemap actualizado en public/sitemap.xml y sitemap.xml.
+- Ajuste en public/index.php para que title/seoData definidos por rutas sí lleguen al layout.

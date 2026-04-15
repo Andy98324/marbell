@@ -1,12 +1,24 @@
-// en app/routes.php
-'GET /sitemap.xml' => function() {
-  header('Content-Type: application/xml; charset=utf-8');
-  $base = 'http://transfermarbell.com'; // cambia a dominio cuando toque
-  $urls = ['/', '/servicios', '/precios', '/blog', '/contacto'];
-  echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-  echo "<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\">\n";
-  foreach ($urls as $u) {
-    echo "  <url><loc>{$base}{$u}</loc></url>\n";
-  }
-  echo "</urlset>";
-},
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://transfermarbell.com/</loc></url>
+  <url><loc>https://transfermarbell.com/nosotros</loc></url>
+  <url><loc>https://transfermarbell.com/flota</loc></url>
+  <url><loc>https://transfermarbell.com/servicios/traslados</loc></url>
+  <url><loc>https://transfermarbell.com/servicios/excursiones</loc></url>
+  <url><loc>https://transfermarbell.com/servicios/visitas-guiadas</loc></url>
+  <url><loc>https://transfermarbell.com/destinos</loc></url>
+  <url><loc>https://transfermarbell.com/destinos/marbella</loc></url>
+  <url><loc>https://transfermarbell.com/destinos/puerto-banus</loc></url>
+  <url><loc>https://transfermarbell.com/destinos/estepona</loc></url>
+  <url><loc>https://transfermarbell.com/destinos/fuengirola</loc></url>
+  <url><loc>https://transfermarbell.com/destinos/benalmadena</loc></url>
+  <url><loc>https://transfermarbell.com/destinos/mijas</loc></url>
+  <url><loc>https://transfermarbell.com/destinos/nerja</loc></url>
+  <url><loc>https://transfermarbell.com/destinos/frigiliana</loc></url>
+  <url><loc>https://transfermarbell.com/destinos/torrox</loc></url>
+  <url><loc>https://transfermarbell.com/destinos/sevilla</loc></url>
+  <url><loc>https://transfermarbell.com/destinos/granada</loc></url>
+  <url><loc>https://transfermarbell.com/destinos/cordoba</loc></url>
+  <url><loc>https://transfermarbell.com/destinos/cadiz</loc></url>
+  <url><loc>https://transfermarbell.com/destinos/sierra-nevada</loc></url>
+</urlset>

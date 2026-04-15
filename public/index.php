@@ -22,11 +22,13 @@ if (!isset($routes[$key])) {
   exit;
 }
 
+$GLOBALS['title'] = null;
+$GLOBALS['seoData'] = null;
 ob_start();              // Capturamos la vista que incluya la ruta
 $routes[$key]();         // La ruta hará "require .../views/lo-que-sea.php"
 $__content = ob_get_clean();
 
-// $title y $seoData deberían ya venir de la ruta
-$title = $title ?? 'Transfer Marbell';
+$title = $GLOBALS['title'] ?? ($title ?? 'Transfer Marbell');
+$seoData = $GLOBALS['seoData'] ?? ($seoData ?? []);
 
 require __DIR__ . '/../views/layout.php';

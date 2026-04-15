@@ -1,23 +1,5 @@
-Corrección aplicada por ChatGPT
+Correcciones aplicadas
 
-Problema detectado:
-- La web mezclaba clases Tailwind y Bootstrap.
-- El archivo CSS principal quedó prácticamente vacío.
-- En layout no se estaba cargando Bootstrap, por eso muchas vistas con row/col/card/list-unstyled/w-100/text-muted se veían rotas.
-
-Cambios hechos:
-1. views/layout.php
-   - añadido Bootstrap 5.3.3 CSS y JS
-   - reordenadas las cargas de estilos
-   - mantenido Tailwind CDN para las utilidades modernas ya usadas
-2. public/assets/css/app.css
-   - creado CSS de apoyo real
-   - añadido x-cloak
-   - tipografía base Inter
-   - pequeños ajustes de compatibilidad y foco
-3. public/assets/app.css
-   - sincronizado con /assets/css/app.css
-
-Resultado esperado:
-- vuelven a verse bien las páginas legacy basadas en Bootstrap
-- se mantienen los bloques nuevos hechos con Tailwind
+1. Se ha añadido Bootstrap 5 al layout para recuperar las vistas antiguas que usan row, col-md-*, card, text-muted, list-unstyled, w-100 y otras clases de Bootstrap.
+2. Se ha rehecho el CSS base en public/assets/css/app.css y public/assets/app.css.
+3. Se han generado imágenes de apoyo para las galerías de flota que faltaban, evitando cajas rotas por rutas inexistentes.

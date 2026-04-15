@@ -1,68 +1,49 @@
-/* Transfer Marbell – capa ligera de compatibilidad + ajustes visuales */
-:root {
-  --tm-brand: #0ea5e9;
-  --tm-dark: #0b1220;
+/* Base */
+:root{
+  --tm-bg:#0b1220;
+  --tm-accent:#0ea5e9;
+  --tm-text:#0f172a;
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--tm-text);
+}
+a{text-decoration:none;}
+img{max-width:100%;height:auto;}
+main{width:100%;}
+
+/* Compatibilidad visual Bootstrap + Tailwind */
+.text-muted{color:#6b7280 !important;}
+.bg-light{background-color:#f8fafc !important;}
+.shadow-sm{box-shadow:0 .125rem .25rem rgba(15,23,42,.08)!important;}
+.shadow{box-shadow:0 .5rem 1rem rgba(15,23,42,.12)!important;}
+.border{border-color:rgba(15,23,42,.08)!important;}
+.rounded-2xl{border-radius:1rem;}
+.rounded-3xl{border-radius:1.5rem;}
+.line-clamp-2{
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* Ajustes header/footer */
+header nav a, footer a{ text-decoration:none; }
+footer img{ display:block; }
 
-body {
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  text-rendering: optimizeLegibility;
-}
+/* Formularios y botones */
+input, select, textarea{ outline:none; }
+button, .btn{ transition:all .2s ease; }
 
-[x-cloak] {
-  display: none !important;
-}
+/* Fleet / gallery */
+figure img{display:block;width:100%;}
 
-img,
-svg,
-video {
-  max-width: 100%;
-}
+/* Evita que Bootstrap rompa utilidades Tailwind comunes */
+.h-100{height:100% !important;}
+.w-100{width:100% !important;}
 
-/* Fallback suave para páginas legacy mezcladas con Bootstrap */
-.text-muted {
-  color: #6b7280 !important;
-}
-
-.bg-light {
-  background-color: #f8fafc !important;
-}
-
-.card,
-.shadow-sm,
-.shadow {
-  border-color: rgba(15, 23, 42, 0.08);
-}
-
-/* Inputs más consistentes */
-input,
-select,
-textarea,
-button {
-  font: inherit;
-}
-
-/* Mejor lectura para contenido legal/textual */
-.tm-prose p {
-  line-height: 1.7;
-}
-
-/* Ajustes de foco accesibles */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid var(--tm-brand);
-  outline-offset: 2px;
-}
-
-/* Evita que Bootstrap rompa algún bloque full-width con Tailwind */
-.container,
-.container-fluid {
-  max-width: 100%;
+/* Espaciado en móvil */
+@media (max-width: 767.98px){
+  main.mx-auto.max-w-7xl{padding-left:1rem;padding-right:1rem;}
 }

@@ -1,2 +1,68 @@
-/* Ajustes finos opcionales */
-html { scroll-behavior: smooth; }
+/* Transfer Marbell – capa ligera de compatibilidad + ajustes visuales */
+:root {
+  --tm-brand: #0ea5e9;
+  --tm-dark: #0b1220;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+[x-cloak] {
+  display: none !important;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+}
+
+/* Fallback suave para páginas legacy mezcladas con Bootstrap */
+.text-muted {
+  color: #6b7280 !important;
+}
+
+.bg-light {
+  background-color: #f8fafc !important;
+}
+
+.card,
+.shadow-sm,
+.shadow {
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+/* Inputs más consistentes */
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+/* Mejor lectura para contenido legal/textual */
+.tm-prose p {
+  line-height: 1.7;
+}
+
+/* Ajustes de foco accesibles */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--tm-brand);
+  outline-offset: 2px;
+}
+
+/* Evita que Bootstrap rompa algún bloque full-width con Tailwind */
+.container,
+.container-fluid {
+  max-width: 100%;
+}

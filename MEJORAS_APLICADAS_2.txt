@@ -1,0 +1,16 @@
+Ajuste final SEO y marca
+
+1. Titles y metas de home y traslados más exactos para búsquedas tipo:
+- private transfer malaga
+- malaga airport to marbella
+- malaga airport to fuengirola
+- malaga airport to nerja
+- malaga airport to seville
+
+2. Home H1/H2 reforzados con Málaga Airport + rutas clave + viajes largos.
+
+3. Páginas legales cambiadas a noindex,nofollow para acelerar limpieza del índice.
+
+4. Eliminado el enlace al subdominio hub.transfermarbell.com del footer.
+
+5. Marca mantenida como Transfer Marbell.

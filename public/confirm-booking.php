@@ -31,7 +31,8 @@ if (!is_array($data)) {
     exit;
 }
 
-function make_ref(string $suffix): string {
+function make_ref(string $suffix): string
+{
     $date = date('Ymd-His');
     $rnd  = bin2hex(random_bytes(4));
     return "WEB-{$date}-{$rnd}-{$suffix}";
@@ -156,5 +157,5 @@ if ($return_yes) {
     $files_ret = save_voucher_files($reserva_ret);
 }
 
-include __DIR__ . '/../views/confirm-booking.php';
-exit;
+// Cargar solo la vista
+require __DIR__ . '/../views/confirm-booking.php';

@@ -1,70 +1,264 @@
-<section class="relative overflow-hidden bg-[#0b1220] text-white rounded-3xl">
-  <div class="absolute inset-0 opacity-25 pointer-events-none">
-    <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2 bg-gradient-to-br from-emerald-500/30 via-transparent to-transparent rounded-full blur-3xl"></div>
-  </div>
+<?php
+$hasOut = !empty($ref_out);
+$hasRet = !empty($ref_ret);
+?>
 
-  <div class="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 md:py-20 text-center">
-    <div class="relative rounded-3xl border border-white/15 bg-white/10 backdrop-blur-md shadow-2xl overflow-hidden">
-      <div class="absolute inset-0 pointer-events-none opacity-25 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.20)_0%,rgba(255,255,255,0.00)_55%)]"></div>
+<style>
+  .confirm-page {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at top, rgba(16, 185, 129, 0.16), transparent 28%),
+      linear-gradient(180deg, #0f172a 0%, #111827 100%);
+    padding: 40px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-      <div class="relative p-7 md:p-10">
-        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
-          <?= function_exists('t') ? t('confirm.title') : 'Reserva confirmada' ?>
-        </h1>
+  .confirm-card {
+    width: 100%;
+    max-width: 760px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 28px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.30);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow: hidden;
+    position: relative;
+  }
 
-        <p class="text-sm md:text-base text-white/80 mb-3">
-          <?= function_exists('t') ? t('confirm.subtitle') : 'Hemos recibido tu solicitud de traslado.' ?>
-        </p>
+  .confirm-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at top, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 45%);
+    pointer-events: none;
+  }
 
-        <p class="text-xs md:text-sm text-white/70 mb-5">
-          <?= function_exists('t') ? t('confirm.voucher_ready') : 'Tu voucher está listo para descargar.' ?>
-        </p>
+  .confirm-inner {
+    position: relative;
+    padding: 34px 28px;
+    text-align: center;
+    color: #ffffff;
+  }
 
-        <div class="mt-2 inline-flex flex-col items-center rounded-2xl bg-white/5 border border-white/10 px-6 py-4 text-sm">
-          <?php if (!empty($ref_out)): ?>
-            <p class="text-white mb-1">
-              <strong><?= function_exists('t') ? t('confirm.ref_out') : 'Referencia de ida' ?>:</strong>
-              <span class="ml-1"><?= htmlspecialchars((string)$ref_out, ENT_QUOTES, 'UTF-8') ?></span>
-            </p>
-          <?php endif; ?>
+  .confirm-icon {
+    width: 74px;
+    height: 74px;
+    margin: 0 auto 18px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #34d399, #10b981);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 18px 40px rgba(16, 185, 129, 0.35);
+  }
 
-          <?php if (!empty($ref_ret)): ?>
-            <p class="text-white">
-              <strong><?= function_exists('t') ? t('confirm.ref_ret') : 'Referencia de vuelta' ?>:</strong>
-              <span class="ml-1"><?= htmlspecialchars((string)$ref_ret, ENT_QUOTES, 'UTF-8') ?></span>
-            </p>
-          <?php endif; ?>
-        </div>
+  .confirm-icon svg {
+    width: 36px;
+    height: 36px;
+    fill: #052e16;
+  }
 
-        <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-          <?php if (!empty($ref_out)): ?>
-            <a
-              href="/download-voucher.php?ref=<?= urlencode((string)$ref_out) ?>"
-              class="inline-flex items-center justify-center rounded-xl bg-white/90 hover:bg-white text-zinc-900 font-semibold px-6 py-3 shadow hover:-translate-y-0.5 transition text-sm"
-            >
-              <?= function_exists('t') ? t('confirm.download_out') : 'Descargar voucher (ida)' ?>
-            </a>
-          <?php endif; ?>
+  .confirm-title {
+    margin: 0 0 10px;
+    font-size: 38px;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+  }
 
-          <?php if (!empty($ref_ret)): ?>
-            <a
-              href="/download-voucher.php?ref=<?= urlencode((string)$ref_ret) ?>"
-              class="inline-flex items-center justify-center rounded-xl bg-white/90 hover:bg-white text-zinc-900 font-semibold px-6 py-3 shadow hover:-translate-y-0.5 transition text-sm"
-            >
-              <?= function_exists('t') ? t('confirm.download_ret') : 'Descargar voucher (vuelta)' ?>
-            </a>
-          <?php endif; ?>
-        </div>
+  .confirm-subtitle {
+    margin: 0 0 8px;
+    font-size: 17px;
+    color: rgba(255,255,255,0.88);
+  }
 
-        <p class="mt-5 text-xs text-white/60">
-          <?= function_exists('t') ? t('confirm.help_text') : 'Si detectas algún dato incorrecto, por favor contacta con nosotros lo antes posible indicando tu referencia.' ?>
-        </p>
+  .confirm-note {
+    margin: 0 0 24px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.68);
+  }
 
-        <a href="/"
-           class="mt-7 inline-flex items-center justify-center rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-900 font-semibold px-6 py-3 shadow-lg shadow-emerald-500/20 hover:-translate-y-0.5 transition text-sm">
-          <?= function_exists('t') ? t('confirm.back_home') : 'Volver al inicio' ?>
-        </a>
+  .confirm-refs {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    text-align: left;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 20px;
+    padding: 18px 20px;
+    max-width: 100%;
+    margin-bottom: 24px;
+  }
+
+  .confirm-ref-row {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #ffffff;
+    word-break: break-word;
+  }
+
+  .confirm-ref-row strong {
+    color: #d1fae5;
+  }
+
+  .confirm-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 22px;
+  }
+
+  .confirm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: 14px;
+    padding: 14px 22px;
+    font-size: 15px;
+    font-weight: 700;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+    cursor: pointer;
+  }
+
+  .confirm-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .confirm-btn-download {
+    background: #ffffff;
+    color: #111827;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+  }
+
+  .confirm-btn-download:hover {
+    background: #f3f4f6;
+    color: #0f172a;
+  }
+
+  .confirm-btn-home {
+    background: linear-gradient(135deg, #34d399, #10b981);
+    color: #052e16;
+    box-shadow: 0 14px 30px rgba(16, 185, 129, 0.28);
+  }
+
+  .confirm-btn-home:hover {
+    background: linear-gradient(135deg, #6ee7b7, #34d399);
+    color: #052e16;
+  }
+
+  .confirm-help {
+    margin: 0 0 24px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.72);
+  }
+
+  @media (max-width: 640px) {
+    .confirm-page {
+      padding: 22px 12px;
+    }
+
+    .confirm-inner {
+      padding: 26px 18px;
+    }
+
+    .confirm-title {
+      font-size: 30px;
+    }
+
+    .confirm-subtitle {
+      font-size: 15px;
+    }
+
+    .confirm-btn {
+      width: 100%;
+    }
+
+    .confirm-actions {
+      flex-direction: column;
+    }
+
+    .confirm-refs {
+      width: 100%;
+    }
+  }
+</style>
+
+<section class="confirm-page">
+  <div class="confirm-card">
+    <div class="confirm-inner">
+
+      <div class="confirm-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M9.55 18.3 3.9 12.65l1.4-1.4 4.25 4.25 9.15-9.15 1.4 1.4Z"/>
+        </svg>
       </div>
+
+      <h1 class="confirm-title">
+        <?= function_exists('t') ? t('confirm.title') : 'Reserva confirmada' ?>
+      </h1>
+
+      <p class="confirm-subtitle">
+        <?= function_exists('t') ? t('confirm.subtitle') : 'Hemos recibido tu solicitud de traslado.' ?>
+      </p>
+
+      <p class="confirm-note">
+        <?= function_exists('t') ? t('confirm.voucher_ready') : 'Tu voucher está listo para descargar.' ?>
+      </p>
+
+      <div class="confirm-refs">
+        <?php if ($hasOut): ?>
+          <div class="confirm-ref-row">
+            <strong><?= function_exists('t') ? t('confirm.ref_out') : 'Referencia de ida' ?>:</strong>
+            <?= htmlspecialchars((string)$ref_out, ENT_QUOTES, 'UTF-8') ?>
+          </div>
+        <?php endif; ?>
+
+        <?php if ($hasRet): ?>
+          <div class="confirm-ref-row">
+            <strong><?= function_exists('t') ? t('confirm.ref_ret') : 'Referencia de vuelta' ?>:</strong>
+            <?= htmlspecialchars((string)$ref_ret, ENT_QUOTES, 'UTF-8') ?>
+          </div>
+        <?php endif; ?>
+      </div>
+
+      <div class="confirm-actions">
+        <?php if ($hasOut): ?>
+          <a
+            href="/download-voucher.php?ref=<?= urlencode((string)$ref_out) ?>"
+            class="confirm-btn confirm-btn-download"
+          >
+            <?= function_exists('t') ? t('confirm.download_out') : 'Descargar voucher (ida)' ?>
+          </a>
+        <?php endif; ?>
+
+        <?php if ($hasRet): ?>
+          <a
+            href="/download-voucher.php?ref=<?= urlencode((string)$ref_ret) ?>"
+            class="confirm-btn confirm-btn-download"
+          >
+            <?= function_exists('t') ? t('confirm.download_ret') : 'Descargar voucher (vuelta)' ?>
+          </a>
+        <?php endif; ?>
+      </div>
+
+      <p class="confirm-help">
+        <?= function_exists('t') ? t('confirm.help_text') : 'Si detectas algún dato incorrecto, por favor contacta con nosotros lo antes posible indicando tu referencia.' ?>
+      </p>
+
+      <a href="/" class="confirm-btn confirm-btn-home">
+        <?= function_exists('t') ? t('confirm.back_home') : 'Volver al inicio' ?>
+      </a>
+
     </div>
   </div>
 </section>

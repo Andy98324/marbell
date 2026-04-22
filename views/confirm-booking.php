@@ -235,6 +235,8 @@ $hasRet = !empty($ref_ret);
         <?php if ($hasOut): ?>
           <a
             href="/download-voucher.php?ref=<?= urlencode((string)$ref_out) ?>"
+            target="_blank"
+            rel="noopener noreferrer"
             class="confirm-btn confirm-btn-download"
           >
             <?= function_exists('t') ? t('confirm.download_out') : 'Descargar voucher (ida)' ?>
@@ -244,6 +246,8 @@ $hasRet = !empty($ref_ret);
         <?php if ($hasRet): ?>
           <a
             href="/download-voucher.php?ref=<?= urlencode((string)$ref_ret) ?>"
+            target="_blank"
+            rel="noopener noreferrer"
             class="confirm-btn confirm-btn-download"
           >
             <?= function_exists('t') ? t('confirm.download_ret') : 'Descargar voucher (vuelta)' ?>

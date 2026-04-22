@@ -1,5 +1,0 @@
-Correcciones aplicadas
-
-1. Se ha añadido Bootstrap 5 al layout para recuperar las vistas antiguas que usan row, col-md-*, card, text-muted, list-unstyled, w-100 y otras clases de Bootstrap.
-2. Se ha rehecho el CSS base en public/assets/css/app.css y public/assets/app.css.
-3. Se han generado imágenes de apoyo para las galerías de flota que faltaban, evitando cajas rotas por rutas inexistentes.

@@ -20,6 +20,57 @@ $fleet = [
   ['img'=>'/assets/images/adaptada.index.png',     'h'=>t('fleet.adapted8'), 'p'=>t('fleet.adapted8_desc')],
 ];
 
+
+$langHome = function_exists('current_lang') ? current_lang() : 'es';
+$reputation = [
+  'title' => $langHome === 'en' ? 'Verified reviews' : 'Opiniones verificadas',
+  'intro' => $langHome === 'en'
+    ? 'Real ratings and selected comments from Google and Trustpilot.'
+    : 'Valoraciones reales y comentarios destacados de Google y Trustpilot.',
+  'google' => [
+    'label' => 'Google Reviews',
+    'score' => '5.0',
+    'count' => $langHome === 'en' ? '13 reviews' : '13 reseñas',
+    'url'   => 'https://share.google/ED22tp1aKmTxe11UY',
+    'cta'   => $langHome === 'en' ? 'View on Google' : 'Ver en Google',
+    'items' => [
+      [
+        'name' => 'Ana Cardona',
+        'date' => $langHome === 'en' ? '3 months ago' : 'Hace 3 meses',
+        'score' => 5,
+        'text' => $langHome === 'en'
+          ? 'Excellent service, Rebeca’s management was super efficient. Driver 10/10: kind, helpful and attentive. We will definitely use the service again.'
+          : 'Excelente servicio, la gestión de Rebeca súper eficiente. El conductor 10 de 10, amable, servicial y atento; sin duda volveremos a usar el servicio.',
+      ],
+      [
+        'name' => 'Estíbaliz Amurrio',
+        'date' => $langHome === 'en' ? '1 year ago' : 'Hace un año',
+        'score' => 5,
+        'text' => $langHome === 'en'
+          ? 'Totally recommendable service: punctual, very friendly and easy to book. We will use this service again.'
+          : 'Servicio totalmente recomendable, puntuales, trato muy amable y fácil de contratar; volveremos a usar este servicio.',
+      ],
+    ],
+  ],
+  'trustpilot' => [
+    'label' => 'Trustpilot',
+    'score' => '4.3',
+    'count' => $langHome === 'en' ? '8 reviews' : '8 opiniones',
+    'url'   => 'https://www.trustpilot.com/review/www.transfermarbell.com',
+    'cta'   => $langHome === 'en' ? 'View on Trustpilot' : 'Ver en Trustpilot',
+    'items' => [
+      [
+        'name' => 'Gareth Johnson',
+        'date' => '17 Mar 2026',
+        'score' => 5,
+        'text' => $langHome === 'en'
+          ? 'I’d 100% recommend Transfer Marbell for all your transfer needs along the Costa del Sol. Everything was perfect and every driver was very professional and friendly.'
+          : 'Recomendaría Transfer Marbell al 100% para cualquier traslado por la Costa del Sol. Todo fue perfecto y cada conductor fue muy profesional y amable.',
+      ],
+    ],
+  ],
+];
+
 function render_stars($score){
   // admite 4.5, 5, etc.
   $full = floor($score);
@@ -196,6 +247,58 @@ function render_stars($score){
 
     <div class="mt-8 text-center">
       <a href="/destinos" class="inline-flex items-center gap-2 rounded-xl bg-[#0b1220] px-5 py-3 text-sm font-semibold text-white hover:opacity-95">Ver todos los destinos</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- OPINIONES VERIFICADAS -->
+<section class="py-16 bg-white">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold tracking-tight mb-2"><?= htmlspecialchars($reputation['title']) ?></h2>
+      <p class="text-zinc-600 mb-10"><?= htmlspecialchars($reputation['intro']) ?></p>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-2">
+      <?php foreach (['google','trustpilot'] as $sourceKey): $source = $reputation[$sourceKey]; ?>
+        <article class="overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-50 shadow-sm">
+          <div class="border-b border-zinc-200 bg-white p-6">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide <?= $sourceKey === 'google' ? 'bg-blue-50 text-blue-700' : 'bg-emerald-50 text-emerald-700' ?>">
+                  <?= htmlspecialchars($source['label']) ?>
+                </div>
+                <div class="mt-3 flex items-end gap-3">
+                  <div class="text-4xl font-extrabold text-zinc-900"><?= htmlspecialchars($source['score']) ?><span class="text-lg font-semibold text-zinc-500">/5</span></div>
+                  <div>
+                    <div class="flex items-center gap-1 text-amber-500"><?= render_stars((float) $source['score']) ?></div>
+                    <p class="mt-1 text-sm text-zinc-600"><?= htmlspecialchars($source['count']) ?></p>
+                  </div>
+                </div>
+              </div>
+              <a href="<?= htmlspecialchars($source['url']) ?>" target="_blank" rel="noopener noreferrer nofollow" class="inline-flex items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold text-white <?= $sourceKey === 'google' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-emerald-600 hover:bg-emerald-700' ?>">
+                <?= htmlspecialchars($source['cta']) ?>
+              </a>
+            </div>
+          </div>
+
+          <div class="space-y-4 p-6">
+            <?php foreach ($source['items'] as $item): ?>
+              <div class="rounded-2xl bg-white p-5 ring-1 ring-zinc-200">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <h3 class="text-base font-semibold text-zinc-900"><?= htmlspecialchars($item['name']) ?></h3>
+                    <p class="text-xs text-zinc-500"><?= htmlspecialchars($item['date']) ?></p>
+                  </div>
+                  <div class="flex items-center gap-1 text-amber-500 shrink-0"><?= render_stars((float) $item['score']) ?></div>
+                </div>
+                <p class="mt-3 text-sm leading-6 text-zinc-700">“<?= htmlspecialchars($item['text']) ?>”</p>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        </article>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>

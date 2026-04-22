@@ -205,6 +205,26 @@ exit;
           <?php endif; ?>
         </div>
 
+        <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+          <?php if (!empty($ref_out)): ?>
+            <a
+              href="/download-voucher.php?ref=<?= urlencode((string)$ref_out) ?>"
+              class="inline-flex items-center justify-center rounded-xl bg-white/90 hover:bg-white text-zinc-900 font-semibold px-6 py-3 shadow hover:-translate-y-0.5 transition text-sm"
+            >
+              <?= function_exists('t') ? t('confirm.download_out') : 'Descargar voucher (ida)' ?>
+            </a>
+          <?php endif; ?>
+
+          <?php if (!empty($ref_ret)): ?>
+            <a
+              href="/download-voucher.php?ref=<?= urlencode((string)$ref_ret) ?>"
+              class="inline-flex items-center justify-center rounded-xl bg-white/90 hover:bg-white text-zinc-900 font-semibold px-6 py-3 shadow hover:-translate-y-0.5 transition text-sm"
+            >
+              <?= function_exists('t') ? t('confirm.download_ret') : 'Descargar voucher (vuelta)' ?>
+            </a>
+          <?php endif; ?>
+        </div>
+
         <p class="mt-5 text-xs text-white/60">
           <?= function_exists('t') ? t('confirm.help_text') : 'Si detectas algún dato incorrecto, por favor contacta con nosotros lo antes posible indicando tu referencia.' ?>
         </p>

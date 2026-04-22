@@ -1,4 +1,5 @@
 <?php
+// public/confirm-booking.php
 declare(strict_types=1);
 
 ini_set('display_errors', '1');
@@ -22,26 +23,28 @@ if (
     exit;
 }
 
-if (!function_exists('save_voucher_files')) {
-    throw new RuntimeException('No existe la función save_voucher_files() en app/helpers/voucher.php');
+if (!function_exists('save_voucher_html') && !function_exists('save_voucher_files')) {
+    throw new RuntimeException('No existe ninguna función de voucher en app/helpers/voucher.php');
 }
 
 $quote   = $_SESSION['quote'];
 $booking = $_SESSION['booking'];
 $review  = $_SESSION['review'];
 
-$data              = is_array($review['data'] ?? null) ? $review['data'] : [];
+$data = is_array($review['data'] ?? null) ? $review['data'] : [];
+
 $base_out_price    = (float)($review['base_out_price'] ?? 0);
 $base_return_price = array_key_exists('base_return_price', $review) && $review['base_return_price'] !== null
     ? (float)$review['base_return_price']
     : null;
-$extras_out   = (float)($review['extras_out'] ?? 0);
+
+$extras_out    = (float)($review['extras_out'] ?? 0);
 $extras_return = (float)($review['extras_return'] ?? 0);
-$night_out    = (float)($review['night_out'] ?? 0);
-$night_ret    = (float)($review['night_return'] ?? 0);
-$total_out    = (float)($review['total_out'] ?? 0);
-$total_return = (float)($review['total_return'] ?? 0);
-$grand_total  = (float)($review['grand_total'] ?? 0);
+$night_out     = (float)($review['night_out'] ?? 0);
+$night_ret     = (float)($review['night_return'] ?? 0);
+$total_out     = (float)($review['total_out'] ?? 0);
+$total_return  = (float)($review['total_return'] ?? 0);
+$grand_total   = (float)($review['grand_total'] ?? 0);
 
 $origin_address      = (string)($quote['origin']['address'] ?? '');
 $destination_address = (string)($quote['destination']['address'] ?? '');
@@ -222,7 +225,6 @@ function normalize_voucher_attachment($result, string $fallbackRef): ?array
     if (is_string($result) && is_file($result)) {
         $path = $result;
     } elseif (is_array($result)) {
-        // Prioridad: PDF primero, luego HTML
         $path = voucher_pick_path_from_array(
             $result,
             ['pdf_path', 'pdf_file', 'html_path', 'html_file', 'path', 'file', 'filepath', 'full_path']
@@ -237,7 +239,7 @@ function normalize_voucher_attachment($result, string $fallbackRef): ?array
         return null;
     }
 
-    $ext = strtolower((string)pathinfo($path, PATHINFO_EXTENSION));
+    $ext  = strtolower((string)pathinfo($path, PATHINFO_EXTENSION));
     $type = 'application/octet-stream';
     $name = 'Voucher-' . $fallbackRef;
 
@@ -260,7 +262,6 @@ function normalize_voucher_attachment($result, string $fallbackRef): ?array
 
 ensure_reservas_table($db);
 
-// Extras para BD
 $extras_payload = [
     'child_seat' => (int)($data['extra_child_seat'] ?? 0),
     'booster'    => (int)($data['extra_booster'] ?? 0),
@@ -275,7 +276,6 @@ if ($extras_json === false) {
     $extras_json = '{}';
 }
 
-// Extras para voucher
 $extras_arr = [
     'Sillita infantil' => (int)($data['extra_child_seat'] ?? 0),
     'Alzador'          => (int)($data['extra_booster'] ?? 0),
@@ -290,8 +290,8 @@ $ref_interna_ida = $ref_interna_base . '-OUT';
 
 $args_out = [
     ':canal'             => 'web',
-    ':fecha'             => !empty($data['service_date']) ? $data['service_date'] : date('Y-m-d'),
-    ':hora_presentacion' => !empty($data['service_time']) ? $data['service_time'] : '00:00:00',
+    ':fecha'             => !empty($data['service_date']) ? (string)$data['service_date'] : date('Y-m-d'),
+    ':hora_presentacion' => !empty($data['service_time']) ? (string)$data['service_time'] : '00:00:00',
     ':origen'            => $origin_address,
     ':destino'           => $destination_address,
     ':pax'               => (int)($data['passengers'] ?? 1),
@@ -309,7 +309,6 @@ $args_out = [
 
 $reserva_id_out = insert_reserva($db, $args_out);
 
-// Datos voucher ida
 $v_out = [
     'ref'               => $ref_interna_ida,
     'fecha'             => $args_out[':fecha'],
@@ -334,8 +333,11 @@ $v_out = [
     'price_airport_fee' => (float)($review['airport_fee_out'] ?? 0),
 ];
 
-$voucher_out_result = save_voucher_files($v_out);
-$voucher_out_meta   = normalize_voucher_attachment($voucher_out_result, $ref_interna_ida);
+$voucher_out_result = function_exists('save_voucher_files')
+    ? save_voucher_files($v_out)
+    : save_voucher_html($v_out);
+
+$voucher_out_meta = normalize_voucher_attachment($voucher_out_result, $ref_interna_ida);
 
 // ----------------- INSERTAR VUELTA -----------------
 $reserva_id_ret   = null;
@@ -351,8 +353,12 @@ if ($return_yes) {
 
     $args_ret = [
         ':canal'             => 'web',
-        ':fecha'             => !empty($data['return_date']) ? $data['return_date'] : (!empty($data['service_date']) ? $data['service_date'] : date('Y-m-d')),
-        ':hora_presentacion' => !empty($data['return_time']) ? $data['return_time'] : (!empty($data['service_time']) ? $data['service_time'] : '00:00:00'),
+        ':fecha'             => !empty($data['return_date'])
+            ? (string)$data['return_date']
+            : (!empty($data['service_date']) ? (string)$data['service_date'] : date('Y-m-d')),
+        ':hora_presentacion' => !empty($data['return_time'])
+            ? (string)$data['return_time']
+            : (!empty($data['service_time']) ? (string)$data['service_time'] : '00:00:00'),
         ':origen'            => $destination_address,
         ':destino'           => $origin_address,
         ':pax'               => (int)($data['passengers'] ?? 1),
@@ -394,15 +400,17 @@ if ($return_yes) {
         'price_airport_fee' => 0.0,
     ];
 
-    $voucher_ret_result = save_voucher_files($v_ret);
-    $voucher_ret_meta   = normalize_voucher_attachment($voucher_ret_result, $ref_interna_ret);
+    $voucher_ret_result = function_exists('save_voucher_files')
+        ? save_voucher_files($v_ret)
+        : save_voucher_html($v_ret);
+
+    $voucher_ret_meta = normalize_voucher_attachment($voucher_ret_result, $ref_interna_ret);
 }
 
 // ----------------- EMAILS -----------------
 $subjectBase   = 'Transfer Marbell - Reserva ' . $ref_interna_base;
 $clienteNombre = trim(((string)($data['first_name'] ?? '')) . ' ' . ((string)($data['last_name'] ?? '')));
 
-// Adjuntos cliente
 $attachmentsCliente = [];
 if ($voucher_out_meta !== null) {
     $attachmentsCliente[] = $voucher_out_meta;
@@ -411,7 +419,6 @@ if ($voucher_ret_meta !== null) {
     $attachmentsCliente[] = $voucher_ret_meta;
 }
 
-// 1) Email al cliente
 if (!empty($data['email'])) {
     ob_start();
     ?>
@@ -434,11 +441,10 @@ if (!empty($data['email'])) {
     </ul>
 
     <p><strong>Importe total:</strong> <?= number_format($grand_total, 2, ',', '.') ?> €</p>
-
     <p>Adjuntamos tus vouchers de reserva.</p>
     <p>Gracias por confiar en Transfer Marbell.</p>
     <?php
-    $htmlCliente = ob_get_clean();
+    $htmlCliente = (string)ob_get_clean();
 
     send_app_mail(
         (string)$data['email'],
@@ -449,7 +455,6 @@ if (!empty($data['email'])) {
     );
 }
 
-// 2) Email interno
 ob_start();
 ?>
 <h2>Nueva reserva web</h2>
@@ -468,7 +473,7 @@ ob_start();
   <li><strong>Total:</strong> <?= number_format($grand_total, 2, ',', '.') ?> €</li>
 </ul>
 <?php
-$htmlAdmin = ob_get_clean();
+$htmlAdmin = (string)ob_get_clean();
 
 send_app_mail(
     'reservas@transfermarbell.com',
@@ -478,7 +483,6 @@ send_app_mail(
     $attachmentsCliente
 );
 
-// Guardar refs en sesión
 $_SESSION['last_booking_refs'] = [
     'out_id'  => $reserva_id_out,
     'out_ref' => $ref_interna_ida,
@@ -487,11 +491,9 @@ $_SESSION['last_booking_refs'] = [
     'email'   => (string)($data['email'] ?? ''),
 ];
 
-// Limpiar sesión del proceso
 unset($_SESSION['booking'], $_SESSION['review']);
 
-// Render vista
-$__view = __DIR__ . '/../views/confirm_booking.php';
+$__view = __DIR__ . '/../views/confirm-booking.php';
 if (!is_file($__view)) {
     throw new RuntimeException('No existe la vista: ' . $__view);
 }
@@ -506,6 +508,6 @@ extract([
 
 ob_start();
 include $__view;
-$__content = ob_get_clean();
+$__content = (string)ob_get_clean();
 
 require __DIR__ . '/../views/layout.php';

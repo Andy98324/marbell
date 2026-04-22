@@ -3,105 +3,122 @@
 declare(strict_types=1);
 
 if (!function_exists('vouchers_storage_dir')) {
-    function vouchers_storage_dir(): string {
+    function vouchers_storage_dir(): string
+    {
         $base = realpath(__DIR__ . '/..'); // /app
-        $dir  = $base . '/storage/vouchers';
-        if (!is_dir($dir)) {
-            @mkdir($dir, 0775, true);
+        if ($base === false) {
+            throw new RuntimeException('No se pudo resolver la ruta base de /app');
         }
+
+        $dir = $base . '/storage/vouchers';
+
+        if (!is_dir($dir) && !@mkdir($dir, 0775, true) && !is_dir($dir)) {
+            throw new RuntimeException('No se pudo crear el directorio de vouchers: ' . $dir);
+        }
+
         return $dir;
     }
 }
 
 if (!function_exists('voucher_safe_ref')) {
-    function voucher_safe_ref(string $ref): string {
+    function voucher_safe_ref(string $ref): string
+    {
         $ref = trim($ref);
-        $ref = preg_replace('/\s+/', '-', $ref);
-        return preg_replace('/[^A-Za-z0-9_\-]/', '_', $ref ?: 'SINREF');
+        $ref = preg_replace('/\s+/', '-', $ref) ?? $ref;
+        $safe = preg_replace('/[^A-Za-z0-9_\-]/', '_', $ref ?: 'SINREF');
+
+        return is_string($safe) ? $safe : 'SINREF';
     }
 }
 
 if (!function_exists('wkhtmltopdf_bin')) {
-    function wkhtmltopdf_bin(): ?string {
+    function wkhtmltopdf_bin(): ?string
+    {
         $bin = trim((string)@shell_exec('command -v wkhtmltopdf 2>/dev/null'));
-        if ($bin && is_file($bin) && is_executable($bin)) return $bin;
+        if ($bin !== '' && is_file($bin) && is_executable($bin)) {
+            return $bin;
+        }
 
         $common = '/usr/bin/wkhtmltopdf';
-        if (is_file($common) && is_executable($common)) return $common;
+        if (is_file($common) && is_executable($common)) {
+            return $common;
+        }
 
         return null;
     }
 }
 
 if (!function_exists('generate_voucher_html')) {
-    function generate_voucher_html(array $reserva): string {
-        $ref     = htmlspecialchars((string)($reserva['ref'] ?? ''));
-        $fecha   = htmlspecialchars((string)($reserva['fecha'] ?? ''));
-        $hora    = htmlspecialchars((string)($reserva['hora'] ?? ''));
-        $origen  = nl2br(htmlspecialchars((string)($reserva['origen'] ?? '')), false);
-        $destino = nl2br(htmlspecialchars((string)($reserva['destino'] ?? '')), false);
+    function generate_voucher_html(array $reserva): string
+    {
+        $ref     = htmlspecialchars((string)($reserva['ref'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $fecha   = htmlspecialchars((string)($reserva['fecha'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $hora    = htmlspecialchars((string)($reserva['hora'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $origen  = nl2br(htmlspecialchars((string)($reserva['origen'] ?? ''), ENT_QUOTES, 'UTF-8'), false);
+        $destino = nl2br(htmlspecialchars((string)($reserva['destino'] ?? ''), ENT_QUOTES, 'UTF-8'), false);
         $pax     = (int)($reserva['pax'] ?? 1);
-        $nombre  = htmlspecialchars((string)($reserva['nombre'] ?? ''));
+        $nombre  = htmlspecialchars((string)($reserva['nombre'] ?? ''), ENT_QUOTES, 'UTF-8');
         $tel     = trim((string)($reserva['telefono'] ?? ''));
         $email   = trim((string)($reserva['email'] ?? ''));
         $notas   = trim((string)($reserva['notas'] ?? ''));
-        $company = htmlspecialchars((string)($reserva['company'] ?? 'Transfer Marbell'));
-        $tipo    = htmlspecialchars((string)($reserva['tipo'] ?? '')); // OUT/RET
+        $company = htmlspecialchars((string)($reserva['company'] ?? 'Transfer Marbell'), ENT_QUOTES, 'UTF-8');
+        $tipo    = htmlspecialchars((string)($reserva['tipo'] ?? ''), ENT_QUOTES, 'UTF-8');
 
-        // ✅ Vehículo
-        $vehName = htmlspecialchars((string)($reserva['vehicle_name'] ?? ''));
-        $vehCap  = htmlspecialchars((string)($reserva['vehicle_capacity'] ?? '')); // ej: "1-4 • 4 maletas"
-        $vehCode = htmlspecialchars((string)($reserva['vehicle_code'] ?? ''));
+        $vehName = htmlspecialchars((string)($reserva['vehicle_name'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $vehCap  = htmlspecialchars((string)($reserva['vehicle_capacity'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $vehCode = htmlspecialchars((string)($reserva['vehicle_code'] ?? ''), ENT_QUOTES, 'UTF-8');
 
-        // ✅ Totales (opcional desglose)
-        $price_total = (float)($reserva['precio'] ?? 0);
-        $price_base  = (float)($reserva['price_base'] ?? 0);
-        $price_extras= (float)($reserva['price_extras'] ?? 0);
-        $price_night = (float)($reserva['price_night'] ?? 0);
-        $price_air   = (float)($reserva['price_airport_fee'] ?? 0);
+        $price_total  = (float)($reserva['precio'] ?? 0);
+        $price_base   = (float)($reserva['price_base'] ?? 0);
+        $price_extras = (float)($reserva['price_extras'] ?? 0);
+        $price_night  = (float)($reserva['price_night'] ?? 0);
+        $price_air    = (float)($reserva['price_airport_fee'] ?? 0);
 
-        $fmt = fn($v) => number_format((float)$v, 2, ',', '.') . ' €';
+        $fmt = static fn($v): string => number_format((float)$v, 2, ',', '.') . ' €';
         $precio = $fmt($price_total);
 
         $issuedAt = (string)($reserva['issued_at'] ?? '');
-        if ($issuedAt === '') $issuedAt = date('Y-m-d H:i');
+        if ($issuedAt === '') {
+            $issuedAt = date('Y-m-d H:i');
+        }
 
-        $sub = $tipo ? " · {$tipo}" : "";
+        $sub = $tipo !== '' ? ' · ' . $tipo : '';
 
-        $telRow   = $tel   !== '' ? "<p class=\"kv\"><strong>Teléfono:</strong> " . htmlspecialchars($tel) . "</p>" : "";
-        $emailRow = $email !== '' ? "<p class=\"kv\"><strong>Email:</strong> " . htmlspecialchars($email) . "</p>" : "";
+        $telRow   = $tel !== '' ? '<p class="kv"><strong>Teléfono:</strong> ' . htmlspecialchars($tel, ENT_QUOTES, 'UTF-8') . '</p>' : '';
+        $emailRow = $email !== '' ? '<p class="kv"><strong>Email:</strong> ' . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . '</p>' : '';
 
-        // ✅ Extras: admite array asociativo ['Sillita infantil'=>1, 'Alzador'=>0...]
         $extras = $reserva['extras'] ?? [];
         $extrasHtml = '';
+
         if (is_array($extras)) {
             $items = [];
+
             foreach ($extras as $label => $qty) {
                 $q = (int)$qty;
                 $lab = trim((string)$label);
+
                 if ($q > 0 && $lab !== '') {
-                    $items[] = '<li><span class="dot"></span><span><strong>' . $q . '×</strong> ' . htmlspecialchars($lab) . '</span></li>';
+                    $items[] = '<li><span class="dot"></span><span><strong>' . $q . '×</strong> ' . htmlspecialchars($lab, ENT_QUOTES, 'UTF-8') . '</span></li>';
                 }
             }
-            if (!empty($items)) {
-                $extrasHtml = '<ul class="list">' . implode('', $items) . '</ul>';
-            } else {
-                $extrasHtml = '<p class="muted">Sin extras.</p>';
-            }
+
+            $extrasHtml = !empty($items)
+                ? '<ul class="list">' . implode('', $items) . '</ul>'
+                : '<p class="muted">Sin extras.</p>';
         } else {
             $extrasHtml = '<p class="muted">Sin extras.</p>';
         }
 
         $notesBlock = '';
         if ($notas !== '') {
-            $notesBlock = '<h2>Notas</h2><div class="box"><p class="kv">'. nl2br(htmlspecialchars($notas), false) .'</p></div>';
+            $notesBlock = '<h2>Notas</h2><div class="box"><p class="kv">' . nl2br(htmlspecialchars($notas, ENT_QUOTES, 'UTF-8'), false) . '</p></div>';
         }
 
-        // ✅ Bloque vehículo si hay nombre
         $vehicleBlock = '';
         if ($vehName !== '') {
-            $capLine = $vehCap !== '' ? "<p class=\"kv\"><strong>Capacidad:</strong> {$vehCap}</p>" : "";
-            $codeLine= $vehCode !== '' ? "<p class=\"kv\"><strong>Código:</strong> {$vehCode}</p>" : "";
+            $capLine  = $vehCap !== '' ? '<p class="kv"><strong>Capacidad:</strong> ' . $vehCap . '</p>' : '';
+            $codeLine = $vehCode !== '' ? '<p class="kv"><strong>Código:</strong> ' . $vehCode . '</p>' : '';
+
             $vehicleBlock = <<<HTML
 <h2>Vehículo</h2>
 <div class="box">
@@ -112,15 +129,23 @@ if (!function_exists('generate_voucher_html')) {
 HTML;
         }
 
-        // ✅ Desglose precio (solo si viene algo)
         $hasBreakdown = ($price_base > 0) || ($price_extras > 0) || ($price_night > 0) || ($price_air > 0);
         $breakdownHtml = '';
+
         if ($hasBreakdown) {
             $rows = '';
-            if ($price_base > 0)   $rows .= '<div class="rowp"><span>Tarifa base</span><span>'.$fmt($price_base).'</span></div>';
-            if ($price_extras > 0) $rows .= '<div class="rowp"><span>Extras</span><span>'.$fmt($price_extras).'</span></div>';
-            if ($price_night > 0)  $rows .= '<div class="rowp"><span>Recargo nocturno</span><span>'.$fmt($price_night).'</span></div>';
-            if ($price_air > 0)    $rows .= '<div class="rowp"><span>Suplemento aeropuerto</span><span>'.$fmt($price_air).'</span></div>';
+            if ($price_base > 0) {
+                $rows .= '<div class="rowp"><span>Tarifa base</span><span>' . $fmt($price_base) . '</span></div>';
+            }
+            if ($price_extras > 0) {
+                $rows .= '<div class="rowp"><span>Extras</span><span>' . $fmt($price_extras) . '</span></div>';
+            }
+            if ($price_night > 0) {
+                $rows .= '<div class="rowp"><span>Recargo nocturno</span><span>' . $fmt($price_night) . '</span></div>';
+            }
+            if ($price_air > 0) {
+                $rows .= '<div class="rowp"><span>Suplemento aeropuerto</span><span>' . $fmt($price_air) . '</span></div>';
+            }
 
             $breakdownHtml = <<<HTML
 <div class="box" style="margin-top:10px">
@@ -162,13 +187,9 @@ HTML;
     .foot .fleft{float:left;width:70%}
     .foot .fright{float:right;width:30%;text-align:right}
     .clearfix{clear:both}
-
-    /* extras list */
     .list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
     .list li{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#111827}
     .dot{margin-top:6px;width:6px;height:6px;border-radius:999px;background:#0ea5e9;display:inline-block}
-
-    /* price breakdown */
     .rowp{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:#111827;margin:0 0 6px 0}
     .rowp.total{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-weight:900;color:#0f172a}
   </style>
@@ -176,7 +197,6 @@ HTML;
 <body>
   <div class="wrap">
     <div class="card">
-
       <div class="top">
         <div class="left">
           <h1 class="title">Voucher de servicio · {$ref}{$sub}</h1>
@@ -189,7 +209,6 @@ HTML;
       </div>
 
       <div class="body">
-
         <h2>Datos del servicio</h2>
         <div class="grid">
           <div class="col">
@@ -243,11 +262,86 @@ HTML;
         <div class="fright">reservas@transfermarbell.com</div>
         <div class="clearfix"></div>
       </div>
-
     </div>
   </div>
 </body>
 </html>
 HTML;
+    }
+}
+
+if (!function_exists('voucher_html_path')) {
+    function voucher_html_path(string $ref): string
+    {
+        return vouchers_storage_dir() . '/' . voucher_safe_ref($ref) . '.html';
+    }
+}
+
+if (!function_exists('voucher_pdf_path')) {
+    function voucher_pdf_path(string $ref): string
+    {
+        return vouchers_storage_dir() . '/' . voucher_safe_ref($ref) . '.pdf';
+    }
+}
+
+if (!function_exists('save_voucher_html')) {
+    function save_voucher_html(array $reserva): string
+    {
+        $ref = (string)($reserva['ref'] ?? '');
+        if ($ref === '') {
+            throw new RuntimeException('No se puede guardar el voucher: falta la referencia.');
+        }
+
+        $html = generate_voucher_html($reserva);
+        $path = voucher_html_path($ref);
+
+        if (@file_put_contents($path, $html) === false) {
+            throw new RuntimeException('No se pudo guardar el voucher HTML en: ' . $path);
+        }
+
+        return $path;
+    }
+}
+
+if (!function_exists('save_voucher_files')) {
+    function save_voucher_files(array $reserva): array
+    {
+        $ref = (string)($reserva['ref'] ?? '');
+        if ($ref === '') {
+            throw new RuntimeException('No se puede guardar el voucher: falta la referencia.');
+        }
+
+        $htmlPath = save_voucher_html($reserva);
+        $pdfPath  = voucher_pdf_path($ref);
+        $wkhtml   = wkhtmltopdf_bin();
+
+        $result = [
+            'ref'       => $ref,
+            'html_path' => $htmlPath,
+            'pdf_path'  => null,
+            'path'      => $htmlPath,
+        ];
+
+        if ($wkhtml !== null) {
+            $cmd = escapeshellarg($wkhtml)
+                . ' --encoding utf-8'
+                . ' --enable-local-file-access'
+                . ' --margin-top 10'
+                . ' --margin-right 10'
+                . ' --margin-bottom 10'
+                . ' --margin-left 10'
+                . ' ' . escapeshellarg($htmlPath)
+                . ' ' . escapeshellarg($pdfPath)
+                . ' 2>&1';
+
+            @shell_exec($cmd);
+
+            if (is_file($pdfPath) && filesize($pdfPath) > 0) {
+                $result['pdf_path'] = $pdfPath;
+                $result['path'] = $pdfPath;
+            }
+        }
+
+        return $result;
     }
 }

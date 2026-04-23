@@ -74,6 +74,10 @@ $cards = [
     'cta_label' => t('cta.see_more'),
   ],
 ];
+?>
+<?php
+$destinations = require __DIR__ . '/../../app/destinations.php';
+
 $featuredRoutes = [
   'marbella',
   'puerto-banus',
@@ -197,12 +201,11 @@ $featuredRoutes = [
 
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <?php foreach ($featuredRoutes as $slug): ?>
-        <?php if (!isset($transfers[$slug])) continue; ?>
-        <?php $route = $transfers[$slug]; ?>
+        <?php if (!isset($destinations[$slug])) continue; ?>
+        <?php $route = $destinations[$slug]; ?>
 
         <article class="group rounded-2xl bg-white ring-1 ring-black/10 shadow-xl overflow-hidden transition hover:-translate-y-0.5 hover:shadow-2xl">
           
-          <!-- Imagen -->
           <div class="relative">
             <img src="<?= htmlspecialchars($route['image']) ?>"
                  alt="<?= htmlspecialchars($route['title']) ?>"
@@ -216,7 +219,6 @@ $featuredRoutes = [
             </span>
           </div>
 
-          <!-- Contenido -->
           <div class="p-5">
             <h3 class="text-xl font-bold text-zinc-900 leading-snug">
               <?= htmlspecialchars($route['name']) ?>
@@ -243,9 +245,9 @@ $featuredRoutes = [
               </ul>
             <?php endif; ?>
 
-            <a href="/traslados/<?= htmlspecialchars($slug) ?>"
+            <a href="/destinos/<?= htmlspecialchars($slug) ?>"
                class="mt-5 inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500">
-              Ver ruta
+              Ver destino
               <svg width="25" height="25" viewBox="0 0 24 24" fill="currentColor"
                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M10 17l6-5-6-5v10z" />

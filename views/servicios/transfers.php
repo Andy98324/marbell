@@ -74,6 +74,22 @@ $cards = [
     'cta_label' => t('cta.see_more'),
   ],
 ];
+$featuredRoutes = [
+  'marbella',
+  'puerto-banus',
+  'estepona',
+  'fuengirola',
+  'benalmadena',
+  'mijas',
+  'nerja',
+  'frigiliana',
+  'torrox',
+  'granada',
+  'cordoba',
+  'sevilla',
+  'cadiz',
+  'sierra-nevada',
+];
 ?>
 <!-- HERO (estilo TransferMarbell) -->
 <section class="relative overflow-hidden bg-[#0b1220] text-white rounded-3xl">
@@ -158,6 +174,82 @@ $cards = [
   <path d="M10 17l6-5-6-5v10z" />
 </svg>
 
+            </a>
+          </div>
+        </article>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+
+<!-- GRID DE RUTAS DESTACADAS -->
+<section class="py-16 bg-slate-50">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    
+    <div class="mb-10 text-center">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-zinc-900">
+        Rutas más demandadas desde el Aeropuerto de Málaga
+      </h2>
+      <p class="mt-3 text-zinc-600 max-w-3xl mx-auto">
+        Descubre los destinos más reservados para viajar desde o hasta el Aeropuerto de Málaga con servicio privado, precio fijo y atención personalizada.
+      </p>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <?php foreach ($featuredRoutes as $slug): ?>
+        <?php if (!isset($transfers[$slug])) continue; ?>
+        <?php $route = $transfers[$slug]; ?>
+
+        <article class="group rounded-2xl bg-white ring-1 ring-black/10 shadow-xl overflow-hidden transition hover:-translate-y-0.5 hover:shadow-2xl">
+          
+          <!-- Imagen -->
+          <div class="relative">
+            <img src="<?= htmlspecialchars($route['image']) ?>"
+                 alt="<?= htmlspecialchars($route['title']) ?>"
+                 class="w-full aspect-[16/9] object-cover transition duration-500 group-hover:scale-[1.03]"
+                 loading="lazy">
+
+            <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-black/0 to-transparent"></div>
+
+            <span class="absolute left-4 bottom-4 inline-flex items-center rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-sky-700 shadow">
+              <?= htmlspecialchars($route['group']) ?>
+            </span>
+          </div>
+
+          <!-- Contenido -->
+          <div class="p-5">
+            <h3 class="text-xl font-bold text-zinc-900 leading-snug">
+              <?= htmlspecialchars($route['name']) ?>
+            </h3>
+
+            <p class="mt-2 text-sm text-zinc-700 leading-6">
+              <?= htmlspecialchars($route['lead']) ?>
+            </p>
+
+            <?php if (!empty($route['travel_time'])): ?>
+              <p class="mt-3 inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                <?= htmlspecialchars($route['travel_time']) ?>
+              </p>
+            <?php endif; ?>
+
+            <?php if (!empty($route['highlights'])): ?>
+              <ul class="mt-4 space-y-1.5 text-sm text-zinc-700">
+                <?php foreach (array_slice($route['highlights'], 0, 3) as $highlight): ?>
+                  <li class="flex items-start gap-2">
+                    <span class="mt-1 h-1.5 w-1.5 rounded-full bg-sky-500"></span>
+                    <span><?= htmlspecialchars($highlight) ?></span>
+                  </li>
+                <?php endforeach; ?>
+              </ul>
+            <?php endif; ?>
+
+            <a href="/traslados/<?= htmlspecialchars($slug) ?>"
+               class="mt-5 inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500">
+              Ver ruta
+              <svg width="25" height="25" viewBox="0 0 24 24" fill="currentColor"
+                   xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M10 17l6-5-6-5v10z" />
+              </svg>
             </a>
           </div>
         </article>

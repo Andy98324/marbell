@@ -76,16 +76,19 @@ $hero = $langHome === 'en'
       'title' => 'Private transfers from and to Málaga Airport',
       'subtitle' => 'Book your transfer online in Marbella, Estepona, Nerja, Fuengirola and across Andalusia.',
       'benefits' => ['Fixed price', 'Professional drivers', 'Service 24/7'],
+      'social_google' => 'Google 5.0',
+      'social_trustpilot' => 'Trustpilot 4.3',
+      'social_secure' => 'Secure online booking',
       'origin_placeholder' => 'Origin (e.g. Málaga Airport)',
       'destination_placeholder' => 'Destination (e.g. Marbella)',
-      'primary_cta' => 'View price and book',
-      'secondary_cta' => 'Continue to vehicles and prices',
+      'primary_cta' => 'Calculate route',
+      'whatsapp_cta' => 'WhatsApp',
+      'secondary_cta' => 'View price and book',
       'route_title' => 'Trip summary',
       'label_origin' => 'Origin',
       'label_destination' => 'Destination',
       'label_distance' => 'Distance',
       'label_duration' => 'Estimated duration',
-      'summary_title' => 'Ready to book your transfer?',
       'summary_copy' => 'Check route details, choose your vehicle and continue your booking in less than a minute.',
       'price_hint' => 'Airport transfers with online booking and professional service.',
       'alert_missing_fields' => 'Please enter origin and destination.',
@@ -98,16 +101,19 @@ $hero = $langHome === 'en'
       'title' => 'Traslados privados desde y hasta el Aeropuerto de Málaga',
       'subtitle' => 'Reserva online tu transfer en Marbella, Estepona, Nerja, Fuengirola y toda Andalucía.',
       'benefits' => ['Precio cerrado', 'Conductores profesionales', 'Servicio 24/7'],
+      'social_google' => 'Google 5.0',
+      'social_trustpilot' => 'Trustpilot 4.3',
+      'social_secure' => 'Reserva online segura',
       'origin_placeholder' => 'Origen (ej. Aeropuerto de Málaga)',
       'destination_placeholder' => 'Destino (ej. Marbella)',
-      'primary_cta' => 'Ver precio y reservar',
-      'secondary_cta' => 'Continuar con vehículos y precios',
+      'primary_cta' => 'Calcular ruta',
+      'whatsapp_cta' => 'WhatsApp',
+      'secondary_cta' => 'Ver precio y reservar',
       'route_title' => 'Resumen del trayecto',
       'label_origin' => 'Origen',
       'label_destination' => 'Destino',
       'label_distance' => 'Distancia',
       'label_duration' => 'Duración estimada',
-      'summary_title' => '¿Listo para reservar tu traslado?',
       'summary_copy' => 'Consulta los datos de la ruta, elige vehículo y continúa tu reserva en menos de un minuto.',
       'price_hint' => 'Traslados al aeropuerto con reserva online y servicio profesional.',
       'alert_missing_fields' => 'Por favor introduce origen y destino.',
@@ -116,11 +122,24 @@ $hero = $langHome === 'en'
       'route_button_aria' => 'Ver vehículos y precios',
     ];
 
-// Si tienes una URL real de WhatsApp en config o entorno, aparecerá el botón.
+$destinationUi = $langHome === 'en'
+  ? [
+      'title' => 'Top destinations',
+      'intro' => 'The most requested Costa del Sol and Andalusia destinations, with specific pages for each route.',
+      'cta_item' => 'View destination',
+      'cta_all' => 'View all destinations',
+    ]
+  : [
+      'title' => 'Principales destinos',
+      'intro' => 'Los destinos más solicitados de la Costa del Sol y Andalucía, con páginas específicas para cada ruta.',
+      'cta_item' => 'Ver destino',
+      'cta_all' => 'Ver todos los destinos',
+    ];
+
+// WhatsApp directo
 $whatsAppUrl = 'https://wa.me/34951748494';
 
 function render_stars($score){
-  // admite 4.5, 5, etc.
   $full = floor($score);
   $half = ($score - $full) >= 0.5 ? 1 : 0;
   $empty = 5 - $full - $half;
@@ -133,11 +152,11 @@ function render_stars($score){
 ?>
 
 <!-- HERO -->
-<section class="relative overflow-hidden bg-[#0b1220] text-white rounded-2xl">
-  <div class="absolute inset-0 opacity-20 pointer-events-none rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md"></div>
+<section class="relative overflow-hidden rounded-2xl bg-[#0b1220] text-white">
+  <div class="absolute inset-0 rounded-2xl border border-white/20 bg-white/10 opacity-20 backdrop-blur-md pointer-events-none"></div>
   <div class="absolute -top-32 left-1/2 h-[900px] w-[900px] -translate-x-1/2 rounded-full bg-gradient-to-br from-sky-500/25 via-transparent to-transparent blur-3xl"></div>
 
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-18">
+  <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 md:py-18">
     <div class="rounded-2xl border border-white/15 bg-white/10 p-6 shadow-lg backdrop-blur-md md:p-10">
       <div class="mx-auto max-w-5xl text-center">
         <div class="mb-5 inline-flex items-center rounded-full border border-sky-400/20 bg-sky-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-sky-200">
@@ -159,17 +178,23 @@ function render_stars($score){
             </span>
           <?php endforeach; ?>
         </div>
+
+        <div class="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold">
+          <span class="rounded-full bg-white px-4 py-2 text-zinc-900 shadow-sm"><?= htmlspecialchars($hero['social_google']) ?></span>
+          <span class="rounded-full bg-white/10 px-4 py-2 text-white ring-1 ring-white/15"><?= htmlspecialchars($hero['social_trustpilot']) ?></span>
+          <span class="rounded-full bg-emerald-500/15 px-4 py-2 text-emerald-100 ring-1 ring-emerald-400/20"><?= htmlspecialchars($hero['social_secure']) ?></span>
+        </div>
       </div>
 
       <!-- FORMULARIO DE RUTAS -->
       <div class="mx-auto mt-8 max-w-5xl rounded-2xl border border-white/15 bg-slate-800/75 p-5 shadow-2xl md:p-6">
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
           <input id="origin" type="text" placeholder="<?= htmlspecialchars($hero['origin_placeholder']) ?>"
-                class="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-black shadow-sm outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20"
-                autocomplete="off">
+                 class="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-black shadow-sm outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20"
+                 autocomplete="off">
           <input id="destination" type="text" placeholder="<?= htmlspecialchars($hero['destination_placeholder']) ?>"
-                class="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-black shadow-sm outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20"
-                autocomplete="off">
+                 class="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-black shadow-sm outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20"
+                 autocomplete="off">
         </div>
 
         <div class="mt-4 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -182,7 +207,7 @@ function render_stars($score){
           <?php if (!empty($whatsAppUrl)): ?>
             <a href="<?= htmlspecialchars($whatsAppUrl) ?>" target="_blank" rel="noopener noreferrer"
                class="inline-flex items-center justify-center rounded-xl border border-emerald-400/20 bg-emerald-500/15 px-6 py-3 text-base font-semibold text-emerald-100 transition hover:-translate-y-0.5 hover:bg-emerald-500/25">
-              WhatsApp
+              <?= htmlspecialchars($hero['whatsapp_cta']) ?>
             </a>
           <?php endif; ?>
         </div>
@@ -190,9 +215,6 @@ function render_stars($score){
         <p class="mt-3 text-center text-sm text-slate-300">
           <?= htmlspecialchars($hero['price_hint']) ?>
         </p>
-
-        <!-- MAPA -->
-        <div id="map" class="mt-5 h-72 w-full overflow-hidden rounded-2xl border border-white/10 md:h-80"></div>
 
         <!-- RESULTADOS -->
         <div id="routeInfo" class="mt-6 hidden rounded-2xl border border-white/10 bg-white/5 p-5 text-left text-white">
@@ -229,6 +251,9 @@ function render_stars($score){
           </div>
         </div>
 
+        <!-- MAPA -->
+        <div id="map" class="mt-5 h-64 w-full overflow-hidden rounded-2xl border border-white/10 md:h-72"></div>
+
         <!-- FORM oculto para enviar datos a quote.php -->
         <form id="quoteForm" action="/quote.php" method="post" class="hidden">
           <input type="hidden" name="origin_address" id="f_origin_address">
@@ -255,7 +280,7 @@ function render_stars($score){
 
     <div class="grid sm:grid-cols-2 gap-6 mb-10">
       <img src="/assets/images/travel-comfort.webp" alt="<?= t('home.img_comfort_alt') ?>" class="rounded-2xl w-full h-auto" loading="lazy">
-      <img src="/assets/images/travel-style.webp"   alt="<?= t('home.img_style_alt')   ?>" class="rounded-2xl w-full h-auto" loading="lazy">
+      <img src="/assets/images/travel-style.webp" alt="<?= t('home.img_style_alt') ?>" class="rounded-2xl w-full h-auto" loading="lazy">
     </div>
 
     <ul class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-3 text-zinc-700">
@@ -291,27 +316,31 @@ function render_stars($score){
 <section class="py-16 bg-zinc-50">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto text-center mb-10">
-      <h2 class="text-3xl font-bold tracking-tight mb-2">Principales destinos</h2>
-      <p class="text-zinc-600">Los destinos más visitados de la Costa del Sol, ciudades de Andalucía y Sierra Nevada, con páginas específicas para que Google indexe mejor cada ruta.</p>
+      <h2 class="text-3xl font-bold tracking-tight mb-2"><?= htmlspecialchars($destinationUi['title']) ?></h2>
+      <p class="text-zinc-600"><?= htmlspecialchars($destinationUi['intro']) ?></p>
     </div>
 
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      <?php foreach (['marbella','puerto-banus','fuengirola','benalmadena','nerja','sevilla','granada','sierra-nevada'] as $slug): 
+      <?php foreach (['marbella','puerto-banus','fuengirola','benalmadena','nerja','sevilla','granada','sierra-nevada'] as $slug):
         $d = $destinationPages[$slug]; ?>
-        <article class="group rounded-2xl bg-white shadow-xl ring-1 ring-black/5 overflow-hidden hover:-translate-y-0.5 hover:shadow-2xl transition">
-          <img src="<?= htmlspecialchars($d['image']) ?>" alt="<?= htmlspecialchars($d['name']) ?>" class="w-full aspect-[16/10] object-cover" loading="lazy">
+        <article class="group overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-2xl">
+          <img src="<?= htmlspecialchars($d['image']) ?>" alt="<?= htmlspecialchars($d['name']) ?>" class="aspect-[16/10] w-full object-cover" loading="lazy">
           <div class="p-5">
             <div class="text-xs font-semibold uppercase tracking-wide text-sky-700"><?= htmlspecialchars($d['group']) ?></div>
             <h3 class="mt-1 text-lg font-bold text-zinc-900"><?= htmlspecialchars($d['name']) ?></h3>
             <p class="mt-2 text-sm text-zinc-600"><?= htmlspecialchars($d['lead']) ?></p>
-            <a href="/destinos/<?= htmlspecialchars($slug) ?>" class="mt-4 inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700">Ver destino</a>
+            <a href="/destinos/<?= htmlspecialchars($slug) ?>" class="mt-4 inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700">
+              <?= htmlspecialchars($destinationUi['cta_item']) ?>
+            </a>
           </div>
         </article>
       <?php endforeach; ?>
     </div>
 
     <div class="mt-8 text-center">
-      <a href="/destinos" class="inline-flex items-center gap-2 rounded-xl bg-[#0b1220] px-5 py-3 text-sm font-semibold text-white hover:opacity-95">Ver todos los destinos</a>
+      <a href="/destinos" class="inline-flex items-center gap-2 rounded-xl bg-[#0b1220] px-5 py-3 text-sm font-semibold text-white hover:opacity-95">
+        <?= htmlspecialchars($destinationUi['cta_all']) ?>
+      </a>
     </div>
   </div>
 </section>
@@ -355,7 +384,7 @@ function render_stars($score){
                     <h3 class="text-base font-semibold text-zinc-900"><?= htmlspecialchars($item['name']) ?></h3>
                     <p class="text-xs text-zinc-500"><?= htmlspecialchars($item['date']) ?></p>
                   </div>
-                  <div class="flex items-center gap-1 text-amber-500 shrink-0"><?= render_stars((float) $item['score']) ?></div>
+                  <div class="shrink-0 flex items-center gap-1 text-amber-500"><?= render_stars((float) $item['score']) ?></div>
                 </div>
                 <p class="mt-3 text-sm leading-6 text-zinc-700">“<?= htmlspecialchars($item['text']) ?>”</p>
               </div>
@@ -380,7 +409,7 @@ function render_stars($score){
         <ul class="glide__slides">
           <?php foreach ($reviews as $r): ?>
             <li class="glide__slide">
-              <article class="rounded-2xl bg-white ring-1 ring-black/5 shadow-xl p-5 mx-2">
+              <article class="mx-2 rounded-2xl bg-white p-5 shadow-xl ring-1 ring-black/5">
                 <div class="flex items-start gap-4">
                   <img src="<?= $r['img'] ?>" class="h-14 w-14 rounded-full object-cover" alt="<?= htmlspecialchars($r['name']) ?>" loading="lazy">
                   <div class="min-w-0">
@@ -392,7 +421,7 @@ function render_stars($score){
                       <?= render_stars($r['stars']) ?>
                       <span class="ml-1 text-xs text-zinc-500"><?= number_format($r['stars'],1) ?>/5</span>
                     </div>
-                    <p class="mt-2 text-sm text-zinc-700 leading-6">“<?= htmlspecialchars($r['text']) ?>”</p>
+                    <p class="mt-2 text-sm leading-6 text-zinc-700">“<?= htmlspecialchars($r['text']) ?>”</p>
                   </div>
                 </div>
               </article>
@@ -401,9 +430,9 @@ function render_stars($score){
         </ul>
       </div>
 
-      <div class="flex justify-center gap-4 mt-5" data-glide-el="controls">
-        <button class="px-3 py-1 rounded-lg ring-1 ring-zinc-200" data-glide-dir="<">‹</button>
-        <button class="px-3 py-1 rounded-lg ring-1 ring-zinc-200" data-glide-dir=">">›</button>
+      <div class="mt-5 flex justify-center gap-4" data-glide-el="controls">
+        <button class="rounded-lg px-3 py-1 ring-1 ring-zinc-200" data-glide-dir="<">‹</button>
+        <button class="rounded-lg px-3 py-1 ring-1 ring-zinc-200" data-glide-dir=">">›</button>
       </div>
     </div>
   </div>
@@ -416,7 +445,6 @@ function render_stars($score){
 <script>
   const HOME_UI = <?= json_encode($hero, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
 
-  // TESTIMONIOS
   document.addEventListener('DOMContentLoaded', () => {
     new Glide('#reviews', {
       type: 'carousel',
@@ -424,20 +452,18 @@ function render_stars($score){
       hoverpause: true,
       gap: 24,
       perView: 3,
-      breakpoints: { 1024:{ perView:2 }, 640:{ perView:1 } }
+      breakpoints: { 1024: { perView: 2 }, 640: { perView: 1 } }
     }).mount();
   });
 
-  // GOOGLE MAPS
   let map, directionsService, directionsRenderer, autocompleteOrigin, autocompleteDestination;
 
-  // Declarar la función como global (callback del script)
   window.initMap = function() {
     const elMap = document.getElementById('map');
     if (!elMap) return;
 
     map = new google.maps.Map(elMap, {
-      center: { lat: 36.7213, lng: -4.4214 }, // Málaga
+      center: { lat: 36.7213, lng: -4.4214 },
       zoom: 9,
       mapTypeControl: false,
       streetViewControl: false,
@@ -447,7 +473,6 @@ function render_stars($score){
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer({ map, suppressMarkers: false });
 
-    // Autocompletado
     const options = { componentRestrictions: { country: 'es' } };
     autocompleteOrigin = new google.maps.places.Autocomplete(document.getElementById('origin'), options);
     autocompleteDestination = new google.maps.places.Autocomplete(document.getElementById('destination'), options);
@@ -477,14 +502,14 @@ function render_stars($score){
       document.getElementById('infoDistance').textContent = leg.distance.text;
       document.getElementById('infoDuration').textContent = leg.duration.text;
 
-      document.getElementById('f_origin_address').value      = leg.start_address;
-      document.getElementById('f_origin_lat').value          = leg.start_location.lat();
-      document.getElementById('f_origin_lng').value          = leg.start_location.lng();
+      document.getElementById('f_origin_address').value = leg.start_address;
+      document.getElementById('f_origin_lat').value = leg.start_location.lat();
+      document.getElementById('f_origin_lng').value = leg.start_location.lng();
       document.getElementById('f_destination_address').value = leg.end_address;
-      document.getElementById('f_destination_lat').value     = leg.end_location.lat();
-      document.getElementById('f_destination_lng').value     = leg.end_location.lng();
-      document.getElementById('f_distance_m').value          = leg.distance.value;
-      document.getElementById('f_duration_s').value          = leg.duration.value;
+      document.getElementById('f_destination_lat').value = leg.end_location.lat();
+      document.getElementById('f_destination_lng').value = leg.end_location.lng();
+      document.getElementById('f_distance_m').value = leg.distance.value;
+      document.getElementById('f_duration_s').value = leg.duration.value;
 
       document.getElementById('routeInfo').classList.remove('hidden');
       document.getElementById('goToQuote').classList.remove('hidden');

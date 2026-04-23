@@ -117,7 +117,7 @@ $hero = $langHome === 'en'
     ];
 
 // Si tienes una URL real de WhatsApp en config o entorno, aparecerá el botón.
-$whatsAppUrl = defined('WHATSAPP_URL') ? WHATSAPP_URL : (getenv('WHATSAPP_URL') ?: '');
+$whatsAppUrl = 'https://wa.me/34951748494';
 
 function render_stars($score){
   // admite 4.5, 5, etc.

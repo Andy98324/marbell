@@ -3,7 +3,7 @@ return [
   'marbella' => [
     'name' => 'Marbella',
     'group' => 'Costa del Sol',
-    'image' => '/assets/images/about/taxis-malaga.jpg',
+    'image' => '/assets/images/transfers/Marbella.jpeg',
     'short_title' => 'Traslado privado Aeropuerto de Málaga a Marbella',
     'title' => 'Traslado privado del Aeropuerto de Málaga a Marbella',
     'meta_description' => 'Reserva tu traslado privado desde o hasta el Aeropuerto de Málaga a Marbella con Transfer Marbell. Precio fijo, seguimiento de vuelo y servicio puerta a puerta.',
@@ -17,7 +17,7 @@ return [
   'puerto-banus' => [
     'name' => 'Puerto Banús',
     'group' => 'Costa del Sol',
-    'image' => '/assets/images/travel-style.webp',
+    'image' => '/assets/images/transfers/Puerto-Banus.jpeg',
     'short_title' => 'Traslado privado Aeropuerto de Málaga a Puerto Banús',
     'title' => 'Traslado privado del Aeropuerto de Málaga a Puerto Banús',
     'meta_description' => 'Reserva tu transfer privado desde o hasta el Aeropuerto de Málaga a Puerto Banús. Servicio premium, puntualidad y recogida puerta a puerta.',
@@ -45,7 +45,7 @@ return [
   'fuengirola' => [
     'name' => 'Fuengirola',
     'group' => 'Costa del Sol',
-    'image' => '/assets/images/transfers/tren.jpg',
+    'image' => '/assets/images/transfers/Fuengirola.jpeg',
     'short_title' => 'Traslado privado Aeropuerto de Málaga a Fuengirola',
     'title' => 'Traslado privado del Aeropuerto de Málaga a Fuengirola',
     'meta_description' => 'Reserva tu traslado privado desde o hasta el Aeropuerto de Málaga a Fuengirola. Servicio puerta a puerta con precio fijo.',
@@ -59,7 +59,7 @@ return [
   'benalmadena' => [
     'name' => 'Benalmádena',
     'group' => 'Costa del Sol',
-    'image' => '/assets/images/transfers/aeropuerto.jpg',
+    'image' => '/assets/images/transfers/Benalmadena.jpeg',
     'short_title' => 'Traslado privado Aeropuerto de Málaga a Benalmádena',
     'title' => 'Traslado privado del Aeropuerto de Málaga a Benalmádena',
     'meta_description' => 'Transfer privado desde o hasta el Aeropuerto de Málaga a Benalmádena con precio fijo, puntualidad y servicio puerta a puerta.',
@@ -143,7 +143,7 @@ return [
   'granada' => [
     'name' => 'Granada',
     'group' => 'Ciudades de Andalucía',
-    'image' => '/assets/images/excursiones/granada-albaicin.jpg',
+    'image' => '/assets/images/transfers/Granada.jpeg',
     'short_title' => 'Traslado privado Aeropuerto de Málaga a Granada',
     'title' => 'Traslado privado del Aeropuerto de Málaga a Granada',
     'meta_description' => 'Servicio de traslado privado desde o hasta el Aeropuerto de Málaga a Granada ciudad. Precio fijo y conductor profesional con Transfer Marbell.',

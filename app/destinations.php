@@ -31,7 +31,7 @@ return [
   'estepona' => [
     'name' => 'Estepona',
     'group' => 'Costa del Sol',
-    'image' => '/assets/images/transfers/punto-a-punto.jpg',
+    'image' => '/assets/images/transfers/Estepona.jpeg',
     'short_title' => 'Traslado privado Aeropuerto de Málaga a Estepona',
     'title' => 'Traslado privado del Aeropuerto de Málaga a Estepona',
     'meta_description' => 'Servicio de traslado privado desde o hasta el Aeropuerto de Málaga a Estepona con Transfer Marbell. Precio fijo y conductores profesionales.',
@@ -73,7 +73,7 @@ return [
   'mijas' => [
     'name' => 'Mijas',
     'group' => 'Costa del Sol',
-    'image' => '/assets/images/transfers/punto-a-punto.jpg',
+    'image' => '/assets/images/transfers/Mijas.jpeg',
     'short_title' => 'Traslado privado Aeropuerto de Málaga a Mijas',
     'title' => 'Traslado privado del Aeropuerto de Málaga a Mijas',
     'meta_description' => 'Reserva tu traslado privado desde o hasta el Aeropuerto de Málaga a Mijas, Mijas Costa o Mijas Golf con Transfer Marbell.',
@@ -87,7 +87,7 @@ return [
   'nerja' => [
     'name' => 'Nerja',
     'group' => 'Costa del Sol',
-    'image' => '/assets/images/excursiones/nerja-frigiliana.jpg',
+    'image' => '/assets/images/transfers/Nerja.jpeg',
     'short_title' => 'Traslado privado Aeropuerto de Málaga a Nerja',
     'title' => 'Traslado privado del Aeropuerto de Málaga a Nerja',
     'meta_description' => 'Servicio de traslado privado desde o hasta el Aeropuerto de Málaga a Nerja. Precio fijo, seguimiento de vuelo y conductores profesionales.',
@@ -101,7 +101,7 @@ return [
   'frigiliana' => [
     'name' => 'Frigiliana',
     'group' => 'Costa del Sol',
-    'image' => '/assets/images/excursiones/nerja-frigiliana.jpg',
+    'image' => '/assets/images/transfers/Frigiliana.jpeg',
     'short_title' => 'Traslado privado Aeropuerto de Málaga a Frigiliana',
     'title' => 'Traslado privado del Aeropuerto de Málaga a Frigiliana',
     'meta_description' => 'Reserva tu transfer privado desde o hasta el Aeropuerto de Málaga a Frigiliana con Transfer Marbell. Servicio cómodo y puerta a puerta.',
@@ -185,7 +185,7 @@ return [
   'sierra-nevada' => [
     'name' => 'Sierra Nevada',
     'group' => 'Sierra Nevada',
-    'image' => '/assets/images/excursiones/granada-albaicin.jpg',
+    'image' => '/assets/images/transfers/Sierra-Nevada.jpeg',
     'short_title' => 'Traslado privado Aeropuerto de Málaga a Sierra Nevada',
     'title' => 'Traslado privado del Aeropuerto de Málaga a Sierra Nevada',
     'meta_description' => 'Transfer privado desde o hasta el Aeropuerto de Málaga a Sierra Nevada con Transfer Marbell. Viaje cómodo para esquí, nieve y escapadas de montaña.',

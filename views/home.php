@@ -8,7 +8,6 @@ $reviews = [
   ['img'=>'/assets/images/reviews/barry.webp','name'=>'Barry Murphy','date'=>'2025-06-02','stars'=>5,'text'=>'I was very happy with your service.'],
 ];
 
-// Tarjetas de flota
 $fleet = [
   ['img'=>'/assets/images/Skoda.index.png',        'h'=>t('fleet.sedan'),    'p'=>t('fleet.sedan_desc')],
   ['img'=>'/assets/images/sedan_premium.index.png','h'=>t('fleet.premium'),  'p'=>t('fleet.premium_desc')],
@@ -136,7 +135,6 @@ $destinationUi = $langHome === 'en'
       'cta_all' => 'Ver todos los destinos',
     ];
 
-// WhatsApp directo
 $whatsAppUrl = 'https://wa.me/34951748494';
 
 function render_stars($score){
@@ -151,43 +149,41 @@ function render_stars($score){
 }
 ?>
 
-<!-- HERO -->
-<section class="relative overflow-hidden rounded-2xl bg-[#0b1220] text-white">
-  <div class="absolute inset-0 rounded-2xl border border-white/20 bg-white/10 opacity-20 backdrop-blur-md pointer-events-none"></div>
-  <div class="absolute -top-32 left-1/2 h-[900px] w-[900px] -translate-x-1/2 rounded-full bg-gradient-to-br from-sky-500/25 via-transparent to-transparent blur-3xl"></div>
+<section class="relative overflow-hidden rounded-2xl bg-[#0f172a] text-white">
+  <div class="pointer-events-none absolute inset-0 rounded-2xl border border-white/10 bg-white/5"></div>
+  <div class="absolute -top-32 left-1/2 h-[900px] w-[900px] -translate-x-1/2 rounded-full bg-gradient-to-br from-sky-500/20 via-transparent to-transparent blur-3xl"></div>
 
   <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 md:py-18">
-    <div class="rounded-2xl border border-white/15 bg-white/10 p-6 shadow-lg backdrop-blur-md md:p-10">
+    <div class="rounded-2xl border border-white/10 bg-[#243247] p-6 shadow-[0_18px_50px_rgba(0,0,0,0.38)] md:p-10">
       <div class="mx-auto max-w-5xl text-center">
-        <div class="mb-5 inline-flex items-center rounded-full border border-sky-400/20 bg-sky-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-sky-200">
+        <div class="mb-5 inline-flex items-center rounded-full border border-sky-400/15 bg-sky-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-sky-200">
           <?= htmlspecialchars($hero['badge']) ?>
         </div>
 
-        <h1 class="mx-auto max-w-4xl text-4xl font-extrabold tracking-tight md:text-5xl">
+        <h1 class="mx-auto max-w-4xl text-4xl font-extrabold tracking-tight text-[#f8fafc] md:text-5xl">
           <?= htmlspecialchars($hero['title']) ?>
         </h1>
 
-        <p class="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-200 md:text-lg">
+        <p class="mx-auto mt-4 max-w-3xl text-base leading-7 text-[#cbd5e1] md:text-lg">
           <?= htmlspecialchars($hero['subtitle']) ?>
         </p>
 
         <div class="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm font-medium text-white/90">
           <?php foreach ($hero['benefits'] as $benefit): ?>
-            <span class="rounded-full border border-white/15 bg-white/10 px-4 py-2">
+            <span class="rounded-full bg-[#334155] px-4 py-2 text-[#f8fafc] shadow-sm">
               <?= htmlspecialchars($benefit) ?>
             </span>
           <?php endforeach; ?>
         </div>
 
         <div class="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold">
-          <span class="rounded-full bg-white px-4 py-2 text-zinc-900 shadow-sm"><?= htmlspecialchars($hero['social_google']) ?></span>
-          <span class="rounded-full bg-white/10 px-4 py-2 text-white ring-1 ring-white/15"><?= htmlspecialchars($hero['social_trustpilot']) ?></span>
-          <span class="rounded-full bg-emerald-500/15 px-4 py-2 text-emerald-100 ring-1 ring-emerald-400/20"><?= htmlspecialchars($hero['social_secure']) ?></span>
+          <span class="rounded-full bg-[#f8fafc] px-4 py-2 text-[#1e293b] shadow-sm"><?= htmlspecialchars($hero['social_google']) ?></span>
+          <span class="rounded-full bg-[#f8fafc] px-4 py-2 text-[#1e293b] shadow-sm"><?= htmlspecialchars($hero['social_trustpilot']) ?></span>
+          <span class="rounded-full bg-[#163a36] px-4 py-2 text-[#d1fae5] ring-1 ring-emerald-400/15"><?= htmlspecialchars($hero['social_secure']) ?></span>
         </div>
       </div>
 
-      <!-- FORMULARIO DE RUTAS -->
-      <div class="mx-auto mt-8 max-w-5xl rounded-2xl border border-white/15 bg-slate-800/75 p-5 shadow-2xl md:p-6">
+      <div class="mx-auto mt-8 max-w-5xl rounded-2xl border border-white/10 bg-[#1e293b] p-5 shadow-[0_10px_30px_rgba(0,0,0,0.28)] md:p-6">
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
           <input id="origin" type="text" placeholder="<?= htmlspecialchars($hero['origin_placeholder']) ?>"
                  class="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-black shadow-sm outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20"
@@ -206,25 +202,24 @@ function render_stars($score){
 
           <?php if (!empty($whatsAppUrl)): ?>
             <a href="<?= htmlspecialchars($whatsAppUrl) ?>" target="_blank" rel="noopener noreferrer"
-               class="inline-flex items-center justify-center rounded-xl border border-emerald-400/20 bg-emerald-500/15 px-6 py-3 text-base font-semibold text-emerald-100 transition hover:-translate-y-0.5 hover:bg-emerald-500/25">
+               class="inline-flex items-center justify-center rounded-xl bg-[#128c7e] px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-teal-700">
               <?= htmlspecialchars($hero['whatsapp_cta']) ?>
             </a>
           <?php endif; ?>
         </div>
 
-        <p class="mt-3 text-center text-sm text-slate-300">
+        <p class="mt-3 text-center text-sm text-[#cbd5e1]">
           <?= htmlspecialchars($hero['price_hint']) ?>
         </p>
 
-        <!-- RESULTADOS -->
-        <div id="routeInfo" class="mt-6 hidden rounded-2xl border border-white/10 bg-white/5 p-5 text-left text-white">
+        <div id="routeInfo" class="mt-6 hidden rounded-2xl border border-white/10 bg-[#243247] p-5 text-left text-white">
           <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div>
-              <h3 class="text-xl font-semibold"><?= htmlspecialchars($hero['route_title']) ?></h3>
-              <p class="mt-1 text-sm text-slate-300"><?= htmlspecialchars($hero['summary_copy']) ?></p>
+              <h3 class="text-xl font-semibold text-[#f8fafc]"><?= htmlspecialchars($hero['route_title']) ?></h3>
+              <p class="mt-1 text-sm text-[#cbd5e1]"><?= htmlspecialchars($hero['summary_copy']) ?></p>
             </div>
             <button id="goToQuote"
-                    class="hidden rounded-xl bg-white px-6 py-3 text-sm font-semibold text-zinc-900 shadow transition hover:-translate-y-0.5"
+                    class="hidden rounded-xl bg-sky-500 px-6 py-3 text-sm font-semibold text-white shadow transition hover:-translate-y-0.5 hover:bg-sky-600"
                     type="button"
                     aria-label="<?= htmlspecialchars($hero['route_button_aria']) ?>">
               <?= htmlspecialchars($hero['secondary_cta']) ?>
@@ -232,29 +227,27 @@ function render_stars($score){
           </div>
 
           <div class="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-            <div class="rounded-xl bg-white/10 p-4">
-              <div class="text-xs font-semibold uppercase tracking-wide text-slate-300"><?= htmlspecialchars($hero['label_origin']) ?></div>
-              <div id="infoOrigin" class="mt-2 text-sm font-medium leading-6 text-white"></div>
+            <div class="rounded-xl bg-[#334155] p-4">
+              <div class="text-xs font-semibold uppercase tracking-wide text-[#cbd5e1]"><?= htmlspecialchars($hero['label_origin']) ?></div>
+              <div id="infoOrigin" class="mt-2 text-sm font-medium leading-6 text-[#f8fafc]"></div>
             </div>
-            <div class="rounded-xl bg-white/10 p-4">
-              <div class="text-xs font-semibold uppercase tracking-wide text-slate-300"><?= htmlspecialchars($hero['label_destination']) ?></div>
-              <div id="infoDestination" class="mt-2 text-sm font-medium leading-6 text-white"></div>
+            <div class="rounded-xl bg-[#334155] p-4">
+              <div class="text-xs font-semibold uppercase tracking-wide text-[#cbd5e1]"><?= htmlspecialchars($hero['label_destination']) ?></div>
+              <div id="infoDestination" class="mt-2 text-sm font-medium leading-6 text-[#f8fafc]"></div>
             </div>
-            <div class="rounded-xl bg-white/10 p-4">
-              <div class="text-xs font-semibold uppercase tracking-wide text-slate-300"><?= htmlspecialchars($hero['label_distance']) ?></div>
-              <div id="infoDistance" class="mt-2 text-base font-semibold text-white"></div>
+            <div class="rounded-xl bg-[#334155] p-4">
+              <div class="text-xs font-semibold uppercase tracking-wide text-[#cbd5e1]"><?= htmlspecialchars($hero['label_distance']) ?></div>
+              <div id="infoDistance" class="mt-2 text-base font-semibold text-[#f8fafc]"></div>
             </div>
-            <div class="rounded-xl bg-white/10 p-4">
-              <div class="text-xs font-semibold uppercase tracking-wide text-slate-300"><?= htmlspecialchars($hero['label_duration']) ?></div>
-              <div id="infoDuration" class="mt-2 text-base font-semibold text-white"></div>
+            <div class="rounded-xl bg-[#334155] p-4">
+              <div class="text-xs font-semibold uppercase tracking-wide text-[#cbd5e1]"><?= htmlspecialchars($hero['label_duration']) ?></div>
+              <div id="infoDuration" class="mt-2 text-base font-semibold text-[#f8fafc]"></div>
             </div>
           </div>
         </div>
 
-        <!-- MAPA -->
         <div id="map" class="mt-5 h-64 w-full overflow-hidden rounded-2xl border border-white/10 md:h-72"></div>
 
-        <!-- FORM oculto para enviar datos a quote.php -->
         <form id="quoteForm" action="/quote.php" method="post" class="hidden">
           <input type="hidden" name="origin_address" id="f_origin_address">
           <input type="hidden" name="origin_lat" id="f_origin_lat">
@@ -270,7 +263,6 @@ function render_stars($score){
   </div>
 </section>
 
-<!-- POR QUÉ ELEGIRNOS -->
 <section class="py-16">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto text-center">
@@ -293,7 +285,6 @@ function render_stars($score){
   </div>
 </section>
 
-<!-- FLOTA -->
 <section class="py-16 bg-zinc-50">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <h2 class="text-3xl font-bold text-center mb-10"><?= t('home.fleet_title') ?></h2>
@@ -312,7 +303,6 @@ function render_stars($score){
 </section>
 
 <?php $destinationPages = require __DIR__ . '/../app/destinations.php'; ?>
-<!-- PRINCIPALES DESTINOS -->
 <section class="py-16 bg-zinc-50">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto text-center mb-10">
@@ -321,15 +311,14 @@ function render_stars($score){
     </div>
 
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      <?php foreach (['marbella','puerto-banus','fuengirola','benalmadena','nerja','sevilla','granada','sierra-nevada'] as $slug):
-        $d = $destinationPages[$slug]; ?>
+      <?php foreach (['marbella','puerto-banus','fuengirola','benalmadena','nerja','sevilla','granada','sierra-nevada'] as $slug): $d = $destinationPages[$slug]; ?>
         <article class="group overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-2xl">
           <img src="<?= htmlspecialchars($d['image']) ?>" alt="<?= htmlspecialchars($d['name']) ?>" class="aspect-[16/10] w-full object-cover" loading="lazy">
           <div class="p-5">
             <div class="text-xs font-semibold uppercase tracking-wide text-sky-700"><?= htmlspecialchars($d['group']) ?></div>
             <h3 class="mt-1 text-lg font-bold text-zinc-900"><?= htmlspecialchars($d['name']) ?></h3>
             <p class="mt-2 text-sm text-zinc-600"><?= htmlspecialchars($d['lead']) ?></p>
-            <a href="/destinos/<?= htmlspecialchars($slug) ?>" class="mt-4 inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700">
+            <a href="/destinos/<?= htmlspecialchars($slug) ?>" class="mt-4 inline-flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-600">
               <?= htmlspecialchars($destinationUi['cta_item']) ?>
             </a>
           </div>
@@ -338,14 +327,13 @@ function render_stars($score){
     </div>
 
     <div class="mt-8 text-center">
-      <a href="/destinos" class="inline-flex items-center gap-2 rounded-xl bg-[#0b1220] px-5 py-3 text-sm font-semibold text-white hover:opacity-95">
+      <a href="/destinos" class="inline-flex items-center gap-2 rounded-xl bg-[#0f172a] px-5 py-3 text-sm font-semibold text-white hover:opacity-95">
         <?= htmlspecialchars($destinationUi['cta_all']) ?>
       </a>
     </div>
   </div>
 </section>
 
-<!-- OPINIONES VERIFICADAS -->
 <section class="py-16 bg-white">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto text-center">
@@ -370,7 +358,7 @@ function render_stars($score){
                   </div>
                 </div>
               </div>
-              <a href="<?= htmlspecialchars($source['url']) ?>" target="_blank" rel="noopener noreferrer nofollow" class="inline-flex items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold text-white <?= $sourceKey === 'google' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-emerald-600 hover:bg-emerald-700' ?>">
+              <a href="<?= htmlspecialchars($source['url']) ?>" target="_blank" rel="noopener noreferrer nofollow" class="inline-flex items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold text-white <?= $sourceKey === 'google' ? 'bg-sky-500 hover:bg-sky-600' : 'bg-emerald-600 hover:bg-emerald-700' ?>">
                 <?= htmlspecialchars($source['cta']) ?>
               </a>
             </div>
@@ -396,7 +384,6 @@ function render_stars($score){
   </div>
 </section>
 
-<!-- TESTIMONIOS (Glide.js) -->
 <section class="py-16">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto text-center">
@@ -438,7 +425,6 @@ function render_stars($score){
   </div>
 </section>
 
-<!-- Glide.js -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/glide.min.js"></script>
 
@@ -533,7 +519,6 @@ function render_stars($score){
   });
 </script>
 
-<!-- Carga de la API de Google Maps -->
 <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5t9kRS9NRSPbMNN6gl8XD5TPNuFLpBC8&libraries=places&callback=initMap">
 </script>

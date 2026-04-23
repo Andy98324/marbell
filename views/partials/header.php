@@ -1,5 +1,4 @@
 <?php
-// === NAV principal ===
 $nav = [
   ['label' => t('nav.home'), 'href' => '/'],
 
@@ -61,8 +60,6 @@ $logoSrc = '/assets/logo.png';
 
   <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-white" role="navigation" aria-label="Main">
     <div class="flex h-16 items-center justify-between lg:h-[74px]">
-
-      <!-- Logo -->
       <a href="/" class="flex items-center gap-3" aria-label="<?= htmlspecialchars(t('brand')) ?>">
         <span class="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/10 p-2 shadow-lg shadow-sky-900/20 backdrop-blur-sm lg:h-12 lg:w-12">
           <img src="<?= htmlspecialchars($logoSrc) ?>" alt="<?= htmlspecialchars(t('brand')) ?>" class="h-full w-full object-contain" loading="eager" fetchpriority="high">
@@ -74,7 +71,6 @@ $logoSrc = '/assets/logo.png';
         </span>
       </a>
 
-      <!-- Desktop nav -->
       <ul class="hidden items-center gap-1 lg:flex lg:gap-2 text-[13px] font-semibold tracking-wide">
         <?php $i = 0; foreach ($nav as $item): $i++; $active = is_active($item['href'] ?? '#', $currentPath); ?>
           <li class="relative" @keydown.escape.window="open=null">
@@ -135,7 +131,6 @@ $logoSrc = '/assets/logo.png';
         <?php endforeach; ?>
       </ul>
 
-      <!-- Actions -->
       <div class="hidden items-center gap-3 lg:flex">
         <a href="/admin/login.php"
            class="inline-flex items-center rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-semibold text-white/85 transition hover:bg-white/10 hover:text-white">
@@ -157,12 +152,11 @@ $logoSrc = '/assets/logo.png';
         </div>
 
         <a href="<?= htmlspecialchars($bookHref) ?>"
-           class="inline-flex items-center rounded-full bg-sky-600 px-5 py-2.5 text-sm font-extrabold text-white shadow-lg shadow-sky-600/25 ring-1 ring-white/15 transition hover:bg-sky-500">
+           class="inline-flex items-center rounded-full bg-sky-500 px-5 py-2.5 text-sm font-extrabold text-white shadow-lg shadow-sky-600/25 ring-1 ring-white/15 transition hover:bg-sky-600">
           <?= t('nav.book') ?>
         </a>
       </div>
 
-      <!-- Burger -->
       <button
         @click="mobile = !mobile; open = null"
         class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/10 hover:bg-white/15 lg:hidden"
@@ -172,7 +166,6 @@ $logoSrc = '/assets/logo.png';
       </button>
     </div>
 
-    <!-- Mobile -->
     <div id="mobile-menu" x-cloak x-show="mobile" x-transition class="pb-4 lg:hidden">
       <div class="mt-3 rounded-2xl border border-white/10 bg-white/10 p-2 backdrop-blur-md">
         <ul class="space-y-1">
@@ -226,7 +219,7 @@ $logoSrc = '/assets/logo.png';
             </a>
 
             <a href="<?= htmlspecialchars($bookHref) ?>"
-               class="ml-auto rounded-xl bg-sky-600 px-4 py-2 text-sm font-extrabold text-white shadow-lg shadow-sky-600/25 transition hover:bg-sky-500">
+               class="ml-auto rounded-xl bg-sky-500 px-4 py-2 text-sm font-extrabold text-white shadow-lg shadow-sky-600/25 transition hover:bg-sky-600">
               <?= t('nav.book') ?>
             </a>
           </li>

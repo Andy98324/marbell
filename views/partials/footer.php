@@ -15,14 +15,13 @@ $email = 'info@transfermarbell.com';
     </div>
 
     <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <div class="relative overflow-hidden rounded-3xl border border-white/15 bg-white/10 shadow-2xl backdrop-blur-md">
-        <div class="pointer-events-none absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.25)_0%,rgba(255,255,255,0.00)_55%)]"></div>
+      <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-[#243247] shadow-2xl">
+        <div class="pointer-events-none absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.18)_0%,rgba(255,255,255,0.00)_55%)]"></div>
 
         <div class="relative grid gap-10 p-6 text-white md:grid-cols-4 md:p-10">
-          <!-- Columna 1 -->
           <div>
             <a href="/" class="inline-flex items-center gap-3" aria-label="<?= htmlspecialchars(t('brand')) ?>">
-              <span class="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/10 p-2 shadow-lg shadow-sky-900/20 backdrop-blur-sm">
+              <span class="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/10 p-2 shadow-lg shadow-sky-900/20">
                 <img src="<?= htmlspecialchars($logoSrc) ?>" alt="<?= htmlspecialchars(t('brand')) ?>" class="h-full w-full object-contain" loading="lazy">
               </span>
 
@@ -32,7 +31,7 @@ $email = 'info@transfermarbell.com';
               </span>
             </a>
 
-            <p class="mt-4 text-sm leading-relaxed text-white/80">
+            <p class="mt-4 text-sm leading-relaxed text-[#cbd5e1]">
               <?= t('brand') ?> — <?= t('footer.services.long') ?>
             </p>
 
@@ -57,18 +56,16 @@ $email = 'info@transfermarbell.com';
             </div>
           </div>
 
-          <!-- Columna 2 -->
           <div>
             <h3 class="mb-3 text-base font-semibold"><?= t('footer.about') ?></h3>
-            <ul class="space-y-2 text-sm text-white/80">
+            <ul class="space-y-2 text-sm text-[#cbd5e1]">
               <li><a href="/nosotros" class="transition hover:text-white"><?= t('footer.about.us') ?></a></li>
             </ul>
           </div>
 
-          <!-- Columna 3 -->
           <div>
             <h3 class="mb-3 text-base font-semibold"><?= t('footer.services') ?></h3>
-            <ul class="space-y-2 text-sm text-white/80">
+            <ul class="space-y-2 text-sm text-[#cbd5e1]">
               <li><a href="<?= htmlspecialchars($bookHref) ?>" class="transition hover:text-white"><?= t('footer.cta.book_now') ?></a></li>
               <li><a href="/servicios/traslados" class="transition hover:text-white"><?= t('footer.links.transfers') ?></a></li>
               <li><a href="/servicios/excursiones" class="transition hover:text-white"><?= t('footer.links.excursions') ?></a></li>
@@ -79,17 +76,16 @@ $email = 'info@transfermarbell.com';
             </ul>
           </div>
 
-          <!-- Columna 4 -->
           <div>
             <h3 class="mb-3 text-base font-semibold"><?= t('footer.newsletter') ?></h3>
 
             <form class="mt-2 flex gap-2" action="/newsletter/subscribe" method="post" aria-label="<?= t('footer.newsletter') ?>">
               <input type="email" name="email"
                      placeholder="<?= t('footer.subscribe.placeholder') ?>"
-                     class="w-full rounded-xl border border-black/10 bg-white/90 px-3 py-2 text-sm text-zinc-900 placeholder-zinc-500"
+                     class="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-500"
                      required>
               <button type="submit"
-                      class="rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold shadow-lg shadow-sky-600/20 transition hover:bg-sky-700">
+                      class="rounded-xl bg-sky-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-sky-600/20 transition hover:bg-sky-600">
                 <?= t('footer.subscribe.button') ?>
               </button>
             </form>
@@ -102,7 +98,7 @@ $email = 'info@transfermarbell.com';
               <a href="<?= htmlspecialchars(switch_lang_url('en')) ?>" class="rounded-lg border border-white/15 px-2.5 py-1 text-xs font-semibold <?= $lang === 'en' ? 'bg-white/20 text-white' : 'bg-white/10 text-white/85 hover:bg-white/15' ?>">EN</a>
             </div>
 
-            <div class="mt-6 space-y-3 text-sm text-white/80">
+            <div class="mt-6 space-y-3 text-sm text-[#cbd5e1]">
               <a href="<?= htmlspecialchars($whatsAppUrl) ?>" target="_blank" rel="noopener" class="flex items-center gap-2 transition hover:text-white">
                 <img src="/assets/images/wht.png" alt="WhatsApp" class="h-5 w-5" loading="lazy">
                 <?= htmlspecialchars($phoneDisplay) ?>

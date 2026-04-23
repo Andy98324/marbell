@@ -115,7 +115,7 @@ return [
   'torrox' => [
     'name' => 'Torrox',
     'group' => 'Costa del Sol',
-    'image' => '/assets/images/transfers/punto-a-punto.jpg',
+    'image' => '/assets/images/transfers/Torrox.jpeg',
     'short_title' => 'Traslado privado Aeropuerto de Málaga a Torrox',
     'title' => 'Traslado privado del Aeropuerto de Málaga a Torrox',
     'meta_description' => 'Transfer privado desde o hasta el Aeropuerto de Málaga a Torrox y Torrox Costa. Precio fijo y servicio profesional.',
@@ -129,7 +129,7 @@ return [
   'sevilla' => [
     'name' => 'Sevilla',
     'group' => 'Ciudades de Andalucía',
-    'image' => '/assets/images/excursiones/sevilla.jpg',
+    'image' => '/assets/images/transfers/Sevilla.jpeg',
     'short_title' => 'Traslado privado Aeropuerto de Málaga a Sevilla',
     'title' => 'Traslado privado del Aeropuerto de Málaga a Sevilla',
     'meta_description' => 'Reserva tu traslado privado desde o hasta el Aeropuerto de Málaga a Sevilla ciudad con Transfer Marbell. Viajes largos con precio acordado y servicio premium.',
@@ -157,7 +157,7 @@ return [
   'cordoba' => [
     'name' => 'Córdoba',
     'group' => 'Ciudades de Andalucía',
-    'image' => '/assets/images/excursiones/cordoba.jpg',
+    'image' => '/assets/images/transfers/Cordoba.jpeg',
     'short_title' => 'Traslado privado Aeropuerto de Málaga a Córdoba',
     'title' => 'Traslado privado del Aeropuerto de Málaga a Córdoba',
     'meta_description' => 'Reserva tu traslado privado desde o hasta el Aeropuerto de Málaga a Córdoba con Transfer Marbell. Servicio puerta a puerta y precio acordado.',
@@ -171,7 +171,7 @@ return [
   'cadiz' => [
     'name' => 'Cádiz',
     'group' => 'Ciudades de Andalucía',
-    'image' => '/assets/images/excursiones/cadiz.jpg',
+    'image' => '/assets/images/transfers/Cadiz.jpeg',
     'short_title' => 'Traslado privado Aeropuerto de Málaga a Cádiz',
     'title' => 'Traslado privado del Aeropuerto de Málaga a Cádiz',
     'meta_description' => 'Reserva tu transfer privado desde o hasta el Aeropuerto de Málaga a Cádiz ciudad o provincia. Viajes largos con Transfer Marbell.',

@@ -20,7 +20,6 @@ $fleet = [
   ['img'=>'/assets/images/adaptada.index.png',     'h'=>t('fleet.adapted8'), 'p'=>t('fleet.adapted8_desc')],
 ];
 
-
 $langHome = function_exists('current_lang') ? current_lang() : 'es';
 $reputation = [
   'title' => $langHome === 'en' ? 'Verified reviews' : 'Opiniones verificadas',
@@ -71,6 +70,55 @@ $reputation = [
   ],
 ];
 
+$hero = $langHome === 'en'
+  ? [
+      'badge' => 'Private airport transfers · Costa del Sol',
+      'title' => 'Private transfers from and to Málaga Airport',
+      'subtitle' => 'Book your transfer online in Marbella, Estepona, Nerja, Fuengirola and across Andalusia.',
+      'benefits' => ['Fixed price', 'Professional drivers', 'Service 24/7'],
+      'origin_placeholder' => 'Origin (e.g. Málaga Airport)',
+      'destination_placeholder' => 'Destination (e.g. Marbella)',
+      'primary_cta' => 'View price and book',
+      'secondary_cta' => 'Continue to vehicles and prices',
+      'route_title' => 'Trip summary',
+      'label_origin' => 'Origin',
+      'label_destination' => 'Destination',
+      'label_distance' => 'Distance',
+      'label_duration' => 'Estimated duration',
+      'summary_title' => 'Ready to book your transfer?',
+      'summary_copy' => 'Check route details, choose your vehicle and continue your booking in less than a minute.',
+      'price_hint' => 'Airport transfers with online booking and professional service.',
+      'alert_missing_fields' => 'Please enter origin and destination.',
+      'alert_route_error' => 'Route could not be calculated:',
+      'alert_recalculate' => 'Please calculate the route again before continuing.',
+      'route_button_aria' => 'View vehicles and prices',
+    ]
+  : [
+      'badge' => 'Traslados privados · Costa del Sol',
+      'title' => 'Traslados privados desde y hasta el Aeropuerto de Málaga',
+      'subtitle' => 'Reserva online tu transfer en Marbella, Estepona, Nerja, Fuengirola y toda Andalucía.',
+      'benefits' => ['Precio cerrado', 'Conductores profesionales', 'Servicio 24/7'],
+      'origin_placeholder' => 'Origen (ej. Aeropuerto de Málaga)',
+      'destination_placeholder' => 'Destino (ej. Marbella)',
+      'primary_cta' => 'Ver precio y reservar',
+      'secondary_cta' => 'Continuar con vehículos y precios',
+      'route_title' => 'Resumen del trayecto',
+      'label_origin' => 'Origen',
+      'label_destination' => 'Destino',
+      'label_distance' => 'Distancia',
+      'label_duration' => 'Duración estimada',
+      'summary_title' => '¿Listo para reservar tu traslado?',
+      'summary_copy' => 'Consulta los datos de la ruta, elige vehículo y continúa tu reserva en menos de un minuto.',
+      'price_hint' => 'Traslados al aeropuerto con reserva online y servicio profesional.',
+      'alert_missing_fields' => 'Por favor introduce origen y destino.',
+      'alert_route_error' => 'No se pudo calcular la ruta:',
+      'alert_recalculate' => 'Vuelve a calcular la ruta antes de continuar.',
+      'route_button_aria' => 'Ver vehículos y precios',
+    ];
+
+// Si tienes una URL real de WhatsApp en config o entorno, aparecerá el botón.
+$whatsAppUrl = defined('WHATSAPP_URL') ? WHATSAPP_URL : (getenv('WHATSAPP_URL') ?: '');
+
 function render_stars($score){
   // admite 4.5, 5, etc.
   $full = floor($score);
@@ -86,95 +134,116 @@ function render_stars($score){
 
 <!-- HERO -->
 <section class="relative overflow-hidden bg-[#0b1220] text-white rounded-2xl">
-  <div class="absolute inset-0 opacity-20 pointer-events-none rounded-2xl
-              bg-white/10 border border-white/20 backdrop-blur-md">
-    <div class="absolute -top-32 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2
-                bg-gradient-to-br from-sky-500/30 via-transparent to-transparent
-                rounded-full blur-3xl">
-    </div>
-  </div>
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-10 shadow-lg border border-white/20">
-      <div class="relative mx-auto">
-        <div class="text-center max-w-4xl mx-auto">
-          <div class="relative mx-auto w-fit mb-6">
-            <!-- Halo / spotlight detrás -->
-            <span
-              class="absolute -inset-12 md:-inset-16 rounded-full
-                    bg-[radial-gradient(circle,rgba(255,255,255,0.60)_0%,rgba(255,255,255,0.25)_30%,rgba(255,255,255,0.00)_70%)]
-                    blur-2xl opacity-90 -z-10">
-            </span>
+  <div class="absolute inset-0 opacity-20 pointer-events-none rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md"></div>
+  <div class="absolute -top-32 left-1/2 h-[900px] w-[900px] -translate-x-1/2 rounded-full bg-gradient-to-br from-sky-500/25 via-transparent to-transparent blur-3xl"></div>
 
-            <!-- Logo -->
-            <img src="/assets/logo.png" alt="<?= t('brand') ?>"
-              class="relative w-auto h-44 sm:h-52 md:h-64 lg:h-72
-                    max-w-[92vw] object-contain
-                    drop-shadow-[0_0_12px_rgba(255,255,255,0.95)]
-                    drop-shadow-[0_0_35px_rgba(255,255,255,0.75)]
-                    drop-shadow-[0_0_80px_rgba(255,255,255,0.45)]
-                    contrast-125 saturate-125"
-              loading="eager" fetchpriority="high">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-18">
+    <div class="rounded-2xl border border-white/15 bg-white/10 p-6 shadow-lg backdrop-blur-md md:p-10">
+      <div class="mx-auto max-w-5xl text-center">
+        <div class="mb-5 inline-flex items-center rounded-full border border-sky-400/20 bg-sky-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-sky-200">
+          <?= htmlspecialchars($hero['badge']) ?>
+        </div>
+
+        <h1 class="mx-auto max-w-4xl text-4xl font-extrabold tracking-tight md:text-5xl">
+          <?= htmlspecialchars($hero['title']) ?>
+        </h1>
+
+        <p class="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-200 md:text-lg">
+          <?= htmlspecialchars($hero['subtitle']) ?>
+        </p>
+
+        <div class="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm font-medium text-white/90">
+          <?php foreach ($hero['benefits'] as $benefit): ?>
+            <span class="rounded-full border border-white/15 bg-white/10 px-4 py-2">
+              <?= htmlspecialchars($benefit) ?>
+            </span>
+          <?php endforeach; ?>
+        </div>
+      </div>
+
+      <!-- FORMULARIO DE RUTAS -->
+      <div class="mx-auto mt-8 max-w-5xl rounded-2xl border border-white/15 bg-slate-800/75 p-5 shadow-2xl md:p-6">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <input id="origin" type="text" placeholder="<?= htmlspecialchars($hero['origin_placeholder']) ?>"
+                class="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-black shadow-sm outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20"
+                autocomplete="off">
+          <input id="destination" type="text" placeholder="<?= htmlspecialchars($hero['destination_placeholder']) ?>"
+                class="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-black shadow-sm outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20"
+                autocomplete="off">
+        </div>
+
+        <div class="mt-4 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <button id="calculateRoute"
+                  class="inline-flex items-center justify-center rounded-xl bg-sky-500 px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-sky-600"
+                  type="button">
+            <i class="uil uil-map-marker mr-2"></i><?= htmlspecialchars($hero['primary_cta']) ?>
+          </button>
+
+          <?php if (!empty($whatsAppUrl)): ?>
+            <a href="<?= htmlspecialchars($whatsAppUrl) ?>" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center justify-center rounded-xl border border-emerald-400/20 bg-emerald-500/15 px-6 py-3 text-base font-semibold text-emerald-100 transition hover:-translate-y-0.5 hover:bg-emerald-500/25">
+              WhatsApp
+            </a>
+          <?php endif; ?>
+        </div>
+
+        <p class="mt-3 text-center text-sm text-slate-300">
+          <?= htmlspecialchars($hero['price_hint']) ?>
+        </p>
+
+        <!-- MAPA -->
+        <div id="map" class="mt-5 h-72 w-full overflow-hidden rounded-2xl border border-white/10 md:h-80"></div>
+
+        <!-- RESULTADOS -->
+        <div id="routeInfo" class="mt-6 hidden rounded-2xl border border-white/10 bg-white/5 p-5 text-left text-white">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <h3 class="text-xl font-semibold"><?= htmlspecialchars($hero['route_title']) ?></h3>
+              <p class="mt-1 text-sm text-slate-300"><?= htmlspecialchars($hero['summary_copy']) ?></p>
+            </div>
+            <button id="goToQuote"
+                    class="hidden rounded-xl bg-white px-6 py-3 text-sm font-semibold text-zinc-900 shadow transition hover:-translate-y-0.5"
+                    type="button"
+                    aria-label="<?= htmlspecialchars($hero['route_button_aria']) ?>">
+              <?= htmlspecialchars($hero['secondary_cta']) ?>
+            </button>
           </div>
 
-
-
-
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
-              <?= t('home.h1') ?> – Motor de reservas
-            </h1>
-
-            <!-- FORMULARIO DE RUTAS -->
-            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/20">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                  <input id="origin" type="text" placeholder="Origen (ej. Málaga Airport)" 
-                        class="px-4 py-3 rounded-xl text-black w-full" autocomplete="off">
-                  <input id="destination" type="text" placeholder="Destino (ej. Marbella)" 
-                        class="px-4 py-3 rounded-xl text-black w-full" autocomplete="off">
-                </div>
-
-                  <button id="calculateRoute" 
-                          class="bg-amber-400 text-zinc-900 font-semibold px-6 py-3 rounded-xl shadow hover:-translate-y-0.5 transition">
-                    <i class="uil uil-map-marker"></i> Calcular ruta
-                  </button>
-
-                <!-- MAPA -->
-                <div id="map" class="mt-6 rounded-2xl overflow-hidden h-96 w-full"></div>
-
-                <!-- RESULTADOS -->
-                <!-- RESULTADOS -->
-                <div id="routeInfo" class="mt-6 text-left text-white hidden">
-                  <h3 class="text-xl font-semibold mb-2">Resumen del trayecto</h3>
-                  <p><strong>Origen:</strong> <span id="infoOrigin"></span></p>
-                  <p><strong>Destino:</strong> <span id="infoDestination"></span></p>
-                  <p><strong>Distancia:</strong> <span id="infoDistance"></span></p>
-                  <p><strong>Duración estimada:</strong> <span id="infoDuration"></span></p>
-
-                  <button id="goToQuote"
-                          class="mt-4 bg-white text-zinc-900 font-semibold px-6 py-3 rounded-xl shadow hover:-translate-y-0.5 transition hidden"
-                          type="button" aria-label="Ver vehículos y precios">
-                    Ver vehículos y precios
-                  </button>
-                </div>
-
-                <!-- FORM oculto para enviar datos a quote.php -->
-                <form id="quoteForm" action="/quote.php" method="post" class="hidden">
-                  <input type="hidden" name="origin_address" id="f_origin_address">
-                  <input type="hidden" name="origin_lat" id="f_origin_lat">
-                  <input type="hidden" name="origin_lng" id="f_origin_lng">
-                  <input type="hidden" name="destination_address" id="f_destination_address">
-                  <input type="hidden" name="destination_lat" id="f_destination_lat">
-                  <input type="hidden" name="destination_lng" id="f_destination_lng">
-                  <input type="hidden" name="distance_m" id="f_distance_m">
-                  <input type="hidden" name="duration_s" id="f_duration_s">
-                </form>
-
+          <div class="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            <div class="rounded-xl bg-white/10 p-4">
+              <div class="text-xs font-semibold uppercase tracking-wide text-slate-300"><?= htmlspecialchars($hero['label_origin']) ?></div>
+              <div id="infoOrigin" class="mt-2 text-sm font-medium leading-6 text-white"></div>
+            </div>
+            <div class="rounded-xl bg-white/10 p-4">
+              <div class="text-xs font-semibold uppercase tracking-wide text-slate-300"><?= htmlspecialchars($hero['label_destination']) ?></div>
+              <div id="infoDestination" class="mt-2 text-sm font-medium leading-6 text-white"></div>
+            </div>
+            <div class="rounded-xl bg-white/10 p-4">
+              <div class="text-xs font-semibold uppercase tracking-wide text-slate-300"><?= htmlspecialchars($hero['label_distance']) ?></div>
+              <div id="infoDistance" class="mt-2 text-base font-semibold text-white"></div>
+            </div>
+            <div class="rounded-xl bg-white/10 p-4">
+              <div class="text-xs font-semibold uppercase tracking-wide text-slate-300"><?= htmlspecialchars($hero['label_duration']) ?></div>
+              <div id="infoDuration" class="mt-2 text-base font-semibold text-white"></div>
+            </div>
           </div>
         </div>
+
+        <!-- FORM oculto para enviar datos a quote.php -->
+        <form id="quoteForm" action="/quote.php" method="post" class="hidden">
+          <input type="hidden" name="origin_address" id="f_origin_address">
+          <input type="hidden" name="origin_lat" id="f_origin_lat">
+          <input type="hidden" name="origin_lng" id="f_origin_lng">
+          <input type="hidden" name="destination_address" id="f_destination_address">
+          <input type="hidden" name="destination_lat" id="f_destination_lat">
+          <input type="hidden" name="destination_lng" id="f_destination_lng">
+          <input type="hidden" name="distance_m" id="f_distance_m">
+          <input type="hidden" name="duration_s" id="f_duration_s">
+        </form>
       </div>
     </div>
   </div>
 </section>
-
 
 <!-- POR QUÉ ELEGIRNOS -->
 <section class="py-16">
@@ -199,7 +268,6 @@ function render_stars($score){
   </div>
 </section>
 
-
 <!-- FLOTA -->
 <section class="py-16 bg-zinc-50">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -217,9 +285,6 @@ function render_stars($score){
     </div>
   </div>
 </section>
-
-
-
 
 <?php $destinationPages = require __DIR__ . '/../app/destinations.php'; ?>
 <!-- PRINCIPALES DESTINOS -->
@@ -249,7 +314,6 @@ function render_stars($score){
       <a href="/destinos" class="inline-flex items-center gap-2 rounded-xl bg-[#0b1220] px-5 py-3 text-sm font-semibold text-white hover:opacity-95">Ver todos los destinos</a>
     </div>
   </div>
-
 </section>
 
 <!-- OPINIONES VERIFICADAS -->
@@ -345,16 +409,13 @@ function render_stars($score){
   </div>
 </section>
 
-
-
-
-
-<!-- Glide.js (CDN) -->
 <!-- Glide.js -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/glide.min.js"></script>
 
 <script>
+  const HOME_UI = <?= json_encode($hero, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+
   // TESTIMONIOS
   document.addEventListener('DOMContentLoaded', () => {
     new Glide('#reviews', {
@@ -372,75 +433,79 @@ function render_stars($score){
 
   // Declarar la función como global (callback del script)
   window.initMap = function() {
-    const elMap = document.getElementById("map");
+    const elMap = document.getElementById('map');
     if (!elMap) return;
 
     map = new google.maps.Map(elMap, {
       center: { lat: 36.7213, lng: -4.4214 }, // Málaga
       zoom: 9,
       mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: true,
     });
 
     directionsService = new google.maps.DirectionsService();
-    directionsRenderer = new google.maps.DirectionsRenderer({ map });
+    directionsRenderer = new google.maps.DirectionsRenderer({ map, suppressMarkers: false });
 
     // Autocompletado
-    const options = { componentRestrictions: { country: "es" } };
-    autocompleteOrigin = new google.maps.places.Autocomplete(document.getElementById("origin"), options);
-    autocompleteDestination = new google.maps.places.Autocomplete(document.getElementById("destination"), options);
+    const options = { componentRestrictions: { country: 'es' } };
+    autocompleteOrigin = new google.maps.places.Autocomplete(document.getElementById('origin'), options);
+    autocompleteDestination = new google.maps.places.Autocomplete(document.getElementById('destination'), options);
 
-    document.getElementById("calculateRoute").addEventListener("click", calcRoute);
+    document.getElementById('calculateRoute').addEventListener('click', calcRoute);
   };
 
   function calcRoute() {
-  const origin = document.getElementById("origin").value.trim();
-  const destination = document.getElementById("destination").value.trim();
-  if (!origin || !destination) { alert("Por favor introduce origen y destino."); return; }
+    const origin = document.getElementById('origin').value.trim();
+    const destination = document.getElementById('destination').value.trim();
 
-  directionsService.route({
-  origin,
-  destination,
-  travelMode: google.maps.TravelMode.DRIVING,
-}).then((response) => {
+    if (!origin || !destination) {
+      alert(HOME_UI.alert_missing_fields);
+      return;
+    }
 
-  // 👉 FALTA ESTO PARA QUE SE PINTE LA RUTA
-  directionsRenderer.setDirections(response);
+    directionsService.route({
+      origin,
+      destination,
+      travelMode: google.maps.TravelMode.DRIVING,
+    }).then((response) => {
+      directionsRenderer.setDirections(response);
 
-  const leg = response.routes[0].legs[0];
-  // Mostrar resumen
-  document.getElementById("infoOrigin").textContent = leg.start_address;
-  document.getElementById("infoDestination").textContent = leg.end_address;
-  document.getElementById("infoDistance").textContent = leg.distance.text; // "52.4 km"
-  document.getElementById("infoDuration").textContent = leg.duration.text; // "46 min"
+      const leg = response.routes[0].legs[0];
+      document.getElementById('infoOrigin').textContent = leg.start_address;
+      document.getElementById('infoDestination').textContent = leg.end_address;
+      document.getElementById('infoDistance').textContent = leg.distance.text;
+      document.getElementById('infoDuration').textContent = leg.duration.text;
 
-  // ⬇️ ⬇️ DATOS CRUDOS (OBLIGATORIO) ⬇️ ⬇️
-  document.getElementById("f_origin_address").value      = leg.start_address;
-  document.getElementById("f_origin_lat").value          = leg.start_location.lat();
-  document.getElementById("f_origin_lng").value          = leg.start_location.lng();
-  document.getElementById("f_destination_address").value = leg.end_address;
-  document.getElementById("f_destination_lat").value     = leg.end_location.lat();
-  document.getElementById("f_destination_lng").value     = leg.end_location.lng();
+      document.getElementById('f_origin_address').value      = leg.start_address;
+      document.getElementById('f_origin_lat').value          = leg.start_location.lat();
+      document.getElementById('f_origin_lng').value          = leg.start_location.lng();
+      document.getElementById('f_destination_address').value = leg.end_address;
+      document.getElementById('f_destination_lat').value     = leg.end_location.lat();
+      document.getElementById('f_destination_lng').value     = leg.end_location.lng();
+      document.getElementById('f_distance_m').value          = leg.distance.value;
+      document.getElementById('f_duration_s').value          = leg.duration.value;
 
-  document.getElementById("f_distance_m").value          = leg.distance.value;
-  document.getElementById("f_duration_s").value          = leg.duration.value;
+      document.getElementById('routeInfo').classList.remove('hidden');
+      document.getElementById('goToQuote').classList.remove('hidden');
+      document.getElementById('routeInfo').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }).catch((error) => {
+      console.error(error);
+      alert(HOME_UI.alert_route_error + ' ' + error.message);
+    });
+  }
 
-  document.getElementById("routeInfo").classList.remove("hidden");
-  document.getElementById("goToQuote").classList.remove("hidden");
-}).catch((error) => {
-  console.error(error);
-  alert("No se pudo calcular la ruta: " + error.message);
-});
-}
+  document.getElementById('goToQuote')?.addEventListener('click', () => {
+    const dm = document.getElementById('f_distance_m').value;
+    const ds = document.getElementById('f_duration_s').value;
 
-// No dejes enviar si los campos están vacíos por cualquier motivo
-document.getElementById("goToQuote")?.addEventListener("click", () => {
-  const dm = document.getElementById("f_distance_m").value;
-  const ds = document.getElementById("f_duration_s").value;
-  if (!dm || !ds) { alert("Vuelve a calcular la ruta antes de continuar."); return; }
-  document.getElementById("quoteForm").submit();
-});
+    if (!dm || !ds) {
+      alert(HOME_UI.alert_recalculate);
+      return;
+    }
 
-
+    document.getElementById('quoteForm').submit();
+  });
 </script>
 
 <!-- Carga de la API de Google Maps -->

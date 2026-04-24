@@ -53,7 +53,7 @@ $reputation = [
   'trustpilot' => [
     'label' => 'Trustpilot',
     'score' => '4.3',
-    'count' => $langHome === 'en' ? '8 reviews' : '8 opiniones',
+    'count' => $langHome === 'en' ? '9 reviews' : '9 opiniones',
     'url'   => 'https://www.trustpilot.com/review/www.transfermarbell.com',
     'cta'   => $langHome === 'en' ? 'View on Trustpilot' : 'Ver en Trustpilot',
     'items' => [
@@ -64,6 +64,14 @@ $reputation = [
         'text' => $langHome === 'en'
           ? 'I’d 100% recommend Transfer Marbell for all your transfer needs along the Costa del Sol. Everything was perfect and every driver was very professional and friendly.'
           : 'Recomendaría Transfer Marbell al 100% para cualquier traslado por la Costa del Sol. Todo fue perfecto y cada conductor fue muy profesional y amable.',
+      ],
+      [
+        'name' => 'Marie Corina Lee',
+        'date' => '23 Apr 2026',
+        'score' => 5,
+        'text' => $langHome === 'en'
+          ? 'Wonderful service. The driver was very kind to my elderly parents, and Rebeca was a great help to them over the phone. I highly recommend it.'
+          : 'Un servicio excelente. El conductor fue muy amable con mis padres ancianos, y Rebeca les ayudó muchísimo por teléfono. Lo recomiendo ampliamente.',
       ],
     ],
   ],

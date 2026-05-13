@@ -193,6 +193,15 @@ HTML;
     .rowp{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:#111827;margin:0 0 6px 0}
     .rowp.total{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-weight:900;color:#0f172a}
   </style>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-700245259"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-700245259');
+</script>
 </head>
 <body>
   <div class="wrap">

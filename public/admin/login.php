@@ -48,6 +48,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   button{width:100%;border:0;background:#0b1220;color:#fff;padding:10px 12px;border-radius:10px;font-weight:600;cursor:pointer}
   .error{color:#d00;background:#fee;border:1px solid #fbb;padding:8px 10px;border-radius:8px;font-size:13px;margin-bottom:8px}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-700245259"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-700245259');
+</script>
 </head><body>
   <form method="post" autocomplete="off">
     <h2>Panel administrador</h2>

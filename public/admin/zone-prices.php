@@ -168,6 +168,15 @@ if ($mode === 'edit' && $editId) {
     .err{color:#991b1b;background:#fee2e2;border:1px solid #fecaca;padding:8px 10px;border-radius:8px;margin:8px 0;display:inline-block}
     .actions{display:flex;gap:8px}
   </style>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-700245259"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-700245259');
+</script>
 </head>
 <body>
 <header>

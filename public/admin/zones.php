@@ -190,6 +190,15 @@ try {
     .btn-del{background:#fee2e2;color:#b91c1c;border:1px solid #fecaca;border-radius:999px;padding:4px 10px;font-size:12px;cursor:pointer}
     .btn-del:hover{background:#fecaca}
   </style>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-700245259"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-700245259');
+</script>
 </head>
 <body>
 <header>

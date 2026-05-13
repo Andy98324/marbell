@@ -26,6 +26,15 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
   <meta name="color-scheme" content="light dark">
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-700245259"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-700245259');
+</script>
 </head>
 <body class="min-h-full bg-white text-zinc-800 dark:bg-zinc-950 dark:text-zinc-100 antialiased">
   <?php require __DIR__ . '/partials/header.php'; ?>
